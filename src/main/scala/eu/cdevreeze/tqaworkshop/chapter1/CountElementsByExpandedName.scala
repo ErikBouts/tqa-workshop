@@ -52,7 +52,7 @@ import eu.cdevreeze.yaidom.parse.DocumentParserUsingSax
  * <li>Scala-XML</li>
  * </ul>
  *
- * The caller of this program is encouraged to use an alternative to the use of yaidom to implement the
+ * The caller of this program is encouraged to use an alternative to yaidom to implement the
  * same functionality, such that the solution is as precise as this one, and at least as easy to
  * implement (in Scala or Java).
  *
