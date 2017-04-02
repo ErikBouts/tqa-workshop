@@ -21,24 +21,25 @@ import java.io.File
 import scala.collection.immutable
 
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
-import eu.cdevreeze.tqaworkshop.xbrlinstance.XbrlInstance
 import eu.cdevreeze.yaidom.core.EName
 import eu.cdevreeze.yaidom.queryapi.BackingElemApi
 import net.sf.saxon.s9api.Processor
 
 /**
- * Like `ShowXbrlInstanceElemAsMatrix`, but using class `XbrlInstanceToRowsConverter`.
+ * This program shows an XBRL instance as matrix, with each row representing an item fact.
+ * It uses class `XbrlInstanceElemToRowsConverter`. The output can easily be read by a spreadsheet
+ * program (using separator ";" unless overridden by system property fieldSeparator).
  *
  * @author Chris de Vreeze
  */
-object ShowXbrlInstanceAsMatrix {
+object ShowXbrlInstanceElemAsMatrix {
 
   def main(args: Array[String]): Unit = {
-    require(args.size <= 1, s"Usage: ShowXbrlInstanceAsMatrix [ <XML input file path> ]")
+    require(args.size <= 1, s"Usage: ShowXbrlInstanceElemAsMatrix [ <XML input file path> ]")
 
     val inputXmlFile =
       if (args.isEmpty) {
-        val inputFileUri = classOf[ShowXbrlInstanceAsMatrix].getResource("/sample-Instance-Proof.xml").toURI
+        val inputFileUri = classOf[ShowXbrlInstanceElemAsMatrix].getResource("/sample-Instance-Proof.xml").toURI
         new File(inputFileUri)
       } else {
         new File(args(0))
@@ -50,12 +51,11 @@ object ShowXbrlInstanceAsMatrix {
     // We could have used an entirely different DocumentBuilder.
     // The converter could not care less which XML implementation is used underneath (but we do care).
     val rootElem: BackingElemApi = docBuilder.build(inputXmlFile.toURI)
-    val xbrlInstance: XbrlInstance = XbrlInstance(rootElem)
 
-    val converter = new XbrlInstanceToRowsConverter
+    val converter = new XbrlInstanceElemToRowsConverter
 
-    val matrix: immutable.IndexedSeq[XbrlInstanceToRowsConverter.Row] =
-      converter.convertXbrlInstance(xbrlInstance)
+    val matrix: immutable.IndexedSeq[XbrlInstanceElemToRowsConverter.Row] =
+      converter.convertXbrlInstance(rootElem)
 
     val dimensions: immutable.IndexedSeq[EName] =
       matrix.flatMap(_.explicitDimensionMembers.keySet).distinct.sortBy(_.toString)
@@ -94,4 +94,4 @@ object ShowXbrlInstanceAsMatrix {
   }
 }
 
-class ShowXbrlInstanceAsMatrix
+class ShowXbrlInstanceElemAsMatrix
