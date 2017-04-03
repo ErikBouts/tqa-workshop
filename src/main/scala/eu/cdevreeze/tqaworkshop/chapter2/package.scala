@@ -19,6 +19,12 @@ package eu.cdevreeze.tqaworkshop
 /**
  * Chapter 2 treats XLink, XML Base and XPointer (as used in XBRL), and introduces the corresponding parts of TQA.
  *
+ * See [[https://github.com/dvreeze/tqa]] for TQA. XLink content is of type `XLinkElem` or one of its sub-types.
+ * XPointer expressions are of type `XPointer` or one of its sub-types. These types all reside in the "DOM" package
+ * of TQA. XML Base support is part of yaidom, and TQA uses that.
+ *
+ * XLink, XML Base and XPointer (as supported by TQA) are treated by exercises. No sample programs are given.
+ *
  * @author Chris de Vreeze
  */
 package object chapter2
