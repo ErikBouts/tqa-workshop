@@ -157,7 +157,7 @@ final class XbrlInstanceElemToRowsConverter {
     val instantElemOption =
       xbrlContext.findElem(e => e.resolvedName == XbrliInstantEName && e.path.containsName(XbrliPeriodEName))
 
-    instantElemOption.map(e => parseLocalDateTime(e.text))
+    instantElemOption.map(e => parseInstantOrEndDate(e.text))
   }
 
   private def findPeriodStartDate(xbrlContext: Elem): Option[LocalDateTime] = {
@@ -169,7 +169,7 @@ final class XbrlInstanceElemToRowsConverter {
     val startDateElemOption =
       xbrlContext.findElem(e => e.resolvedName == XbrliStartDateEName && e.path.containsName(XbrliPeriodEName))
 
-    startDateElemOption.map(e => parseLocalDateTime(e.text))
+    startDateElemOption.map(e => parseStartDate(e.text))
   }
 
   private def findPeriodEndDate(xbrlContext: Elem): Option[LocalDateTime] = {
@@ -181,7 +181,7 @@ final class XbrlInstanceElemToRowsConverter {
     val endDateElemOption =
       xbrlContext.findElem(e => e.resolvedName == XbrliEndDateEName && e.path.containsName(XbrliPeriodEName))
 
-    endDateElemOption.map(e => parseLocalDateTime(e.text))
+    endDateElemOption.map(e => parseInstantOrEndDate(e.text))
   }
 
   private def findAllExplicitDimensionMembers(xbrlContext: Elem): Map[EName, EName] = {
@@ -219,11 +219,19 @@ final class XbrlInstanceElemToRowsConverter {
     result
   }
 
-  private def parseLocalDateTime(s: String): LocalDateTime = {
+  private def parseStartDate(s: String): LocalDateTime = {
     if (s.contains('T')) {
       LocalDateTime.parse(s)
     } else {
       LocalDate.parse(s).atStartOfDay
+    }
+  }
+
+  private def parseInstantOrEndDate(s: String): LocalDateTime = {
+    if (s.contains('T')) {
+      LocalDateTime.parse(s)
+    } else {
+      LocalDate.parse(s).plusDays(1).atStartOfDay
     }
   }
 }
