@@ -43,6 +43,7 @@ import eu.cdevreeze.yaidom.queryapi.SubtypeAwareElemLike
  *
  * These XBRL instance elements are just an XBRL instance view on the underlying "backing element" tree, and
  * therefore do not know about the taxonomy describing the XBRL instance (other than the href to the DTS entrypoint).
+ * It is not even required that the XBRL instance is schema-valid. Construction of an instance is indeed quite lenient.
  *
  * As a consequence, this model must recognize facts by only looking at the elements and their ancestry, without knowing
  * anything about the substitution groups of the corresponding concept declarations. Fortunately, the XBRL instance
@@ -214,7 +215,7 @@ final class XbrlInstance private[xbrlinstance] (
  */
 final class SchemaRef private[xbrlinstance] (
     override val backingElem: BackingElemApi,
-    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) {
+    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) with SimpleLink {
 
   require(resolvedName == LinkSchemaRefEName, s"Expected EName $LinkSchemaRefEName but found $resolvedName")
 }
@@ -226,7 +227,7 @@ final class SchemaRef private[xbrlinstance] (
  */
 final class LinkbaseRef private[xbrlinstance] (
     override val backingElem: BackingElemApi,
-    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) {
+    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) with SimpleLink {
 
   require(resolvedName == LinkLinkbaseRefEName, s"Expected EName $LinkLinkbaseRefEName but found $resolvedName")
 }
@@ -238,7 +239,7 @@ final class LinkbaseRef private[xbrlinstance] (
  */
 final class RoleRef private[xbrlinstance] (
     override val backingElem: BackingElemApi,
-    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) {
+    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) with SimpleLink {
 
   require(resolvedName == LinkRoleRefEName, s"Expected EName $LinkRoleRefEName but found $resolvedName")
 }
@@ -250,7 +251,7 @@ final class RoleRef private[xbrlinstance] (
  */
 final class ArcroleRef private[xbrlinstance] (
     override val backingElem: BackingElemApi,
-    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) {
+    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) with SimpleLink {
 
   require(resolvedName == LinkArcroleRefEName, s"Expected EName $LinkArcroleRefEName but found $resolvedName")
 }
@@ -470,9 +471,45 @@ final class TupleFact private[xbrlinstance] (
  */
 final class FootnoteLink private[xbrlinstance] (
     override val backingElem: BackingElemApi,
-    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) {
+    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) with ExtendedLink {
 
   require(resolvedName == LinkFootnoteLinkEName, s"Expected EName $LinkFootnoteLinkEName but found $resolvedName")
+}
+
+/**
+ * FootnoteArc in an XBRL instance
+ *
+ * @author Chris de Vreeze
+ */
+final class FootnoteArc private[xbrlinstance] (
+    override val backingElem: BackingElemApi,
+    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) with XLinkArc {
+
+  require(resolvedName == LinkFootnoteArcEName, s"Expected EName $LinkFootnoteArcEName but found $resolvedName")
+}
+
+/**
+ * Footnote in an XBRL instance
+ *
+ * @author Chris de Vreeze
+ */
+final class Footnote private[xbrlinstance] (
+    override val backingElem: BackingElemApi,
+    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) with XLinkResource {
+
+  require(resolvedName == LinkFootnoteEName, s"Expected EName $LinkFootnoteEName but found $resolvedName")
+}
+
+/**
+ * Standard locator in an XBRL instance
+ *
+ * @author Chris de Vreeze
+ */
+final class StandardLoc private[xbrlinstance] (
+    override val backingElem: BackingElemApi,
+    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) with XLinkLocator {
+
+  require(resolvedName == LinkLocEName, s"Expected EName $LinkLocEName but found $resolvedName")
 }
 
 /**
@@ -771,6 +808,9 @@ object XbrliElem {
   val LinkRoleRefEName = EName(LinkNs, "roleRef")
   val LinkArcroleRefEName = EName(LinkNs, "arcroleRef")
   val LinkFootnoteLinkEName = EName(LinkNs, "footnoteLink")
+  val LinkFootnoteArcEName = EName(LinkNs, "footnoteArc")
+  val LinkFootnoteEName = EName(LinkNs, "footnote")
+  val LinkLocEName = EName(LinkNs, "loc")
 
   val XmlLangEName = EName(XmlNs, "lang")
 
@@ -793,27 +833,52 @@ object XbrliElem {
     apply(elem, childElems)
   }
 
-  private[xbrlinstance] def apply(elem: BackingElemApi, childElems: immutable.IndexedSeq[XbrliElem]): XbrliElem = elem.resolvedName match {
-    case XbrliXbrlEName                           => new XbrlInstance(elem, childElems)
-    case LinkSchemaRefEName                       => new SchemaRef(elem, childElems)
-    case LinkLinkbaseRefEName                     => new LinkbaseRef(elem, childElems)
-    case LinkRoleRefEName                         => new RoleRef(elem, childElems)
-    case LinkArcroleRefEName                      => new ArcroleRef(elem, childElems)
-    case XbrliContextEName                        => new XbrliContext(elem, childElems)
-    case XbrliUnitEName                           => new XbrliUnit(elem, childElems)
-    case LinkFootnoteLinkEName                    => new FootnoteLink(elem, childElems)
-    case XbrliEntityEName                         => new Entity(elem, childElems)
-    case XbrliPeriodEName if Period.accepts(elem) => Period(elem, childElems)
-    case XbrliScenarioEName                       => new Scenario(elem, childElems)
-    case XbrliSegmentEName                        => new Segment(elem, childElems)
-    case XbrliIdentifierEName                     => new Identifier(elem, childElems)
-    case XbrliDivideEName                         => new Divide(elem, childElems)
-    case XbrliInstantEName                        => new Instant(elem, childElems)
-    case XbrliStartDateEName                      => new StartDate(elem, childElems)
-    case XbrliEndDateEName                        => new EndDate(elem, childElems)
-    case XbrliForeverEName                        => new Forever(elem, childElems)
-    case _ if Fact.accepts(elem)                  => Fact(elem, childElems)
-    case _                                        => new XbrliElem(elem, childElems)
+  private[xbrlinstance] def apply(elem: BackingElemApi, childElems: immutable.IndexedSeq[XbrliElem]): XbrliElem = {
+    elem.resolvedName.namespaceUriOption match {
+      case Some(XbrliNs) => applyForXbrliNamespace(elem, childElems)
+      case Some(LinkNs)  => applyForLinkNamespace(elem, childElems)
+      case _             => applyForOtherNamespace(elem, childElems)
+    }
+  }
+
+  private[xbrlinstance] def applyForXbrliNamespace(elem: BackingElemApi, childElems: immutable.IndexedSeq[XbrliElem]): XbrliElem = {
+    elem.resolvedName match {
+      case XbrliXbrlEName                           => new XbrlInstance(elem, childElems)
+      case XbrliContextEName                        => new XbrliContext(elem, childElems)
+      case XbrliUnitEName                           => new XbrliUnit(elem, childElems)
+      case XbrliEntityEName                         => new Entity(elem, childElems)
+      case XbrliPeriodEName if Period.accepts(elem) => Period(elem, childElems)
+      case XbrliScenarioEName                       => new Scenario(elem, childElems)
+      case XbrliSegmentEName                        => new Segment(elem, childElems)
+      case XbrliIdentifierEName                     => new Identifier(elem, childElems)
+      case XbrliDivideEName                         => new Divide(elem, childElems)
+      case XbrliInstantEName                        => new Instant(elem, childElems)
+      case XbrliStartDateEName                      => new StartDate(elem, childElems)
+      case XbrliEndDateEName                        => new EndDate(elem, childElems)
+      case XbrliForeverEName                        => new Forever(elem, childElems)
+      case _                                        => new XbrliElem(elem, childElems)
+    }
+  }
+
+  private[xbrlinstance] def applyForLinkNamespace(elem: BackingElemApi, childElems: immutable.IndexedSeq[XbrliElem]): XbrliElem = {
+    elem.resolvedName match {
+      case LinkSchemaRefEName    => new SchemaRef(elem, childElems)
+      case LinkLinkbaseRefEName  => new LinkbaseRef(elem, childElems)
+      case LinkRoleRefEName      => new RoleRef(elem, childElems)
+      case LinkArcroleRefEName   => new ArcroleRef(elem, childElems)
+      case LinkFootnoteLinkEName => new FootnoteLink(elem, childElems)
+      case LinkFootnoteArcEName  => new FootnoteArc(elem, childElems)
+      case LinkFootnoteEName     => new Footnote(elem, childElems)
+      case LinkLocEName          => new StandardLoc(elem, childElems)
+      case _                     => new XbrliElem(elem, childElems)
+    }
+  }
+
+  private[xbrlinstance] def applyForOtherNamespace(elem: BackingElemApi, childElems: immutable.IndexedSeq[XbrliElem]): XbrliElem = {
+    elem.resolvedName match {
+      case _ if Fact.accepts(elem) => Fact(elem, childElems)
+      case _                       => new XbrliElem(elem, childElems)
+    }
   }
 }
 

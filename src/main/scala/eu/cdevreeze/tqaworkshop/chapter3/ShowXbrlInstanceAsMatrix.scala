@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package eu.cdevreeze.tqaworkshop.chapter1
+package eu.cdevreeze.tqaworkshop.chapter3
 
 import java.io.File
 
@@ -27,7 +27,7 @@ import eu.cdevreeze.yaidom.queryapi.BackingElemApi
 import net.sf.saxon.s9api.Processor
 
 /**
- * Like `ShowXbrlInstanceElemAsMatrix`, but using class `XbrlInstanceToRowsConverter`.
+ * Like `ShowXbrlInstanceElemAsMatrix` in chapter 1, but using class `XbrlInstanceToRowsConverter`.
  *
  * @author Chris de Vreeze
  */

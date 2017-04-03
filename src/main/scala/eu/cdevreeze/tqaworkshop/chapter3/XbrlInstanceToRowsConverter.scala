@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package eu.cdevreeze.tqaworkshop.chapter1
+package eu.cdevreeze.tqaworkshop.chapter3
 
 import java.time.LocalDateTime
 
 import scala.collection.immutable
 
-import eu.cdevreeze.yaidom.core.EName
-import eu.cdevreeze.yaidom.core.Path
 import eu.cdevreeze.tqaworkshop.xbrlinstance.ItemFact
+import eu.cdevreeze.tqaworkshop.xbrlinstance.XbrlInstance
 import eu.cdevreeze.tqaworkshop.xbrlinstance.XbrliContext
 import eu.cdevreeze.tqaworkshop.xbrlinstance.XbrliUnit
-import eu.cdevreeze.tqaworkshop.xbrlinstance.XbrlInstance
+import eu.cdevreeze.yaidom.core.EName
+import eu.cdevreeze.yaidom.core.Path
 
 /**
- * See `XbrlInstanceElemToRowsConverter`, but here we use a "yaidom dialect" for XBRL instances.
+ * See `XbrlInstanceElemToRowsConverter` in chapter 1, but here we use a "yaidom dialect" for XBRL instances.
  * Note how this XBRL instance model cleans up the code, not in the last place the exceptions.
  *
  * This code requires Java 8 or later!
