@@ -22,6 +22,7 @@ import org.scalatest.FlatSpec
 
 import eu.cdevreeze.tqa.ENames.DimensionEName
 import eu.cdevreeze.tqa.ENames.IdEName
+import eu.cdevreeze.tqa.Namespaces.LinkNamespace
 import eu.cdevreeze.tqa.Namespaces.XbrliNamespace
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.yaidom.core.EName
@@ -302,7 +303,7 @@ class QuerySpec extends FlatSpec {
     val expectedInterestingContexts: immutable.IndexedSeq[BackingElemApi] =
       rootElem filterElems { e =>
         e.resolvedName == EName(XbrliNamespace, "context") &&
-          e.findElem(withEName(XbrliNamespace, "instant")).exists(_.text == "2006-12-31")
+          e.filterElems(withEName(XbrliNamespace, "instant")).exists(_.text == "2006-12-31")
       }
 
     assertResult(expectedInterestingContexts) {
