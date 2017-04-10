@@ -24,7 +24,11 @@ scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xfatal-warning
   else if (version.contains("2.11")) Seq(base / "src" / "test" / "scala-2.11") else Seq()
 }
 
-libraryDependencies += "eu.cdevreeze.tqa" %% "tqa" % "0.4.1"
+libraryDependencies += "eu.cdevreeze.tqa" %% "tqa" % "0.4.1" excludeAll(
+  ExclusionRule(organization = "eu.cdevreeze.yaidom")
+)
+
+libraryDependencies += "eu.cdevreeze.yaidom" %% "yaidom" % "1.6.2"
 
 libraryDependencies += "junit" % "junit" % "4.12" % "test"
 

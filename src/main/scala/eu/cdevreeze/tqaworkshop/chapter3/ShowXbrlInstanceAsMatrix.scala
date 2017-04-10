@@ -73,7 +73,7 @@ object ShowXbrlInstanceAsMatrix {
     val detailLines: immutable.IndexedSeq[immutable.IndexedSeq[String]] =
       matrix map { row =>
         immutable.IndexedSeq[String](
-          row.path.toCanonicalXPath(rootElem.scope.withoutDefaultNamespace),
+          row.path.toResolvedCanonicalXPath,
           row.conceptName.toString,
           row.identifierScheme,
           row.identifierValue,
