@@ -57,7 +57,7 @@ class QuerySpec extends FlatSpec {
 
   private val GaapNamespace = "http://xasb.org/gaap"
 
-  "The query API" should "allow filtering of child elements" in {
+  "The query API" should "support filtering of child elements" in {
     // Semantic query: Find all XBRL contexts whose ID starts with the string "I-2007".
 
     // Yaidom query: Filter all child elements of the root element named xbrli:context, having an ID attribute
@@ -81,7 +81,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow filtering of descendant elements" in {
+  it should "support filtering of descendant elements" in {
     // Semantic query: Find all explicit members in XBRL contexts.
 
     // Yaidom query: Filter all descendant elements of the root element named xbrldi:explicitMember.
@@ -112,7 +112,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow filtering of descendant-or-self elements" in {
+  it should "support filtering of descendant-or-self elements" in {
     // Semantic query: Find all elements in the xbrli namespace.
 
     // Yaidom query: Filter all descendant-or-self elements of the root element in the xbrli namespace.
@@ -142,7 +142,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow retrieval of attributes" in {
+  it should "support retrieval of attributes" in {
     // Semantic query: Find all XBRL unit IDs.
 
     // Yaidom query: Find all xbrli:unit ID attributes.
@@ -156,7 +156,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow retrieval of optional attributes" in {
+  it should "support retrieval of optional attributes" in {
     // Semantic query: Find all numeric item fact unitRefs.
 
     // Yaidom query: Find all unitRef attributes in descendant elements of the root element.
@@ -170,7 +170,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow retrieval of element texts" in {
+  it should "support retrieval of element texts" in {
     // Semantic query: Find all gaap:RelatedPartyTypeOfRelationship fact values.
 
     // Yaidom query: Find all texts of descendant elements of the root element that have
@@ -184,7 +184,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow retrieval of QName-valued texts" in {
+  it should "support retrieval of QName-valued texts" in {
     // Semantic query: Find all measures (as expanded names).
 
     // Yaidom query: Find all texts as ENames of descendant elements of the root element that have
@@ -197,7 +197,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow finding the first descendant element obeying some property" in {
+  it should "support finding the first descendant element obeying some property" in {
     // Semantic query: Find the first optional XBRL context with entity identifier "1234567890"
     // using scheme "http://www.sec.gov/CIK".
 
@@ -229,7 +229,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow finding the first descendant element obeying some property about QName-valued attributes" in {
+  it should "support finding the first descendant element obeying some property about QName-valued attributes" in {
     // Semantic query: Find the first optional XBRL context with dimension gaap:ClassOfPreferredStockDescriptionAxis
     // (as the corresponding EName) in its segment.
 
@@ -253,7 +253,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow for querying QName-valued attributes and texts" in {
+  it should "support querying QName-valued attributes and texts" in {
     // Semantic query: Find all dimensions and their members occurring in the XBRL instance.
 
     // Yaidom query: Find all explicit member descendant elements of the root element, and
@@ -277,7 +277,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow for querying ancestor elements" in {
+  it should "support querying ancestor elements" in {
     // Semantic query: Find all XBRL contexts for (instant) period 2016-12-31.
 
     // Yaidom query: Find all 2006-12-31 (instant) periods, and return their ancestor XBRL contexts.
@@ -288,7 +288,6 @@ class QuerySpec extends FlatSpec {
 
     // Method findAncestor finds the optional ancestor element obeying the given element predicate.
     // An element predicate ("filter") is passed as argument.
-    // Like the name says, only element nodes are returned.
 
     val interestingContexts: immutable.IndexedSeq[BackingElemApi] =
       interestingPeriods.flatMap(e => e.findAncestor(isContext))
@@ -311,7 +310,7 @@ class QuerySpec extends FlatSpec {
     }
   }
 
-  it should "allow for non-trivial queries involving ancestor elements" in {
+  it should "support non-trivial queries involving ancestor elements" in {
     // Semantic query: Find all facts in the instance.
 
     // Yaidom query: Find all descendant elements of the root element that are not in the xbrli or link namespaces

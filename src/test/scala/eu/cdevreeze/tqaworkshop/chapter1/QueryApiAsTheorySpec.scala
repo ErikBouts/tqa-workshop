@@ -56,7 +56,7 @@ class QueryApiAsTheorySpec extends FlatSpec {
 
   // "Re-implementing" filterChildElems, filterElems and filterElemsOrSelf
 
-  "The yaidom query API as theory" should "allow to write 'filterChildElems' in terms of 'findAllChildElems' and the Scala Collections API" in {
+  "The yaidom query API as theory" should "support writing 'filterChildElems' in terms of 'findAllChildElems' and the Scala Collections API" in {
     assertResult(rootElem.filterChildElems(isInXbrlNamespace)) {
       val allChildElems = rootElem.findAllChildElems
 
@@ -65,7 +65,7 @@ class QueryApiAsTheorySpec extends FlatSpec {
     }
   }
 
-  it should "allow to write 'filterElems' in terms of 'findAllElems' and the Scala Collections API" in {
+  it should "support writing 'filterElems' in terms of 'findAllElems' and the Scala Collections API" in {
     assertResult(rootElem.filterElems(isInXbrlNamespace)) {
       val allElems = rootElem.findAllElems
 
@@ -74,7 +74,7 @@ class QueryApiAsTheorySpec extends FlatSpec {
     }
   }
 
-  it should "allow to write 'filterElemsOrSelf' in terms of 'findAllElemsOrSelf' and the Scala Collections API" in {
+  it should "support writing 'filterElemsOrSelf' in terms of 'findAllElemsOrSelf' and the Scala Collections API" in {
     assertResult(rootElem.filterElemsOrSelf(isInXbrlNamespace)) {
       val allElemsOrSelf = rootElem.findAllElemsOrSelf
 
@@ -85,19 +85,19 @@ class QueryApiAsTheorySpec extends FlatSpec {
 
   // "Re-implementing" findAllChildElems, findAllElems and findAllElemsOrSelf
 
-  it should "allow to write 'findAllChildElems' in terms of 'filterChildElems'" in {
+  it should "support writing 'findAllChildElems' in terms of 'filterChildElems'" in {
     assertResult(rootElem.findAllChildElems) {
       ???
     }
   }
 
-  it should "allow to write 'findAllElems' in terms of 'filterElems'" in {
+  it should "support writing 'findAllElems' in terms of 'filterElems'" in {
     assertResult(rootElem.findAllElems) {
       ???
     }
   }
 
-  it should "allow to write 'findAllElemsOrSelf' in terms of 'filterElemsOrSelf'" in {
+  it should "support writing 'findAllElemsOrSelf' in terms of 'filterElemsOrSelf'" in {
     assertResult(rootElem.findAllElemsOrSelf) {
       ???
     }
@@ -105,19 +105,19 @@ class QueryApiAsTheorySpec extends FlatSpec {
 
   // "Re-implementing" findTopmostElems and findTopmostElemsOrSelf
 
-  it should "allow to write 'findTopmostElems' in terms of 'filterElems'" in {
+  it should "support writing 'findTopmostElems' in terms of 'filterElems'" in {
     assertResult(rootElem.findTopmostElems(isInXbrlNamespace)) {
       ???
     }
   }
 
-  it should "allow to write 'findTopmostElemsOrSelf' in terms of 'filterElemsOrSelf'" in {
+  it should "support writing 'findTopmostElemsOrSelf' in terms of 'filterElemsOrSelf'" in {
     assertResult(rootElem.findTopmostElemsOrSelf(isInXbrlNamespace)) {
       ???
     }
   }
 
-  it should "allow to write 'findTopmostElems' in terms of 'findTopmostElemsOrSelf' and 'findAllChildElems'" in {
+  it should "support writing 'findTopmostElems' in terms of 'findTopmostElemsOrSelf' and 'findAllChildElems'" in {
     assertResult(rootElem.findTopmostElems(isInXbrlNamespace)) {
       ???
     }
@@ -125,19 +125,19 @@ class QueryApiAsTheorySpec extends FlatSpec {
 
   // "Re-implementing" findChildElem, findElem and findElemOrSelf
 
-  it should "allow to write 'findChildElem' in terms of 'filterChildElems'" in {
+  it should "support writing 'findChildElem' in terms of 'filterChildElems'" in {
     assertResult(rootElem.findChildElem(isInXbrlNamespace)) {
       ???
     }
   }
 
-  it should "allow to write 'findElem' in terms of 'filterElems'" in {
+  it should "support writing 'findElem' in terms of 'filterElems'" in {
     assertResult(rootElem.findElem(isInXbrlNamespace)) {
       ???
     }
   }
 
-  it should "allow to write 'findElemOrSelf' in terms of 'filterElemsOrSelf'" in {
+  it should "support writing 'findElemOrSelf' in terms of 'filterElemsOrSelf'" in {
     assertResult(rootElem.findElemOrSelf(isInXbrlNamespace)) {
       ???
     }
@@ -145,7 +145,7 @@ class QueryApiAsTheorySpec extends FlatSpec {
 
   // Scopes and Declarations
 
-  it should "allow to get each element scope in terms of the declarations and parent scope" in {
+  it should "support getting each element scope in terms of the declarations and parent scope" in {
     // Implement function getScope in terms of its namespace declarations and the scope of its parent element.
     // Mind the possibility the there is no parent element (for the root itself, of course).
     // Use functions like "namespaces", "parentOption" and "scope".
@@ -159,7 +159,7 @@ class QueryApiAsTheorySpec extends FlatSpec {
 
   // QNames and ENames
 
-  it should "allow to get each element EName in terms of its element QName and its Scope" in {
+  it should "support getting each element EName in terms of its element QName and its Scope" in {
     // Implement function getEName in terms of its QName and Scope.
 
     def getEName(e: BackingElemApi): EName = ???
@@ -174,7 +174,7 @@ class QueryApiAsTheorySpec extends FlatSpec {
 
   // Paths
 
-  it should "allow to get each element in terms of its (navigation) path and root element" in {
+  it should "support getting each element in terms of its (navigation) path and root element" in {
     // Implement function getElement.
 
     def getElement(rootElem: BackingElemApi, path: Path): BackingElemApi = ???
