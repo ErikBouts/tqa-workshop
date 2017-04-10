@@ -33,11 +33,11 @@ Chapter 1
 Chapter 1 introduces the yaidom XML querying (Scala) library. TQA is based on yaidom, so yaidom needs to be introduced
 first. It may be handy to have a look at some `yaidom documentation`_ first.
 
-Study program ShowXbrlInstanceElemAsMatrix in the source tree for chapter 1. It uses Scala class XbrlInstanceElemToRowsConverter.
+Study program ``ShowXbrlInstanceElemAsMatrix`` in the source tree for chapter 1. It uses Scala class ``XbrlInstanceElemToRowsConverter``.
 Study that class too, concentrating on its usage of yaidom query API calls (having the yaidom API documentation nearby).
-Compile and run the ShowXbrlInstanceElemAsMatrix program.
+Compile and run the ``ShowXbrlInstanceElemAsMatrix`` program.
 
-In the test source tree for chapter 1, fill in the missing parts in tests QuerySpec and QueryApiAsTheorySpec, making the
+In the test source tree for chapter 1, fill in the missing parts in tests ``QuerySpec`` and ``QueryApiAsTheorySpec``, making the
 tests run successfully. This gives enough basic understanding of yaidom for the following chapters.
 
 .. _`yaidom documentation`: http://dvreeze.github.io/ 
