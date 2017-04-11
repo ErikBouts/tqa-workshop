@@ -24,13 +24,14 @@ the underlying `yaidom`_ API are treated.
 Preparation
 ===========
 
-Fork this (Scala SBT) project from Github, at `TQA Workshop`_. Make sure to have an installation of `SBT`_ available.
-Also make sure to have a Java JDK 8 installed.
+Fork this (Scala SBT) project from Github, at `TQA Workshop`_. Make sure to either have an installation of `SBT`_ or
+`Maven`_ available. Also make sure to have a Java JDK 8 installed.
 
 Also download the API documentation of the TQA and yaidom libraries from `Maven central`_.
 
 .. _`TQA Workshop`: https://github.com/dvreeze/tqa-workshop
 .. _`SBT`: http://www.scala-sbt.org/download.html
+.. _`Maven`: https://maven.apache.org/download.cgi
 .. _`Maven central`: https://search.maven.org/
 
 
