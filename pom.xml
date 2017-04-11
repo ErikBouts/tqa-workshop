@@ -157,13 +157,13 @@
 
     <dependency>
       <groupId>eu.cdevreeze.tqa</groupId>
-      <artifactId>tqa</artifactId>
+      <artifactId>tqa_${scala.binary.version}</artifactId>
       <version>0.4.1</version>
     </dependency>
 
     <dependency>
       <groupId>eu.cdevreeze.yaidom</groupId>
-      <artifactId>yaidom</artifactId>
+      <artifactId>yaidom_${scala.binary.version}</artifactId>
       <version>1.6.2</version>
     </dependency>
 
