@@ -24,12 +24,24 @@ import scala.reflect.classTag
 
 import org.scalatest.FlatSpec
 
+import eu.cdevreeze.tqa.ENames.XLinkArcroleEName
+import eu.cdevreeze.tqa.ENames.XLinkFromEName
+import eu.cdevreeze.tqa.ENames.XLinkHrefEName
+import eu.cdevreeze.tqa.ENames.XLinkRoleEName
+import eu.cdevreeze.tqa.ENames.XLinkToEName
+import eu.cdevreeze.tqa.ENames.XLinkTypeEName
+import eu.cdevreeze.tqa.Namespaces.LinkNamespace
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
+import eu.cdevreeze.tqa.dom.ExtendedLink
 import eu.cdevreeze.tqa.dom.Linkbase
 import eu.cdevreeze.tqa.dom.LinkbaseRef
 import eu.cdevreeze.tqa.dom.SimpleLink
 import eu.cdevreeze.tqa.dom.TaxonomyBase
+import eu.cdevreeze.tqa.dom.XLinkArc
+import eu.cdevreeze.tqa.dom.XLinkLocator
+import eu.cdevreeze.tqa.dom.XLinkResource
 import eu.cdevreeze.tqa.dom.XsdSchema
+import eu.cdevreeze.yaidom.core.Path
 import net.sf.saxon.s9api.Processor
 
 /**
@@ -73,11 +85,14 @@ class XLinkSpec extends FlatSpec {
     TaxonomyBase.build(Vector(schema, linkbase))
   }
 
-  "Linkbase references" should "be XLink simple links" in {
+  "Each linkbase reference" should "be an XLink simple link" in {
     val schema = taxonomyBase.rootElemUriMap(schemaUri)
 
     // Let's query for link:linkbaseRef elements.
-    // In yaidom the query could be: schema.filterElems(_.resolvedName == LinkLinkbaseRefEName)
+    // In yaidom the query could be as follows:
+    //
+    // schema.filterElems(_.resolvedName == LinkLinkbaseRefEName)
+    //
     // In TQA, using its type-safe DOM, the query is as follows:
 
     val linkbaseRefs = schema.findAllElemsOfType(classTag[LinkbaseRef])
@@ -105,6 +120,12 @@ class XLinkSpec extends FlatSpec {
     assertResult(Set("simple")) {
       xlinkTypesOfSimpleLinks
     }
+
+    // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
+
+    assertResult(simpleLinks.flatMap(_.attributeOption(XLinkTypeEName)).toSet) {
+      xlinkTypesOfSimpleLinks
+    }
   }
 
   it should "have an xlink:href attribute" in {
@@ -125,6 +146,12 @@ class XLinkSpec extends FlatSpec {
         URI.create("rj-venj-bw2-data-ref.xml"))
 
       someRawHrefs.subsetOf(rawHrefs)
+    }
+
+    // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
+
+    assertResult(simpleLinks.flatMap(_.attributeOption(XLinkHrefEName).map(u => URI.create(u))).toSet) {
+      rawHrefs
     }
   }
 
@@ -150,6 +177,290 @@ class XLinkSpec extends FlatSpec {
     }
   }
 
+  "An extended link" should "have xlink:type 'extended'" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val extendedLinks = linkbase.findAllElemsOrSelfOfType(classTag[ExtendedLink])
+
+    // Retrieve the XLink types using TQA, and not using yaidom directly.
+
+    val xlinkTypesOfExtendedLinks: Set[String] = ???
+
+    assertResult(Set("extended")) {
+      xlinkTypesOfExtendedLinks
+    }
+
+    // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
+
+    assertResult(extendedLinks.flatMap(_.attributeOption(XLinkTypeEName)).toSet) {
+      xlinkTypesOfExtendedLinks
+    }
+  }
+
+  it should "have an extended link role (ELR)" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val extendedLinks = linkbase.findAllElemsOrSelfOfType(classTag[ExtendedLink])
+
+    // Retrieve the extended link roles (ELRs) using TQA, and not using yaidom directly.
+
+    val elrsOfExtendedLinks: Set[String] = ???
+
+    assertResult(Set("http://www.xbrl.org/2003/role/link")) {
+      elrsOfExtendedLinks
+    }
+
+    // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
+
+    assertResult(extendedLinks.flatMap(_.attributeOption(XLinkRoleEName)).toSet) {
+      elrsOfExtendedLinks
+    }
+  }
+
+  it should "contain XLink arcs all having both an xlink:from and xlink:to" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val extendedLinks = linkbase.findAllElemsOrSelfOfType(classTag[ExtendedLink])
+    val firstExtendedLink = extendedLinks.head
+
+    // Retrieve the xlink:from and xlink:to values in the arcs of the first extended link.
+    // Use TQA, and do not use yaidom directly.
+
+    val fromToPairsInFirstExtendedLink: Set[(String, String)] = ???
+
+    assertResult(true) {
+      val someFromToPairs: Set[(String, String)] =
+        Set(
+          ("rj-i_EBITA_loc", "rj-i_EBITA_verboseLabel_en"),
+          ("rj-i_IncreaseDecreaseCredits_loc", "rj-i_IncreaseDecreaseCredits_verboseLabel_en"),
+          ("rj-i_MemberPayments_loc", "rj-i_MemberPayments_verboseLabel_en"),
+          ("rj-i_ReinsurancePremiumsPaid_loc", "rj-i_ReinsurancePremiumsPaid_verboseLabel_en"),
+          ("rj-i_TransfersOfRightsReceived_loc", "rj-i_TransfersOfRightsReceived_verboseLabel_en"))
+
+      someFromToPairs.subsetOf(fromToPairsInFirstExtendedLink)
+    }
+
+    // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
+
+    assertResult(
+      firstExtendedLink.filterChildElems(_.attributeOption(XLinkTypeEName) == Some("arc")).
+        map(e => (e.attributeOption(XLinkFromEName), e.attributeOption(XLinkToEName))).toSet) {
+
+        fromToPairsInFirstExtendedLink
+      }
+  }
+
+  it should "contain XLink locators and resources as arc xlink:from or xlink:to" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val extendedLinks = linkbase.findAllElemsOrSelfOfType(classTag[ExtendedLink])
+    val firstExtendedLink = extendedLinks.head
+
+    // Retrieve the xlink:from and xlink:to values in the arcs of the first extended link.
+    // In our example, the xlink:from is an XLink locator, and the xlink:to is an XLink resource.
+    // Return the result as a set of pairs of locator hrefs (made absolute) and resource Paths.
+    // Use TQA, and do not use yaidom directly.
+
+    val fromToPairsInFirstExtendedLink: Set[(URI, Path)] = ???
+
+    assertResult(true) {
+      val someFromToPairs: Set[(URI, Path)] =
+        Set(
+          (URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_EBITA"),
+            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[12]")),
+          (URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_IncreaseDecreaseCredits"),
+            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[20]")),
+          (URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_MemberPayments"),
+            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[18]")),
+          (URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_ReinsurancePremiumsPaid"),
+            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[43]")),
+          (URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_TransfersOfRightsReceived"),
+            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[52]")))
+
+      someFromToPairs.subsetOf(fromToPairsInFirstExtendedLink)
+    }
+  }
+
+  "An XLink arc" should "have xlink:type 'arc'" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val arcs = linkbase.findAllElemsOrSelfOfType(classTag[XLinkArc])
+
+    // Retrieve the XLink types using TQA, and not using yaidom directly.
+
+    val xlinkTypesOfArcs: Set[String] = ???
+
+    assertResult(Set("arc")) {
+      xlinkTypesOfArcs
+    }
+
+    // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
+
+    assertResult(arcs.flatMap(_.attributeOption(XLinkTypeEName)).toSet) {
+      xlinkTypesOfArcs
+    }
+  }
+
+  it should "have an xlink:arcrole" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val arcs = linkbase.findAllElemsOrSelfOfType(classTag[XLinkArc])
+
+    // Retrieve the arcroles using TQA, and not using yaidom directly.
+
+    val arcrolesOfArcs: Set[String] = ???
+
+    assertResult(Set("http://www.xbrl.org/2003/arcrole/concept-label")) {
+      arcrolesOfArcs
+    }
+
+    // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
+
+    assertResult(arcs.flatMap(_.attributeOption(XLinkArcroleEName)).toSet) {
+      arcrolesOfArcs
+    }
+  }
+
+  "An XLink locator" should "have xlink:type 'locator'" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val locators = linkbase.findAllElemsOrSelfOfType(classTag[XLinkLocator])
+
+    // Retrieve the XLink types using TQA, and not using yaidom directly.
+
+    val xlinkTypesOfLocators: Set[String] = ???
+
+    assertResult(Set("locator")) {
+      xlinkTypesOfLocators
+    }
+
+    // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
+
+    assertResult(locators.flatMap(_.attributeOption(XLinkTypeEName)).toSet) {
+      xlinkTypesOfLocators
+    }
+  }
+
+  it should "have an xlink:href" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    // Retrieve the XLink locator href attributes.
+    // Use TQA, and do not use yaidom directly.
+
+    val locatorHrefs: Set[URI] = ???
+
+    assertResult(true) {
+      val someLocatorHrefs: Set[URI] =
+        Set(
+          URI.create("rj-data.xsd#rj-i_EBITA"),
+          URI.create("rj-data.xsd#rj-i_IncreaseDecreaseCredits"),
+          URI.create("rj-data.xsd#rj-i_MemberPayments"),
+          URI.create("rj-data.xsd#rj-i_ReinsurancePremiumsPaid"),
+          URI.create("rj-data.xsd#rj-i_TransfersOfRightsReceived"))
+
+      someLocatorHrefs.subsetOf(locatorHrefs)
+    }
+
+    // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
+
+    assertResult(
+      linkbase.filterElems(_.attributeOption(XLinkTypeEName) == Some("locator")).
+        flatMap(e => e.attributeOption(XLinkHrefEName)).map(u => URI.create(u)).toSet) {
+
+        locatorHrefs
+      }
+  }
+
+  it should "have a xlink:href resolvable as absolute URI" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    // Retrieve the XLink locator href attributes, resolving them against the document URI.
+    // Use TQA, and do not use yaidom directly.
+
+    val absoluteLocatorHrefs: Set[URI] = ???
+
+    assertResult(true) {
+      val someLocatorHrefs: Set[URI] =
+        Set(
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_EBITA"),
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_IncreaseDecreaseCredits"),
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_MemberPayments"),
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_ReinsurancePremiumsPaid"),
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_TransfersOfRightsReceived"))
+
+      someLocatorHrefs.subsetOf(absoluteLocatorHrefs)
+    }
+  }
+
+  "An XLink resource" should "have xlink:type 'resource'" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val resources = linkbase.findAllElemsOrSelfOfType(classTag[XLinkResource])
+
+    // Retrieve the XLink types using TQA, and not using yaidom directly.
+
+    val xlinkTypesOfResources: Set[String] = ???
+
+    assertResult(Set("resource")) {
+      xlinkTypesOfResources
+    }
+
+    // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
+
+    assertResult(resources.flatMap(_.attributeOption(XLinkTypeEName)).toSet) {
+      xlinkTypesOfResources
+    }
+  }
+
+  "An extended link" should "have 'logical arcs'" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val extendedLinks = linkbase.findAllElemsOrSelfOfType(classTag[ExtendedLink])
+    val firstExtendedLink = extendedLinks.head
+
+    // Retrieve the "logical arcs" in the first extended link.
+    // Each such "logical arc" contains the parent link ELR, the arc's arcrole, the xlink:from
+    // locator as its absolute href and the xlink:to resource as its Path.
+    // Use TQA, and do not use yaidom directly.
+
+    val logicalArcsInFirstExtendedLink: Set[XLinkSpec.ArcFromLocatorToResource] = ???
+
+    assertResult(true) {
+      val parentLinkElr = "http://www.xbrl.org/2003/role/link"
+      val arcrole = "http://www.xbrl.org/2003/arcrole/concept-label"
+
+      val someLogicalArcs: Set[XLinkSpec.ArcFromLocatorToResource] =
+        Set(
+          XLinkSpec.ArcFromLocatorToResource(
+            parentLinkElr,
+            arcrole,
+            URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_EBITA"),
+            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[12]")),
+          XLinkSpec.ArcFromLocatorToResource(
+            parentLinkElr,
+            arcrole,
+            URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_IncreaseDecreaseCredits"),
+            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[20]")),
+          XLinkSpec.ArcFromLocatorToResource(
+            parentLinkElr,
+            arcrole,
+            URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_MemberPayments"),
+            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[18]")),
+          XLinkSpec.ArcFromLocatorToResource(
+            parentLinkElr,
+            arcrole,
+            URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_ReinsurancePremiumsPaid"),
+            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[43]")),
+          XLinkSpec.ArcFromLocatorToResource(
+            parentLinkElr,
+            arcrole,
+            URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_TransfersOfRightsReceived"),
+            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[52]")))
+
+      someLogicalArcs.subsetOf(logicalArcsInFirstExtendedLink)
+    }
+  }
+
   private def uriToLocalUri(uri: URI, rootDir: File): URI = {
     // Not robust
     val relativePath = uri.getScheme match {
@@ -161,4 +472,9 @@ class XLinkSpec extends FlatSpec {
     val f = new File(rootDir, relativePath.dropWhile(_ == '/'))
     f.toURI
   }
+}
+
+object XLinkSpec {
+
+  final case class ArcFromLocatorToResource(val parentLinkElr: String, val arcrole: String, val from: URI, val to: Path)
 }
