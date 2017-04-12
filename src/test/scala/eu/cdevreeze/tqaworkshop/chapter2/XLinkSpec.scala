@@ -33,6 +33,7 @@ import eu.cdevreeze.tqa.ENames.XLinkTypeEName
 import eu.cdevreeze.tqa.Namespaces.LinkNamespace
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.ExtendedLink
+import eu.cdevreeze.tqa.dom.LabeledXLink
 import eu.cdevreeze.tqa.dom.Linkbase
 import eu.cdevreeze.tqa.dom.LinkbaseRef
 import eu.cdevreeze.tqa.dom.SimpleLink
@@ -244,7 +245,7 @@ class XLinkSpec extends FlatSpec {
 
     assertResult(
       firstExtendedLink.filterChildElems(_.attributeOption(XLinkTypeEName) == Some("arc")).
-        map(e => (e.attributeOption(XLinkFromEName), e.attributeOption(XLinkToEName))).toSet) {
+        map(e => (e.attribute(XLinkFromEName), e.attribute(XLinkToEName))).toSet) {
 
         fromToPairsInFirstExtendedLink
       }
@@ -255,6 +256,18 @@ class XLinkSpec extends FlatSpec {
 
     val extendedLinks = linkbase.findAllElemsOrSelfOfType(classTag[ExtendedLink])
     val firstExtendedLink = extendedLinks.head
+
+    // The XLink locators and resources in the first extended link are stored in a Map.
+    // The Map key is the xlink:label. This Map can be used below.
+
+    // Note that multiple XLink locators and resource may share the same xlink:label.
+    // This is not a common situation, but nevertheless allowed. In this exercise, it
+    // can be assumed that each xlink:label corresponds to precisely one XLink locator or resource.
+    // It can also be assumed here that the 'from' can be cast to an XLinkLocator and
+    // the 'to' to an XLinkResource.
+
+    val labeledXLinkByXLinkLabel: Map[String, immutable.IndexedSeq[LabeledXLink]] =
+      firstExtendedLink.labeledXlinkMap
 
     // Retrieve the xlink:from and xlink:to values in the arcs of the first extended link.
     // In our example, the xlink:from is an XLink locator, and the xlink:to is an XLink resource.
@@ -344,6 +357,8 @@ class XLinkSpec extends FlatSpec {
   it should "have an xlink:href" in {
     val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
 
+    val locators = linkbase.findAllElemsOrSelfOfType(classTag[XLinkLocator])
+
     // Retrieve the XLink locator href attributes.
     // Use TQA, and do not use yaidom directly.
 
@@ -373,6 +388,8 @@ class XLinkSpec extends FlatSpec {
 
   it should "have a xlink:href resolvable as absolute URI" in {
     val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val locators = linkbase.findAllElemsOrSelfOfType(classTag[XLinkLocator])
 
     // Retrieve the XLink locator href attributes, resolving them against the document URI.
     // Use TQA, and do not use yaidom directly.
@@ -417,6 +434,18 @@ class XLinkSpec extends FlatSpec {
 
     val extendedLinks = linkbase.findAllElemsOrSelfOfType(classTag[ExtendedLink])
     val firstExtendedLink = extendedLinks.head
+
+    // The XLink locators and resources in the first extended link are stored in a Map.
+    // The Map key is the xlink:label. This Map can be used below.
+
+    // Note that multiple XLink locators and resource may share the same xlink:label.
+    // This is not a common situation, but nevertheless allowed. In this exercise, it
+    // can be assumed that each xlink:label corresponds to precisely one XLink locator or resource.
+    // It can also be assumed here that the 'from' can be cast to an XLinkLocator and
+    // the 'to' to an XLinkResource.
+
+    val labeledXLinkByXLinkLabel: Map[String, immutable.IndexedSeq[LabeledXLink]] =
+      firstExtendedLink.labeledXlinkMap
 
     // Retrieve the "logical arcs" in the first extended link.
     // Each such "logical arc" contains the parent link ELR, the arc's arcrole, the xlink:from
