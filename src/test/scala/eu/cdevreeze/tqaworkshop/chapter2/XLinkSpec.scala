@@ -39,6 +39,8 @@ import net.sf.saxon.s9api.Processor
  * Exercise: fill in the needed implementations (replacing the "???"), and make this test spec run successfully.
  *
  * To do this exercise, make sure to have the API documentation of the TQA and yaidom libraries available.
+ * Specifically for this exercise, have a look at the "type-safe DOM" package of TQA, concentrating on XLink,
+ * so on types like `SimpleLink`, `ExtendedLink`, `XLinkArc`, `XLinkLocator` and `XLinkResource`.
  *
  * Make sure to use a Java 8 JDK.
  *
@@ -64,17 +66,27 @@ class XLinkSpec extends FlatSpec {
     val schema = XsdSchema.build(schemaElem)
     val linkbase = Linkbase.build(linkbaseElem)
 
+    // Return a TQA TaxonomyBase object, containing the schema and linkbase as TQA type-safe DOM trees.
+    // Due to the way they have been parsed, they contain the original HTTP document URIs, although they have been
+    // parsed from the local file system.
+
     TaxonomyBase.build(Vector(schema, linkbase))
   }
 
   "Linkbase references" should "be XLink simple links" in {
     val schema = taxonomyBase.rootElemUriMap(schemaUri)
 
+    // Let's query for link:linkbaseRef elements.
+    // In yaidom the query could be: schema.filterElems(_.resolvedName == LinkLinkbaseRefEName)
+    // In TQA, using its type-safe DOM, the query is as follows:
+
     val linkbaseRefs = schema.findAllElemsOfType(classTag[LinkbaseRef])
 
     // In a similar manner, retrieve all XLink simple links in the schema (as descendant elements of the root)
 
     val simpleLinks: immutable.IndexedSeq[SimpleLink] = ???
+
+    // We compare elements defensively by comparing their Paths (relative to the root element)
 
     assertResult(true) {
       linkbaseRefs.map(_.backingElem.path).toSet.subsetOf(simpleLinks.map(_.backingElem.path).toSet)
@@ -84,7 +96,9 @@ class XLinkSpec extends FlatSpec {
   "A simple link" should "have xlink:type 'simple'" in {
     val schema = taxonomyBase.rootElemUriMap(schemaUri)
 
-    val simpleLinks = schema.findAllElemsOfType(classTag[SimpleLink])
+    val simpleLinks = schema.findAllElemsOrSelfOfType(classTag[SimpleLink])
+
+    // Retrieve the XLink types using TQA, and not using yaidom directly.
 
     val xlinkTypesOfSimpleLinks: Set[String] = ???
 
@@ -96,7 +110,9 @@ class XLinkSpec extends FlatSpec {
   it should "have an xlink:href attribute" in {
     val schema = taxonomyBase.rootElemUriMap(schemaUri)
 
-    val simpleLinks = schema.findAllElemsOfType(classTag[SimpleLink])
+    val simpleLinks = schema.findAllElemsOrSelfOfType(classTag[SimpleLink])
+
+    // Retrieve the XLink hrefs using TQA, and not using yaidom directly.
 
     val rawHrefs: Set[URI] = ???
 
@@ -116,6 +132,9 @@ class XLinkSpec extends FlatSpec {
     val schema = taxonomyBase.rootElemUriMap(schemaUri)
 
     val simpleLinks = schema.findAllElemsOfType(classTag[SimpleLink])
+
+    // Retrieve the XLink hrefs (but made absolute) using TQA, and not using yaidom directly.
+    // Remember that the schema holds the original HTTP document URI!
 
     val absoluteHrefs: Set[URI] = ???
 
