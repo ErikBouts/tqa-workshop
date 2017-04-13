@@ -165,50 +165,50 @@ class XPointerSpec extends FlatSpec {
     }
   }
 
-//  "An ID child sequence XPointer" should "resolve to an XML element" in {
-//    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
-//
-//    val locatorOption =
-//      linkbase.findElemOfType(classTag[XLinkLocator])(_.xlinkLabel == "rj-i_AccommodationCostsDisclosure_loc")
-//
-//    assertResult(true) {
-//      locatorOption.isDefined
-//    }
-//
-//    val locator = locatorOption.get
-//
-//    // Using the base URI, so respecting XML Base processing
-//
-//    val absoluteLocatorHref = locator.baseUri.resolve(locator.rawHref)
-//
-//    assertResult(
-//      URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#element(rj-data/12)")) {
-//
-//        absoluteLocatorHref
-//      }
-//
-//    val xpointer = XPointer.parse(absoluteLocatorHref.getFragment).asInstanceOf[IdChildSequencePointer]
-//
-//    assertResult(("rj-data", List(12))) {
-//      (xpointer.id, xpointer.childSequence)
-//    }
-//
-//    assertResult(true) {
-//      taxonomyBase.findElemByUri(absoluteLocatorHref).isDefined
-//    }
-//
-//    assertResult(Some("rj-i_AccommodationCostsDisclosure")) {
-//      taxonomyBase.findElemByUri(absoluteLocatorHref).flatMap(_.attributeOption(IdEName))
-//    }
-//
-//    // Implement function findElem yourself, using functions withoutFragment and XPointer.findElem.
-//
-//    def findElem(docUri: URI, idPointer: IdChildSequencePointer): Option[TaxonomyElem] = ???
-//
-//    assertResult(taxonomyBase.findElemByUri(absoluteLocatorHref)) {
-//      findElem(withoutFragment(absoluteLocatorHref), xpointer)
-//    }
-//  }
+  "An ID child sequence XPointer" should "resolve to an XML element" in {
+    val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
+
+    val locatorOption =
+      linkbase.findElemOfType(classTag[XLinkLocator])(_.xlinkLabel == "rj-i_AccommodationCostsDisclosure_loc")
+
+    assertResult(true) {
+      locatorOption.isDefined
+    }
+
+    val locator = locatorOption.get
+
+    // Using the base URI, so respecting XML Base processing
+
+    val absoluteLocatorHref = locator.baseUri.resolve(locator.rawHref)
+
+    assertResult(
+      URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#element(rj-data/12)")) {
+
+        absoluteLocatorHref
+      }
+
+    val xpointer = XPointer.parse(absoluteLocatorHref.getFragment).asInstanceOf[IdChildSequencePointer]
+
+    assertResult(("rj-data", List(12))) {
+      (xpointer.id, xpointer.childSequence)
+    }
+
+    assertResult(true) {
+      taxonomyBase.findElemByUri(absoluteLocatorHref).isDefined
+    }
+
+    assertResult(Some("rj-i_AccommodationCostsDisclosure")) {
+      taxonomyBase.findElemByUri(absoluteLocatorHref).flatMap(_.attributeOption(IdEName))
+    }
+
+    // Implement function findElem yourself, using functions withoutFragment and XPointer.findElem.
+
+    def findElem(docUri: URI, idPointer: IdChildSequencePointer): Option[TaxonomyElem] = ???
+
+    assertResult(taxonomyBase.findElemByUri(absoluteLocatorHref)) {
+      findElem(withoutFragment(absoluteLocatorHref), xpointer)
+    }
+  }
 
   private def uriToLocalUri(uri: URI, rootDir: File): URI = {
     // Not robust
