@@ -19,20 +19,17 @@ package eu.cdevreeze.tqaworkshop.chapter2
 import java.io.File
 import java.net.URI
 
-import scala.collection.immutable
 import scala.reflect.classTag
 
 import org.scalatest.FlatSpec
 
 import eu.cdevreeze.tqa.ENames.XmlBaseEName
-import eu.cdevreeze.tqa.Namespaces.LinkNamespace
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.ExtendedLink
-import eu.cdevreeze.tqa.dom.LabeledXLink
 import eu.cdevreeze.tqa.dom.Linkbase
 import eu.cdevreeze.tqa.dom.TaxonomyBase
+import eu.cdevreeze.tqa.dom.XLinkLocator
 import eu.cdevreeze.tqa.dom.XsdSchema
-import eu.cdevreeze.yaidom.core.Path
 import eu.cdevreeze.yaidom.queryapi.BackingElemApi
 import net.sf.saxon.s9api.Processor
 
@@ -144,64 +141,25 @@ class XmlBaseSpec extends FlatSpec {
     }
   }
 
-  "An extended link" should "have 'logical arcs', respecting XML Base attributes" in {
+  "An extended link" should "respect XML Base attributes when resolving locator href URIs" in {
     val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
 
-    val extendedLinks = linkbase.findAllElemsOrSelfOfType(classTag[ExtendedLink])
-    val firstExtendedLink = extendedLinks.head
+    val locators = linkbase.findAllElemsOfType(classTag[XLinkLocator])
 
-    // The XLink locators and resources in the first extended link are stored in a Map.
-    // The Map key is the xlink:label. This Map can be used below.
+    // Get the locator href made absolute, using its base URI
 
-    // Note that multiple XLink locators and resource may share the same xlink:label.
-    // This is not a common situation, but nevertheless allowed. In this exercise, it
-    // can be assumed that each xlink:label corresponds to precisely one XLink locator or resource.
-    // It can also be assumed here that the 'from' can be cast to an XLinkLocator and
-    // the 'to' to an XLinkResource.
-
-    val labeledXLinkByXLinkLabel: Map[String, immutable.IndexedSeq[LabeledXLink]] =
-      firstExtendedLink.labeledXlinkMap
-
-    // Retrieve the "logical arcs" in the first extended link.
-    // Each such "logical arc" contains the parent link ELR, the arc's arcrole, the xlink:from
-    // locator as its absolute href and the xlink:to resource as its Path.
-    // Use TQA, and do not use yaidom directly.
-
-    val logicalArcsInFirstExtendedLink: Set[XmlBaseSpec.ArcFromLocatorToResource] = ???
+    def getAbsoluteHref(locator: XLinkLocator): URI = ???
 
     assertResult(true) {
-      val parentLinkElr = "http://www.xbrl.org/2003/role/link"
-      val arcrole = "http://www.xbrl.org/2003/arcrole/concept-label"
-
-      val someLogicalArcs: Set[XmlBaseSpec.ArcFromLocatorToResource] =
+      val someLocatorHrefs: Set[URI] =
         Set(
-          XmlBaseSpec.ArcFromLocatorToResource(
-            parentLinkElr,
-            arcrole,
-            URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_EBITA"),
-            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[12]")),
-          XmlBaseSpec.ArcFromLocatorToResource(
-            parentLinkElr,
-            arcrole,
-            URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_IncreaseDecreaseCredits"),
-            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[20]")),
-          XmlBaseSpec.ArcFromLocatorToResource(
-            parentLinkElr,
-            arcrole,
-            URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_MemberPayments"),
-            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[18]")),
-          XmlBaseSpec.ArcFromLocatorToResource(
-            parentLinkElr,
-            arcrole,
-            URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_ReinsurancePremiumsPaid"),
-            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[43]")),
-          XmlBaseSpec.ArcFromLocatorToResource(
-            parentLinkElr,
-            arcrole,
-            URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_TransfersOfRightsReceived"),
-            Path.fromResolvedCanonicalXPath(s"/*/{$LinkNamespace}labelLink[1]/{$LinkNamespace}label[52]")))
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_EBITA"),
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_IncreaseDecreaseCredits"),
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_MemberPayments"),
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_ReinsurancePremiumsPaid"),
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#rj-i_TransfersOfRightsReceived"))
 
-      someLogicalArcs.subsetOf(logicalArcsInFirstExtendedLink)
+      someLocatorHrefs.subsetOf(locators.map(loc => getAbsoluteHref(loc)).toSet)
     }
   }
 
@@ -216,9 +174,4 @@ class XmlBaseSpec extends FlatSpec {
     val f = new File(rootDir, relativePath.dropWhile(_ == '/'))
     f.toURI
   }
-}
-
-object XmlBaseSpec {
-
-  final case class ArcFromLocatorToResource(val parentLinkElr: String, val arcrole: String, val from: URI, val to: Path)
 }

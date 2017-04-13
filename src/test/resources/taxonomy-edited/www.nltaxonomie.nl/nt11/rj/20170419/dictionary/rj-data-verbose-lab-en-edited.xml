@@ -114,11 +114,14 @@
     <link:labelArc xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="rj-i_ResultBeforeMemberPayments_loc" xlink:to="rj-i_ResultBeforeMemberPayments_verboseLabel_en" xlink:type="arc"/>
     <link:labelArc xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="rj-i_TransfersOfRightsPaid_loc" xlink:to="rj-i_TransfersOfRightsPaid_verboseLabel_en" xlink:type="arc"/>
     <link:labelArc xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="rj-i_TransfersOfRightsReceived_loc" xlink:to="rj-i_TransfersOfRightsReceived_verboseLabel_en" xlink:type="arc"/>
-    <link:loc xlink:href="dictionary/rj-data.xsd#rj-i_AccommodationCostsDisclosure" xlink:label="rj-i_AccommodationCostsDisclosure_loc" xlink:type="locator"/>
+    <!-- ID child sequence (element scheme) XPointer -->
+    <link:loc xlink:href="dictionary/rj-data.xsd#element(rj-data/12)" xlink:label="rj-i_AccommodationCostsDisclosure_loc" xlink:type="locator"/>
     <link:loc xlink:href="dictionary/rj-data.xsd#rj-i_AccommodationCostsPolicy" xlink:label="rj-i_AccommodationCostsPolicy_loc" xlink:type="locator"/>
-    <link:loc xlink:href="dictionary/rj-data.xsd#rj-i_AccommodationCosts" xlink:label="rj-i_AccommodationCosts_loc" xlink:type="locator"/>
+    <!-- Child sequence (element scheme) XPointer -->
+    <link:loc xlink:href="dictionary/rj-data.xsd#element(/1/11)" xlink:label="rj-i_AccommodationCosts_loc" xlink:type="locator"/>
     <link:loc xlink:href="dictionary/rj-data.xsd#rj-i_CashFlowInvestingActivities" xlink:label="rj-i_CashFlowInvestingActivities_loc" xlink:type="locator"/>
-    <link:loc xlink:href="dictionary/rj-data.xsd#rj-i_ConstructionContractsAssets" xlink:label="rj-i_ConstructionContractsAssets_loc" xlink:type="locator"/>
+    <!-- ID (element scheme) XPointer -->
+    <link:loc xlink:href="dictionary/rj-data.xsd#element(rj-i_ConstructionContractsAssets)" xlink:label="rj-i_ConstructionContractsAssets_loc" xlink:type="locator"/>
     <link:loc xlink:href="dictionary/rj-data.xsd#rj-i_ConstructionContractsLiabilities" xlink:label="rj-i_ConstructionContractsLiabilities_loc" xlink:type="locator"/>
     <link:loc xlink:href="dictionary/rj-data.xsd#rj-i_DBCsDBCHealthcareProductsInProgress" xlink:label="rj-i_DBCsDBCHealthcareProductsInProgress_loc" xlink:type="locator"/>
     <link:loc xlink:href="dictionary/rj-data.xsd#rj-i_DeferredTaxLiabilitiesDisclosure" xlink:label="rj-i_DeferredTaxLiabilitiesDisclosure_loc" xlink:type="locator"/>
