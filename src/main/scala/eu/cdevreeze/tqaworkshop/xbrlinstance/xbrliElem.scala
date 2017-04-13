@@ -701,8 +701,8 @@ final class Forever private[xbrlinstance] (
 
 sealed trait MayContainDimensions extends XbrliElem {
 
-  final def explicitMembers: immutable.IndexedSeq[XbrliElem] = {
-    filterChildElems(_.resolvedName == XbrldiExplicitMemberEName)
+  final def explicitMembers: immutable.IndexedSeq[ExplicitMember] = {
+    findAllChildElemsOfType(classTag[ExplicitMember])
   }
 
   final def explicitDimensionMembers: Map[EName, EName] = {
