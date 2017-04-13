@@ -151,6 +151,14 @@ final class XbrlInstance private[xbrlinstance] (
   val allTopLevelTuplesByEName: Map[EName, immutable.IndexedSeq[TupleFact]] =
     allTopLevelTuples groupBy (_.resolvedName)
 
+  def filterContexts(p: XbrliContext => Boolean): immutable.IndexedSeq[XbrliContext] = {
+    filterChildElemsOfType(classTag[XbrliContext])(p)
+  }
+
+  def filterUnits(p: XbrliUnit => Boolean): immutable.IndexedSeq[XbrliUnit] = {
+    filterChildElemsOfType(classTag[XbrliUnit])(p)
+  }
+
   def filterTopLevelFacts(p: Fact => Boolean): immutable.IndexedSeq[Fact] = {
     filterChildElemsOfType(classTag[Fact])(p)
   }
@@ -773,6 +781,32 @@ final class Divide private[xbrlinstance] (
   }
 }
 
+final class ExplicitMember private[xbrlinstance] (
+    override val backingElem: BackingElemApi,
+    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) {
+
+  require(resolvedName == XbrldiExplicitMemberEName, s"Expected EName $XbrldiExplicitMemberEName but found $resolvedName")
+
+  def dimension: EName = {
+    attributeAsResolvedQName(DimensionEName)
+  }
+
+  def member: EName = {
+    textAsResolvedQName
+  }
+}
+
+final class TypedMember private[xbrlinstance] (
+    override val backingElem: BackingElemApi,
+    childElems: immutable.IndexedSeq[XbrliElem]) extends XbrliElem(backingElem, childElems) {
+
+  require(resolvedName == XbrldiTypedMemberEName, s"Expected EName $XbrldiTypedMemberEName but found $resolvedName")
+
+  def dimension: EName = {
+    attributeAsResolvedQName(DimensionEName)
+  }
+}
+
 object XbrliElem {
 
   val XbrliNs = "http://www.xbrl.org/2003/instance"
@@ -835,9 +869,10 @@ object XbrliElem {
 
   private[xbrlinstance] def apply(elem: BackingElemApi, childElems: immutable.IndexedSeq[XbrliElem]): XbrliElem = {
     elem.resolvedName.namespaceUriOption match {
-      case Some(XbrliNs) => applyForXbrliNamespace(elem, childElems)
-      case Some(LinkNs)  => applyForLinkNamespace(elem, childElems)
-      case _             => applyForOtherNamespace(elem, childElems)
+      case Some(XbrliNs)  => applyForXbrliNamespace(elem, childElems)
+      case Some(LinkNs)   => applyForLinkNamespace(elem, childElems)
+      case Some(XbrldiNs) => applyForXbrldiNamespace(elem, childElems)
+      case _              => applyForOtherNamespace(elem, childElems)
     }
   }
 
@@ -871,6 +906,14 @@ object XbrliElem {
       case LinkFootnoteEName     => new Footnote(elem, childElems)
       case LinkLocEName          => new StandardLoc(elem, childElems)
       case _                     => new XbrliElem(elem, childElems)
+    }
+  }
+
+  private[xbrlinstance] def applyForXbrldiNamespace(elem: BackingElemApi, childElems: immutable.IndexedSeq[XbrliElem]): XbrliElem = {
+    elem.resolvedName match {
+      case XbrldiExplicitMemberEName => new ExplicitMember(elem, childElems)
+      case XbrldiTypedMemberEName    => new TypedMember(elem, childElems)
+      case _                         => new XbrliElem(elem, childElems)
     }
   }
 
