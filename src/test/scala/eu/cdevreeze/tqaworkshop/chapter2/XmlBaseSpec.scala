@@ -51,6 +51,8 @@ class XmlBaseSpec extends FlatSpec {
 
   private val taxoRootDir = new File(classOf[XmlBaseSpec].getResource("/taxonomy-edited").toURI)
 
+  // Parsing the taxonomy files into a TQA model with Saxon, although the use of Saxon does not influence the querying code.
+
   private val processor = new Processor(false)
   private val docBuilder =
     new SaxonDocumentBuilder(processor.newDocumentBuilder(), uriToLocalUri(_, taxoRootDir))

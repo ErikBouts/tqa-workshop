@@ -59,6 +59,8 @@ import net.sf.saxon.s9api.Processor
  */
 class QuerySpec extends FlatSpec {
 
+  // Parsing the instance into an "BackingElemApi-backed" XbrlInstance with Saxon, although the use of Saxon does not influence the querying code.
+
   private val processor = new Processor(false)
   private val docBuilder = new SaxonDocumentBuilder(processor.newDocumentBuilder(), (uri => uri))
 
@@ -72,6 +74,9 @@ class QuerySpec extends FlatSpec {
 
   private val GaapNamespace = "http://xasb.org/gaap"
 
+  // In the tests below, do not use any (lexical) QNames.
+  // Due to the type-safe XBRL instance "yaidom dialect", ENames also rarely occur in the code.
+
   "The query API" should "support filtering of child elements such as xbrli:context elements" in {
     // Semantic query: Find all XBRL contexts whose ID starts with the string "I-2007".
 
@@ -80,6 +85,8 @@ class QuerySpec extends FlatSpec {
     }
 
     // Class XbrlInstance directly offers a method to filter contexts.
+
+    // Implement the following variable
 
     val filteredContexts: immutable.IndexedSeq[XbrliContext] = {
       ???
@@ -100,6 +107,8 @@ class QuerySpec extends FlatSpec {
     // Semantic query: Find all explicit members in XBRL contexts.
 
     // Use a "type-safe yaidom query method" to find all explicit member elements
+
+    // Implement the following variable
 
     val explicitMembers: immutable.IndexedSeq[ExplicitMember] = {
       ???
@@ -122,6 +131,8 @@ class QuerySpec extends FlatSpec {
 
   it should "support filtering of descendant-or-self elements such as all instance elements in the xbrli namespace" in {
     // Semantic query: Find all elements in the xbrli namespace.
+
+    // Implement the following function
 
     def isInXbrliNamespace(elem: XbrliElem): Boolean = {
       ???
@@ -152,6 +163,8 @@ class QuerySpec extends FlatSpec {
 
     // It is easy to query for units and their IDs.
 
+    // Implement the following variable
+
     val unitIds: Set[String] = {
       ???
     }
@@ -163,6 +176,8 @@ class QuerySpec extends FlatSpec {
 
   it should "support retrieval of optional attributes such as unitRef attributes for items" in {
     // Semantic query: Find all numeric item fact unitRefs.
+
+    // Implement the following variable
 
     val unitRefs: Set[String] = {
       ???
@@ -176,6 +191,8 @@ class QuerySpec extends FlatSpec {
   it should "support retrieval of element texts such as fact values" in {
     // Semantic query: Find all gaap:RelatedPartyTypeOfRelationship fact values.
 
+    // Implement the following variable
+
     val interestingFactValues: Set[String] = {
       ???
     }
@@ -187,6 +204,8 @@ class QuerySpec extends FlatSpec {
 
   it should "support retrieval of QName-valued texts such as unit measures" in {
     // Semantic query: Find all measures (as expanded names).
+
+    // Implement the following variable
 
     val measureNames: Set[EName] = {
       ???
@@ -200,6 +219,8 @@ class QuerySpec extends FlatSpec {
   it should "support finding the first descendant element obeying some property" in {
     // Semantic query: Find the first optional XBRL context with entity identifier "1234567890"
     // using scheme "http://www.sec.gov/CIK".
+
+    // Implement the following function
 
     def hasEntity(elem: XbrliContext, scheme: String, identifier: String): Boolean = {
       ???
@@ -224,6 +245,8 @@ class QuerySpec extends FlatSpec {
     // Semantic query: Find the first optional XBRL context with dimension gaap:ClassOfPreferredStockDescriptionAxis
     // (as the corresponding EName) in its segment.
 
+    // Implement the following variable
+
     val interestingContextOption: Option[XbrliContext] = {
       ???
     }
@@ -242,6 +265,8 @@ class QuerySpec extends FlatSpec {
 
   it should "support querying QName-valued attributes and texts such as explicit member element dimensions and members" in {
     // Semantic query: Find all dimensions and their members occurring in the XBRL instance.
+
+    // Implement the following variable
 
     val dimensionMembers: Map[EName, Set[EName]] = {
       ???
@@ -264,6 +289,8 @@ class QuerySpec extends FlatSpec {
 
   it should "support querying ancestor elements such as surrounding contexts from periods" in {
     // Semantic query: Find all XBRL contexts for (instant) period 2016-12-31.
+
+    // Implement the following variable
 
     val interestingPeriods: immutable.IndexedSeq[Period] = {
       ???
@@ -299,6 +326,8 @@ class QuerySpec extends FlatSpec {
 
   it should "support queries (explicitly or implicitly) involving ancestor elements such as fact queries" in {
     // Semantic query: Find all facts in the instance.
+
+    // Implement the following variable (trivial, unlike the corresponding low level yaidom code)
 
     val facts: immutable.IndexedSeq[Fact] = {
       ???

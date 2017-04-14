@@ -63,6 +63,8 @@ class XLinkSpec extends FlatSpec {
 
   private val taxoRootDir = new File(classOf[XLinkSpec].getResource("/taxonomy").toURI)
 
+  // Parsing the taxonomy files into a TQA model with Saxon, although the use of Saxon does not influence the querying code.
+
   private val processor = new Processor(false)
   private val docBuilder =
     new SaxonDocumentBuilder(processor.newDocumentBuilder(), uriToLocalUri(_, taxoRootDir))
@@ -85,6 +87,8 @@ class XLinkSpec extends FlatSpec {
 
     TaxonomyBase.build(Vector(schema, linkbase))
   }
+
+  // Below, many exercises are very easy to complete. Only a few exercises are more challenging.
 
   "Each linkbase reference" should "be an XLink simple link" in {
     val schema = taxonomyBase.rootElemUriMap(schemaUri)
@@ -505,5 +509,8 @@ class XLinkSpec extends FlatSpec {
 
 object XLinkSpec {
 
+  /**
+   * Ad-hoc "struct" holding the data of a "logical" arc from an XLink locator to an XLink resource.
+   */
   final case class ArcFromLocatorToResource(val parentLinkElr: String, val arcrole: String, val from: URI, val to: Path)
 }
