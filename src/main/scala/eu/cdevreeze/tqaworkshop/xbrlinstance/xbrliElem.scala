@@ -338,7 +338,7 @@ abstract class Fact private[xbrlinstance] (
 
   final def isTopLevel: Boolean = path.entries.size == 1
 
-  final def isNil: Boolean = attributeOption(XsiNilEName) == Some("true")
+  final def isNil: Boolean = attributeOption(XsiNilEName).contains("true")
 
   /**
    * In the aspect model for instances, the concept core aspect.
@@ -1002,7 +1002,7 @@ object ItemFact {
 
     if (unitRefOption.isEmpty) new NonNumericItemFact(elem, childElems)
     else {
-      if (elem.attributeOption(XsiNilEName) == Some("true"))
+      if (elem.attributeOption(XsiNilEName).contains("true"))
         new NilNumericItemFact(elem, childElems)
       else if (elem.findChildElem(withEName(XbrliNumeratorEName)).isDefined)
         new NonNilFractionItemFact(elem, childElems)

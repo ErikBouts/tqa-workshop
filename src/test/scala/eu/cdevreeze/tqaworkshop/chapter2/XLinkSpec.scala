@@ -244,7 +244,7 @@ class XLinkSpec extends FlatSpec {
     // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
 
     assertResult(
-      firstExtendedLink.filterChildElems(_.attributeOption(XLinkTypeEName) == Some("arc")).
+      firstExtendedLink.filterChildElems(_.attributeOption(XLinkTypeEName).contains("arc")).
         map(e => (e.attribute(XLinkFromEName), e.attribute(XLinkToEName))).toSet) {
 
         fromToPairsInFirstExtendedLink

@@ -49,7 +49,7 @@ class QueryApiAsTheorySpec extends FlatSpec {
     docBuilder.build(classOf[QueryApiAsTheorySpec].getResource("/sample-Instance-Proof.xml").toURI)
 
   private def isInXbrlNamespace(elem: BackingElemApi): Boolean = {
-    elem.resolvedName.namespaceUriOption == Some(XbrliNamespace)
+    elem.resolvedName.namespaceUriOption.contains(XbrliNamespace)
   }
 
   // Below, the names of the tests should be clear instructions as to how the tests should be made to run
