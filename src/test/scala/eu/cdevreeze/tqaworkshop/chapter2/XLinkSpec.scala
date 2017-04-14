@@ -383,7 +383,7 @@ class XLinkSpec extends FlatSpec {
     // At a lower level of abstraction, using yaidom directly, we could obtain the same result:
 
     assertResult(
-      linkbase.filterElems(_.attributeOption(XLinkTypeEName) == Some("locator")).
+      linkbase.filterElems(_.attributeOption(XLinkTypeEName).contains("locator")).
         flatMap(e => e.attributeOption(XLinkHrefEName)).map(u => URI.create(u)).toSet) {
 
         locatorHrefs
