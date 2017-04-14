@@ -114,7 +114,7 @@ Chapter 3
 Chapter 3 introduces XBRL instances, as seen from the perspective of a "yaidom dialect" for XBRL instances.
 This custom yaidom-like XBRL instance query API is used throughout the remainder of the course for XBRL instance processing.
 It should be noted that the "dialect" looks no further than the instance document itself. To check its validity, for
-example, the taxonomy uses by the instance must be available.
+example, the taxonomy used by the instance must be available.
 
 First study program ``ShowXbrlInstanceAsMatrix`` in the source tree for chapter 3. It uses Scala class ``XbrlInstanceToRowsConverter``.
 Study that class too, concentrating on its usage of "XBRL yaidom dialect" query API calls. Compile and run the
