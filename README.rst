@@ -2,7 +2,7 @@
 TQA Workshop
 ============
 
-This workshop introduces the `TQA`_ (Taxonommy Query API) Scala library, along with corresponding XBRL taxonomy topics.
+This workshop introduces the `TQA`_ (Taxonomy Query API) Scala library, along with corresponding XBRL taxonomy topics.
 
 The following knowledge is assumed before starting with this workshop:
 
