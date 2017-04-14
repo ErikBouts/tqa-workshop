@@ -101,7 +101,7 @@ After doing the exercises of chapter 2, the following should be clear:
 * TQA and yaidom support XLink processing (as used in linkbases in XBRL taxonomies)
 * This XLink processing respects XML Base and (shorthand and element scheme) XPointer
 * XLink content in taxonomy documents has been modeled in TQA as part of an "XBRL yaidom dialect" on top of yaidom
-* For the API uses this means a "yaidom-like" development experience, but more type-safe and (XBRL taxonomy) domain-specific
+* For the API users this means a "yaidom-like" development experience, be it a more type-safe and (XBRL taxonomy) domain-specific one
 
 .. _`XLink extended link`: http://zvon.org/xxl/xlink/xlink_extend/OutputExamples/frame_xlinkextend_html.html
 .. _`XML Base`: http://zvon.org/xxl/XMLBaseTutorial/Output/
@@ -111,8 +111,10 @@ After doing the exercises of chapter 2, the following should be clear:
 Chapter 3
 =========
 
-Chapter 3 introduces XBRL instances, as seen from the perspective of a "yaidom dialect" for (stand-alone) XBRL instances.
+Chapter 3 introduces XBRL instances, as seen from the perspective of a "yaidom dialect" for XBRL instances.
 This custom yaidom-like XBRL instance query API is used throughout the remainder of the course for XBRL instance processing.
+It should be noted that the "dialect" looks no further than the instance document itself. To check its validity, for
+example, the taxonomy uses by the instance must be available.
 
 First study program ``ShowXbrlInstanceAsMatrix`` in the source tree for chapter 3. It uses Scala class ``XbrlInstanceToRowsConverter``.
 Study that class too, concentrating on its usage of "XBRL yaidom dialect" query API calls. Compile and run the
