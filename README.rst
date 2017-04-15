@@ -38,7 +38,7 @@ Also download the API documentation of the TQA and yaidom libraries from `Maven 
 Chapter 1
 =========
 
-Chapter 1 introduces the '''yaidom''' XML querying (Scala) library. TQA is based on yaidom, so yaidom needs to be introduced
+Chapter 1 introduces the **yaidom** XML querying (Scala) library. TQA is based on yaidom, so yaidom needs to be introduced
 first.
 
 First, make sure to have a good grasp of XML Namespaces. It may be advisable to read `Understanding Namespaces`_
@@ -78,7 +78,7 @@ alternative that is more suitable in domains like XBRL.
 Chapter 2
 =========
 
-Chapter 2 introduces '''XLink''', '''XML Base''' and '''XPointer''', from the perspective of yaidom or TQA. Yaidom knows about XML Base,
+Chapter 2 introduces **XLink**, **XML Base** and **XPointer**, from the perspective of yaidom or TQA. Yaidom knows about XML Base,
 but it does not know anything about XLink and XPointer. A little bit of TQA is introduced, namely the "type-safe DOM
 abstractions" for XLink content, and TQA's support for XPointer processing (as applied in an XBRL context).
 
@@ -111,7 +111,7 @@ After doing the exercises of chapter 2, the following should be clear:
 Chapter 3
 =========
 
-Chapter 3 introduces '''XBRL instances''', as seen from the perspective of a '''"yaidom dialect"''' for XBRL instances.
+Chapter 3 introduces **XBRL instances**, as seen from the perspective of a **"yaidom dialect"** for XBRL instances.
 This custom yaidom-like XBRL instance query API is used throughout the remainder of the course for XBRL instance processing.
 It should be noted that the "dialect" looks no further than the instance document itself. To check its validity, for
 example, the taxonomy used by the instance must be available.
