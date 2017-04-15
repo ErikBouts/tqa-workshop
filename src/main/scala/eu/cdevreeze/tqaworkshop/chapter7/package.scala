@@ -17,11 +17,7 @@
 package eu.cdevreeze.tqaworkshop
 
 /**
- * Chapter 7 treats the TQA dimensional query API.
- *
- * TODO Show dimensional instance validation in console program.
- *
- * TODO Show formula structure in console program.
+ * Chapter 7 treats some specific TQA topics, such as performance and TQA bootstrapping.
  *
  * @author Chris de Vreeze
  */
