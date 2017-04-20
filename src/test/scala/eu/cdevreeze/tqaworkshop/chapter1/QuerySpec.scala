@@ -295,7 +295,7 @@ class QuerySpec extends FlatSpec {
   }
 
   it should "support querying ancestor elements" in {
-    // Semantic query: Find all XBRL contexts for (instant) period 2016-12-31.
+    // Semantic query: Find all XBRL contexts for (instant) period 2006-12-31.
 
     // Yaidom query: Find all 2006-12-31 (instant) periods, and return their ancestor XBRL contexts.
 
