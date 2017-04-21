@@ -18,16 +18,14 @@ package eu.cdevreeze.tqaworkshop.chapter1
 
 import java.io.File
 
-import eu.cdevreeze.yaidom.core.Declarations
 import eu.cdevreeze.yaidom.core.QName
-import eu.cdevreeze.yaidom.core.Scope
 import eu.cdevreeze.yaidom.parse.DocumentParserUsingSax
 import eu.cdevreeze.yaidom.print.DocumentPrinterUsingDom
 import eu.cdevreeze.yaidom.simple.Elem
 
 /**
  * This program shows the (yaidom) ENames and Scopes of all elements occurring in an input XML.
- * These ENames and Scopes are shown by adding attributes "yaidom-ename" and "yaidom-scope" to all
+ * These ENames and Scopes are shown by adding attributes "yaidom-ename" and "yaidom-xmlns.XXX" to all
  * elements in the tree.
  *
  * For readability, copy and paste the program XML output into a file, and open this file in a browser.
@@ -77,8 +75,14 @@ object ShowENames {
     // Add the yaidom-scope and yaidom-ename attributes.
 
     def enrich(elm: Elem): Elem = {
-      elm.plusAttribute(QName("yaidom-scope"), showScope(elm.scope)).
-        plusAttribute(QName("yaidom-ename"), elm.resolvedName.toString)
+      val partialResultElem =
+        elm.plusAttribute(QName("yaidom-ename"), elm.resolvedName.toString).
+          plusAttributeOption(QName("yaidom-xmlns"), elm.scope.defaultNamespaceOption)
+
+      elm.scope.withoutDefaultNamespace.prefixNamespaceMap.foldLeft(partialResultElem) {
+        case (accElem, (pref, ns)) =>
+          accElem.plusAttribute(QName(s"yaidom-xmlns.${pref}"), ns)
+      }
     }
 
     val enrichedDoc =
@@ -87,19 +91,6 @@ object ShowENames {
     val enrichedXmlString = docPrinter.print(enrichedDoc)
 
     println(enrichedXmlString)
-  }
-
-  private def showScope(scope: Scope): String = {
-    val declsString = Declarations.from(scope.prefixNamespaceMap).toStringInXml
-
-    require(declsString.trim == declsString)
-    require(declsString.isEmpty || declsString.endsWith("\""))
-
-    if (declsString.isEmpty) {
-      declsString
-    } else {
-      declsString.dropRight(1).replace("\" ", "' ").replace("=\"", "='") + "'"
-    }
   }
 }
 
