@@ -92,6 +92,7 @@ object ShowENames {
   private def showScope(scope: Scope): String = {
     val declsString = Declarations.from(scope.prefixNamespaceMap).toStringInXml
 
+    require(declsString.trim == declsString)
     require(declsString.isEmpty || declsString.endsWith("\""))
 
     if (declsString.isEmpty) {
