@@ -18,7 +18,9 @@ package eu.cdevreeze.tqaworkshop.chapter1
 
 import java.io.File
 
+import eu.cdevreeze.yaidom.core.Declarations
 import eu.cdevreeze.yaidom.core.QName
+import eu.cdevreeze.yaidom.core.Scope
 import eu.cdevreeze.yaidom.parse.DocumentParserUsingSax
 import eu.cdevreeze.yaidom.print.DocumentPrinterUsingDom
 import eu.cdevreeze.yaidom.simple.Elem
@@ -75,7 +77,7 @@ object ShowENames {
     // Add the yaidom-scope and yaidom-ename attributes.
 
     def enrich(elm: Elem): Elem = {
-      elm.plusAttribute(QName("yaidom-scope"), elm.scope.prefixNamespaceMap.toString).
+      elm.plusAttribute(QName("yaidom-scope"), showScope(elm.scope)).
         plusAttribute(QName("yaidom-ename"), elm.resolvedName.toString)
     }
 
@@ -85,6 +87,18 @@ object ShowENames {
     val enrichedXmlString = docPrinter.print(enrichedDoc)
 
     println(enrichedXmlString)
+  }
+
+  private def showScope(scope: Scope): String = {
+    val declsString = Declarations.from(scope.prefixNamespaceMap).toStringInXml
+
+    require(declsString.isEmpty || declsString.endsWith("\""))
+
+    if (declsString.isEmpty) {
+      declsString
+    } else {
+      declsString.dropRight(1).replace("\" ", "' ").replace("=\"", "='") + "'"
+    }
   }
 }
 
