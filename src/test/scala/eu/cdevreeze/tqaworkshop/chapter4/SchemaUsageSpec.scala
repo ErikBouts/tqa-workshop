@@ -25,6 +25,7 @@ import eu.cdevreeze.tqa.ENames
 import eu.cdevreeze.tqa.SubstitutionGroupMap
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.GlobalElementDeclaration
+import eu.cdevreeze.tqa.dom.NamedTypeDefinition
 import eu.cdevreeze.tqa.dom.TaxonomyBase
 import eu.cdevreeze.tqa.dom.TaxonomyElem
 import eu.cdevreeze.tqa.relationship.DefaultRelationshipFactory
@@ -73,7 +74,8 @@ class SchemaUsageSpec extends FlatSpec {
       "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-domains.xsd",
       "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data.xsd",
       "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-tuples.xsd",
-      "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data-verbose-lab-en.xml").map(s => URI.create(s))
+      "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data-verbose-lab-en.xml",
+      "http://www.nltaxonomie.nl/nt11/sbr/20160610/dictionary/nl-types.xsd").map(s => URI.create(s))
 
     // Building the taxonomy DOM, one root element per parsed taxonomy document.
 
@@ -99,6 +101,10 @@ class SchemaUsageSpec extends FlatSpec {
 
   private val RjiNamespace = "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data"
 
+  //
+  // Exercise 1
+  //
+
   "The TQA DOM" should "support finding a specific global element declaration" in {
     // Finding rj-i:InvestmentProperties facts in instance, and finding the corresponding global element declaration in taxonomy schema
     // We look up the global element declaration the hard way in this exercise, via the schema root element.
@@ -116,7 +122,7 @@ class SchemaUsageSpec extends FlatSpec {
     }
 
     // If we want the XBRL instance to be valid with respect to the taxonomy, it must at least be schema-valid.
-    // This means that for our RJ facts that there must be a corresponding global element declaration in the correct
+    // This means for our RJ facts that there must be a corresponding global element declaration in the correct
     // RJ schema, and that this schema must be found.
 
     // The XBRL instance contains a reference to the so-called entrypoint schema, and through a process called DTS
@@ -127,12 +133,18 @@ class SchemaUsageSpec extends FlatSpec {
 
     val xsdRootElem = taxo.findAllXsdSchemas.filter(_.targetNamespaceOption.contains(RjiNamespace)).head
 
+    assertResult(URI.create("http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data.xsd")) {
+      // The original http URI, not the local file URI, is stored with the schema document root element
+      xsdRootElem.docUri
+    }
+
     // Implement getting the global element declaration for the XBRL concept rj-i:InvestmentProperties.
     // Note that XBRL concepts are just global element declarations in terms of XML Schema.
 
     val conceptDecl: GlobalElementDeclaration = {
       // Use the xsdRootElem above as the starting point for obtaining the correct global element declaration.
       // Also use the GlobalElementDeclaration.targetEName method to match on the correct concept name.
+
       ???
     }
 
@@ -150,6 +162,10 @@ class SchemaUsageSpec extends FlatSpec {
     }
   }
 
+  //
+  // Exercise 2
+  //
+
   "The TQA query API" should "support finding a specific global element declaration" in {
     // Finding the rj-i:InvestmentProperties global element declaration in the taxonomy.
     // We look up the global element declaration the easy way in this exercise, directly from the taxonomy using its query API,
@@ -158,7 +174,7 @@ class SchemaUsageSpec extends FlatSpec {
     val RjiInvestmentPropertiesEName = EName(RjiNamespace, "InvestmentProperties")
 
     // Again, if we want the XBRL instance to be valid with respect to the taxonomy, it must at least be schema-valid.
-    // This means that for our RJ facts that there must be a corresponding global element declaration in the correct
+    // This means for our RJ facts that there must be a corresponding global element declaration in the correct
     // RJ schema, and that this schema must be found.
 
     // The XBRL instance contains a reference to the so-called entrypoint schema, and through a process called DTS
@@ -169,7 +185,8 @@ class SchemaUsageSpec extends FlatSpec {
     // Note that XBRL concepts are just global element declarations in terms of XML Schema.
 
     val conceptDecl: GlobalElementDeclaration = {
-      // Use the entire taxonomy as the starting point for obtaining the correct global element declaration.
+      // Use the entire taxonomy called "taxo" as the starting point for obtaining the correct global element declaration.
+
       ???
     }
 
@@ -178,6 +195,49 @@ class SchemaUsageSpec extends FlatSpec {
       // name attribute (of the global element declaration itself).
 
       conceptDecl.targetEName
+    }
+  }
+
+  //
+  // Exercise 3
+  //
+
+  it should "support finding the type definition of a type (of a global element declaration)" in {
+    // Finding the type definition of the type of the rj-i:InvestmentProperties global element declaration in the taxonomy.
+
+    val RjiInvestmentPropertiesEName = EName(RjiNamespace, "InvestmentProperties")
+
+    val conceptDecl: GlobalElementDeclaration =
+      taxo.getGlobalElementDeclaration(RjiInvestmentPropertiesEName)
+
+    val typeOption: Option[EName] = conceptDecl.typeOption
+
+    assertResult(conceptDecl.attributeAsResolvedQNameOption(ENames.TypeEName)) {
+      typeOption
+    }
+    assertResult(Some(EName("{http://www.nltaxonomie.nl/nt11/sbr/20160610/dictionary/nl-types}monetaryNoDecimalsItemType"))) {
+      typeOption
+    }
+
+    // Implement getting the type definition for the above-mentioned type nl-types:monetaryNoDecimalsItemType.
+
+    val typeDef: NamedTypeDefinition = {
+      taxo.getNamedTypeDefinition(typeOption.get)
+
+      ???
+    }
+
+    assertResult(typeOption.get) {
+      // We use the term "target EName" for the combination of target namespace (of the schema root element) and
+      // name attribute (of the named type definition itself).
+
+      typeDef.targetEName
+    }
+    assertResult(typeOption.get) {
+      // We know the schema has a target namespace attribute, so this is safe
+      val tns = typeDef.backingElem.rootElem.attribute(ENames.TargetNamespaceEName)
+      val name = typeDef.nameAttributeValue
+      EName(tns, name)
     }
   }
 
