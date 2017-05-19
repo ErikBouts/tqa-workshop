@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Sample instance from https://www.sbr-nl.nl/werken-met-sbr/softwareleveranciers/nederlandse-taxonomie/2017/ -->
+<xbrli:xbrl xmlns:xbrli="http://www.xbrl.org/2003/instance" xml:lang="nl" xmlns:kvk-i="http://www.nltaxonomie.nl/nt11/kvk/20161214/dictionary/kvk-data" xmlns:venj-bw2-dm="http://www.nltaxonomie.nl/nt11/venj/20161214/dictionary/venj-bw2-domains"
+xmlns:venj-bw2-i="http://www.nltaxonomie.nl/nt11/venj/20161214/dictionary/venj-bw2-data" xmlns:rj-i="http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data" xmlns:rj-t="http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-tuples" xmlns:kvk-t="http://www.nltaxonomie.nl/nt11/kvk/20161214/dictionary/kvk-tuples"  xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:nl-cd="http://www.nltaxonomie.nl/nt11/sbr/20160610/dictionary/nl-common-data" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:venj-bw2-dim="http://www.nltaxonomie.nl/nt11/venj/20161214/dictionary/venj-bw2-axes">
+
+	<link:schemaRef xlink:type="simple" xlink:href="http://www.nltaxonomie.nl/nt11/kvk/20161214/entrypoints/kvk-rpt-jaarverantwoording-2016-nlgaap-klein-publicatiestukken.xsd"/>
+	
+	<xbrli:context id="FY16d">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:startDate>2016-01-01</xbrli:startDate>
+			<xbrli:endDate>2016-12-31</xbrli:endDate>
+		</xbrli:period>
+	</xbrli:context>
+
+	<xbrli:context id="FY15d">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:startDate>2015-01-01</xbrli:startDate>
+			<xbrli:endDate>2015-12-31</xbrli:endDate>
+		</xbrli:period>
+	</xbrli:context>
+	
+	<xbrli:context id="FY16d_Commercial_Separate">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:startDate>2016-01-01</xbrli:startDate>
+			<xbrli:endDate>2016-12-31</xbrli:endDate>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY16i_Commercial_Separate">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:instant>2016-12-31</xbrli:instant>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY15i_Commercial_Separate">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:instant>2015-12-31</xbrli:instant>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY15d_Commercial_Separate">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:startDate>2015-01-01</xbrli:startDate>
+			<xbrli:endDate>2015-12-31</xbrli:endDate>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY16d_ManagingOrSupervisoryDirector_Typed_1">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:startDate>2016-01-01</xbrli:startDate>
+			<xbrli:endDate>2016-12-31</xbrli:endDate>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:typedMember dimension="venj-bw2-dim:ManagingOrSupervisoryDirectorNamesAxis">
+				<venj-bw2-dm:ManagingOrSupervisoryDirectorTypedMember>Funny Jenkins</venj-bw2-dm:ManagingOrSupervisoryDirectorTypedMember>
+			</xbrldi:typedMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY16d_ManagingOrSupervisoryDirector_Typed_2">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:startDate>2016-01-01</xbrli:startDate>
+			<xbrli:endDate>2016-12-31</xbrli:endDate>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:typedMember dimension="venj-bw2-dim:ManagingOrSupervisoryDirectorNamesAxis">
+				<venj-bw2-dm:ManagingOrSupervisoryDirectorTypedMember>Ronny Jenkins</venj-bw2-dm:ManagingOrSupervisoryDirectorTypedMember>
+			</xbrldi:typedMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY16d_ShareCapitalMemberTotal_Separate">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:startDate>2016-01-01</xbrli:startDate>
+			<xbrli:endDate>2016-12-31</xbrli:endDate>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:ClassesOfShareCapitalAxis">venj-bw2-dm:ShareCapitalMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY16d_OrdinarySharesMember_Separate">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:startDate>2016-01-01</xbrli:startDate>
+			<xbrli:endDate>2016-12-31</xbrli:endDate>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:ClassesOfShareCapitalAxis">venj-bw2-dm:OrdinarySharesMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY16d_TreasurySharesMember_Separate">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:startDate>2016-01-01</xbrli:startDate>
+			<xbrli:endDate>2016-12-31</xbrli:endDate>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:ClassesOfShareCapitalAxis">venj-bw2-dm:TreasurySharesMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY15i_ShareCapitalMemberTotal_Separate_Begin">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:instant>2015-12-31</xbrli:instant>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:ClassesOfShareCapitalAxis">venj-bw2-dm:ShareCapitalMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY15i_OrdinarySharesMember_Separate_Begin">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:instant>2015-12-31</xbrli:instant>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:ClassesOfShareCapitalAxis">venj-bw2-dm:OrdinarySharesMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY15i_TreasurySharesMember_Separate_Begin">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:instant>2015-12-31</xbrli:instant>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:ClassesOfShareCapitalAxis">venj-bw2-dm:TreasurySharesMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	
+	<xbrli:context id="FY16i_ShareCapitalMemberTotal_Separate_Eind">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:instant>2016-12-31</xbrli:instant>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:ClassesOfShareCapitalAxis">venj-bw2-dm:ShareCapitalMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY16i_OrdinarySharesMember_Separate_Eind">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:instant>2016-12-31</xbrli:instant>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:ClassesOfShareCapitalAxis">venj-bw2-dm:OrdinarySharesMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:context id="FY16i_TreasurySharesMember_Separate_Eind">
+		<xbrli:entity>
+			<xbrli:identifier scheme="http://www.kvk.nl/kvk-id">30267975</xbrli:identifier>
+		</xbrli:entity>
+		<xbrli:period>
+			<xbrli:instant>2016-12-31</xbrli:instant>
+		</xbrli:period>
+		<xbrli:scenario>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:ClassesOfShareCapitalAxis">venj-bw2-dm:TreasurySharesMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:BasisOfPreparationAxis">venj-bw2-dm:CommercialMember</xbrldi:explicitMember>
+			<xbrldi:explicitMember dimension="venj-bw2-dim:FinancialStatementsTypeAxis">venj-bw2-dm:SeparateMember</xbrldi:explicitMember>
+		</xbrli:scenario>
+	</xbrli:context>
+	
+	<xbrli:unit id="EUR">
+		<xbrli:measure>iso4217:EUR</xbrli:measure>
+	</xbrli:unit>
+	
+	<xbrli:unit id="shares">
+		<xbrli:measure>xbrli:shares</xbrli:measure>
+	</xbrli:unit>
+	
+	<venj-bw2-i:FinancialReportingPeriodPreviousStartDate contextRef="FY15d">2015-01-01</venj-bw2-i:FinancialReportingPeriodPreviousStartDate>
+	<venj-bw2-i:FinancialReportingPeriodPreviousEndDate contextRef="FY15d">2015-12-31</venj-bw2-i:FinancialReportingPeriodPreviousEndDate>
+   
+    
+	<venj-bw2-i:LegalEntityRegisteredOffice contextRef="FY16d">Den Haag</venj-bw2-i:LegalEntityRegisteredOffice>
+	<venj-bw2-i:ChamberOfCommerceRegistrationNumber contextRef="FY16d">30267975</venj-bw2-i:ChamberOfCommerceRegistrationNumber>
+	
+	<venj-bw2-i:BasisOfPreparation contextRef="FY16d">Commercieel</venj-bw2-i:BasisOfPreparation>
+	
+	<venj-bw2-i:LegalEntityLegalForm contextRef="FY16d">Naamloze vennootschap</venj-bw2-i:LegalEntityLegalForm>
+	
+	<kvk-i:LegalSizeCriteriaClassification contextRef="FY16d">Klein</kvk-i:LegalSizeCriteriaClassification>
+	
+	<kvk-t:ContactForDocumentPresentation>
+		<kvk-i:ContactType contextRef="FY16d">Intermediair</kvk-i:ContactType>
+		<nl-cd:FirstName contextRef="FY16d">Karel</nl-cd:FirstName>
+		<nl-cd:FamilyName contextRef="FY16d">Broekhuis</nl-cd:FamilyName>
+		<kvk-i:OrganisationName contextRef="FY16d">Broekhuis Accountants en Adviseurs BV</kvk-i:OrganisationName>
+		<nl-cd:TelephoneNumber contextRef="FY16d">01045655281</nl-cd:TelephoneNumber>
+		<nl-cd:EmailAddressFull contextRef="FY16d">Karel@Broekhuis.com</nl-cd:EmailAddressFull>
+	</kvk-t:ContactForDocumentPresentation>
+	
+	<venj-bw2-i:FinancialReportingPeriodCurrentStartDate contextRef="FY16d">2016-01-01</venj-bw2-i:FinancialReportingPeriodCurrentStartDate>
+	<venj-bw2-i:FinancialReportingPeriodCurrentEndDate contextRef="FY16d">2016-12-31</venj-bw2-i:FinancialReportingPeriodCurrentEndDate>
+	<venj-bw2-i:LegalEntityName contextRef="FY16d">BAA BV</venj-bw2-i:LegalEntityName>
+	
+	<rj-t:EntityAddressPresentation>
+		<nl-cd:POBoxNumber contextRef="FY16d">2312</nl-cd:POBoxNumber>
+		<nl-cd:PostalCodeNL contextRef="FY16d">2501CD</nl-cd:PostalCodeNL>
+		<nl-cd:PlaceOfResidenceNL contextRef="FY16d">Den Haag</nl-cd:PlaceOfResidenceNL>
+		<nl-cd:CountryName contextRef="FY16d">Nederland</nl-cd:CountryName>
+	</rj-t:EntityAddressPresentation>
+	
+	
+	<rj-i:FinancialReportingPeriodDifferentThanAnnualStatus contextRef="FY16d">Nee</rj-i:FinancialReportingPeriodDifferentThanAnnualStatus>
+	<rj-i:DocumentPresentationCurrency contextRef="FY16d">EUR</rj-i:DocumentPresentationCurrency>
+
+	<venj-bw2-i:DocumentAdoptionStatus contextRef="FY16d">Nee</venj-bw2-i:DocumentAdoptionStatus>
+	
+	<venj-bw2-i:BalanceSheetBeforeAfterAppropriationResults contextRef="FY16d_Commercial_Separate">Na</venj-bw2-i:BalanceSheetBeforeAfterAppropriationResults>
+	<venj-bw2-i:BalanceSheetBeforeAfterAppropriationResults contextRef="FY15d_Commercial_Separate">Na</venj-bw2-i:BalanceSheetBeforeAfterAppropriationResults>
+	
+	
+	<venj-bw2-i:IntangibleAssets contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">600000</venj-bw2-i:IntangibleAssets>
+	<venj-bw2-i:PropertyPlantEquipment contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">1000000</venj-bw2-i:PropertyPlantEquipment>
+	<rj-i:InvestmentProperties contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">135000</rj-i:InvestmentProperties>
+	<venj-bw2-i:FinancialAssets contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">1200000</venj-bw2-i:FinancialAssets>
+	<venj-bw2-i:AssetsNoncurrent contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">2935000</venj-bw2-i:AssetsNoncurrent>
+	<venj-bw2-i:Inventories contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">150000</venj-bw2-i:Inventories>
+	<rj-i:ConstructionContractsAssets contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">100000</rj-i:ConstructionContractsAssets>
+	<venj-bw2-i:Receivables contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">105000</venj-bw2-i:Receivables>
+	<venj-bw2-i:SecuritiesCurrent contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">100000</venj-bw2-i:SecuritiesCurrent>
+	<venj-bw2-i:CashAndCashEquivalents contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">200000</venj-bw2-i:CashAndCashEquivalents>
+	<venj-bw2-i:AssetsCurrent contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">655000</venj-bw2-i:AssetsCurrent>
+	<venj-bw2-i:Assets contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">3590000</venj-bw2-i:Assets>
+	<venj-bw2-i:ShareCapital contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">18000</venj-bw2-i:ShareCapital>
+	<venj-bw2-i:SharePremium contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">332000</venj-bw2-i:SharePremium>
+	<venj-bw2-i:RevaluationReserve contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">200000</venj-bw2-i:RevaluationReserve>
+	<venj-bw2-i:StatutoryReserves contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">190000</venj-bw2-i:StatutoryReserves>
+	<venj-bw2-i:LegalReserves contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">50000</venj-bw2-i:LegalReserves>
+	<venj-bw2-i:ReservesOther contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">1500000</venj-bw2-i:ReservesOther>
+	<venj-bw2-i:Equity contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">2290000</venj-bw2-i:Equity>
+	<venj-bw2-i:Provisions contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">250000</venj-bw2-i:Provisions>
+	<venj-bw2-i:LiabilitiesNoncurrent contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">750000</venj-bw2-i:LiabilitiesNoncurrent>
+	<venj-bw2-i:LiabilitiesCurrent contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">300000</venj-bw2-i:LiabilitiesCurrent>
+	<venj-bw2-i:EquityAndLiabilities contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">3590000</venj-bw2-i:EquityAndLiabilities>
+	
+	<venj-bw2-i:IntangibleAssets contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">500000</venj-bw2-i:IntangibleAssets>
+	<venj-bw2-i:PropertyPlantEquipment contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">900000</venj-bw2-i:PropertyPlantEquipment>
+	<rj-i:InvestmentProperties contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">130000</rj-i:InvestmentProperties>
+	<venj-bw2-i:FinancialAssets contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">1100000</venj-bw2-i:FinancialAssets>
+	<venj-bw2-i:AssetsNoncurrent contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">2630000</venj-bw2-i:AssetsNoncurrent>
+	<venj-bw2-i:Inventories contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">140000</venj-bw2-i:Inventories>
+	<rj-i:ConstructionContractsAssets contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">90000</rj-i:ConstructionContractsAssets>
+	<venj-bw2-i:Receivables contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">100000</venj-bw2-i:Receivables>
+	<venj-bw2-i:SecuritiesCurrent contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">90000</venj-bw2-i:SecuritiesCurrent>
+	<venj-bw2-i:CashAndCashEquivalents contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">190000</venj-bw2-i:CashAndCashEquivalents>
+	<venj-bw2-i:AssetsCurrent contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">610000</venj-bw2-i:AssetsCurrent>
+	<venj-bw2-i:Assets contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">3240000</venj-bw2-i:Assets>
+	<venj-bw2-i:ShareCapital contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">17000</venj-bw2-i:ShareCapital>
+	<venj-bw2-i:SharePremium contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">330000</venj-bw2-i:SharePremium>
+	<venj-bw2-i:RevaluationReserve contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">190000</venj-bw2-i:RevaluationReserve>
+	<venj-bw2-i:StatutoryReserves contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">180000</venj-bw2-i:StatutoryReserves>
+	<venj-bw2-i:LegalReserves contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">60000</venj-bw2-i:LegalReserves>	
+	<venj-bw2-i:ReservesOther contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">1190000</venj-bw2-i:ReservesOther>
+	<venj-bw2-i:Equity contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">1967000</venj-bw2-i:Equity>
+	<venj-bw2-i:Provisions contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">240000</venj-bw2-i:Provisions>
+	<venj-bw2-i:LiabilitiesNoncurrent contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">733000</venj-bw2-i:LiabilitiesNoncurrent>
+	<venj-bw2-i:LiabilitiesCurrent contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">300000</venj-bw2-i:LiabilitiesCurrent>
+	<venj-bw2-i:EquityAndLiabilities contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">3240000</venj-bw2-i:EquityAndLiabilities>
+
+<rj-i:MostImportantActivitiesEntityDescription contextRef="FY16d_Commercial_Separate">De activiteiten van De Kleine B.V. en haar groepsmaatschappijen bestaan voornamelijk uit:
+1. de productie van en handel in elektronische artikelen en computercomponenten 2. dienstverlening op het gebied van IT-processen en implementatie van software bij derden 3. bouw van maatwerksoftware in opdracht van derden.
+Verkoop vindt plaats zowel in het binnenland als in het buitenland, waarbij de landen van de Europese Unie de belangrijkste afzetmarkt vormen.</rj-i:MostImportantActivitiesEntityDescription>
+
+<venj-bw2-i:GoingConcernDisclosure contextRef="FY16d_Commercial_Separate">De financiering hiervan vindt geheel plaats met kortlopende/langlopende schulden, waaronder door groepsmaatschappijen in rekening-courant verstrekte middelen/waaronder door banken verstrekte leningen/etc. De continuïteit van de vennootschap hangt in hoge mate af van de bereidheid van de groepsmaatschappijen/banken deze financiering te continueren. </venj-bw2-i:GoingConcernDisclosure>
+
+<rj-i:EstimatesDisclosure contextRef="FY16d_Commercial_Separate">Bij toepassing van de grondslagen en regels voor het opstellen van de jaarrekening vormt de leiding van De Kleine B.V. zich verschillende oordelen en schattingen die essentieel kunnen zijn voor de in de jaarrekening opgenomen bedragen. Indien het voor het geven van het in artikel 2:362 lid 1 BW vereiste inzicht noodzakelijk is, is de aard van deze oordelen en schattingen inclusief de bijbehorende veronderstellingen opgenomen bij de toelichting op de desbetreffende jaarrekeningposten.</rj-i:EstimatesDisclosure>
+
+<venj-bw2-i:AccountingStandardsUsedToPrepareFinancialStatementsDescription contextRef="FY16d_Commercial_Separate">De jaarrekening is opgesteld in overeenstemming met de wettelijke bepalingen van Titel 9 Boek 2 BW en de Richtlijnen voor de jaarverslaggeving voor kleine rechtspersonen, die uitgegeven zijn door de Raad voor de Jaarverslaggeving. In de balans en de winst-en-verliesrekening zijn referenties opgenomen. Met deze referenties wordt verwezen naar de toelichting.</venj-bw2-i:AccountingStandardsUsedToPrepareFinancialStatementsDescription>
+
+<venj-bw2-i:ForeignCurrencyTranslationPolicy contextRef="FY16d_Commercial_Separate">Transacties in vreemde valuta gedurende de verslagperiode zijn in de jaarrekening verwerkt tegen de koers op transactiedatum. Monetaire activa en passiva in vreemde valuta worden omgerekend in de functionele valuta tegen de koers per balansdatum. De uit de afwikkeling en omrekening voortvloeiende koersverschillen komen ten gunste of ten laste van de winst-en-verliesrekening. Niet-monetaire activa die volgens de verkrijgingsprijs worden gewaardeerd in een vreemde valuta worden omgerekend tegen de wisselkoers op de transactiedatum.</venj-bw2-i:ForeignCurrencyTranslationPolicy>
+
+<rj-i:FinanceLeasesPolicy contextRef="FY16d_Commercial_Separate">De vennootschap leaset een deel van het machinepark; hierbij heeft de vennootschap grotendeels de voor- en nadelen verbonden aan de eigendom van deze activa. Deze activa worden geactiveerd in de balans bij aanvang van het leasecontract tegen de reële waarde van het actief of de lagere contante waarde van de minimale leasetermijnen. De te betalen leasetermijnen worden op annuïtaire wijze verdeeld in een aflossings- en een rentecomponent. De leaseverplichtingen worden exclusief de rentecomponent opgenomen onder de langlopende schulden. De rentecomponent wordt gedurende de looptijd van het contract verantwoord in de winst-en-verliesrekening met een vast rentepercentage over de gemiddelde resterende aflossingscomponent. De relevante activa worden afgeschreven over de resterende gebruiksduur of, indien korter, de looptijd van het contract</rj-i:FinanceLeasesPolicy>
+
+<rj-i:OperatingLeasesPolicy contextRef="FY16d_Commercial_Separate">Bij de vennootschap kunnen er leasecontracten bestaan waarbij een groot deel van de voor- en nadelen die aan de eigendom verbonden zijn, niet bij de vennootschap ligt. Deze leasecontracten worden verantwoord als operationele leasing. Leasebetalingen worden, rekening houdend met ontvangen vergoedingen van de lessor, op lineaire basis verwerkt in de winst-en-verliesrekening over de looptijd van het contract.</rj-i:OperatingLeasesPolicy>
+
+<venj-bw2-i:GroupStructureDisclosure contextRef="FY16d_Commercial_Separate">De Kleine B.V. vormt samen met B.V. Q en B.V. R een groep. Aangezien De Kleine B.V. geconsolideerd ook als klein valt aan te merken is consolidatie achterwege gelaten op grond van het bepaalde in artikel 2:407 lid 2 sub a BW.</venj-bw2-i:GroupStructureDisclosure>
+
+<venj-bw2-i:FinancialAssetsPolicy contextRef="FY16d_Commercial_Separate">Deelnemingen: Deelnemingen waarin invloed van betekenis kan worden uitgeoefend worden gewaardeerd volgens de vermogensmutatiemethode (nettovermogenswaarde). Wanneer 20% of meer van de stemrechten uitgebracht kan worden, wordt ervan uitgegaan dat er invloed van betekenis is.
+</venj-bw2-i:FinancialAssetsPolicy>
+
+<venj-bw2-i:InventoriesPolicy contextRef="FY16d_Commercial_Separate">De voorraden worden gewaardeerd tegen kostprijs onder toepassing van de FIFO-methode (first in, first out) of lagere opbrengstwaarde.</venj-bw2-i:InventoriesPolicy>
+
+<rj-i:ConstructionContractsPolicy contextRef="FY16d_Commercial_Separate">De post onderhanden projecten in opdracht van derden bestaat uit het saldo van gerealiseerde projectkosten, toegerekende winst, en indien van toepassing, verwerkte verliezen en reeds gedeclareerde termijnen. </rj-i:ConstructionContractsPolicy>
+
+<venj-bw2-i:ReceivablesPolicy contextRef="FY16d_Commercial_Separate">Vorderingen worden bij eerste verwerking gewaardeerd tegen de reële waarde van de tegenprestatie, inclusief de transactiekosten indien materieel.</venj-bw2-i:ReceivablesPolicy>
+
+<venj-bw2-i:SecuritiesCurrentPolicy contextRef="FY16d_Commercial_Separate">Beursgenoteerde effecten die onderdeel zijn van de handelsportefeuille worden gewaardeerd tegen actuele waarde (reële waarde). De reële waarde van beursgenoteerde effecten is gelijk aan de beurswaarde. Beursgenoteerde obligaties die geen onderdeel zijn van de handelsportefeuille worden gewaardeerd tegen geamortiseerde kostprijs.</venj-bw2-i:SecuritiesCurrentPolicy>
+
+<venj-bw2-i:CashAndCashEquivalentsPolicy contextRef="FY16d_Commercial_Separate">Liquide middelen bestaan uit kas, banktegoeden en deposito's met een looptijd korter dan twaalf maanden.</venj-bw2-i:CashAndCashEquivalentsPolicy>
+
+<venj-bw2-i:EquityPolicy contextRef="FY16d_Commercial_Separate">Indien De Kleine B.V. eigen aandelen inkoopt, wordt de verkrijgingsprijs van de ingekochte aandelen in mindering gebracht op de overige reserves, of op andere reserves mits de statuten dit toestaan, totdat deze aandelen worden ingetrokken of worden verkocht.</venj-bw2-i:EquityPolicy>
+
+<venj-bw2-i:RevaluationReservePolicy contextRef="FY16d_Commercial_Separate">Indien herwaarderingen in de herwaarderingsreserve onder aftrek van relevante (latente) belastingverplichtingen zijn verwerkt, worden de gerealiseerde herwaarderingen bruto ten gunste van de winst-en-verliesrekening gebracht.</venj-bw2-i:RevaluationReservePolicy>
+
+<venj-bw2-i:ProvisionsPolicy contextRef="FY16d_Commercial_Separate">De voorzieningen worden gewaardeerd tegen de beste schatting van de bedragen die noodzakelijk zijn om de verplichtingen per balansdatum af te wikkelen. Pensioenvoorzieningen worden gewaardeerd op basis van actuariële grondslagen.</venj-bw2-i:ProvisionsPolicy>
+
+<venj-bw2-i:ProvisionPensionObligationsPolicy contextRef="FY16d_Commercial_Separate">De pensioenregeling van de directeur-grootaandeelhouder wordt in eigen beheer gehouden. Hiervoor is een voorziening opgenomen voor de per balansdatum opgebouwde pensioenverplichting, die bestaat uit de opgebouwde pensioenaanspraken, inclusief onvoorwaardelijk overeengekomen (toekomstige) indexaties van de opgebouwde aanspraken.</venj-bw2-i:ProvisionPensionObligationsPolicy>
+
+<venj-bw2-i:ProvisionTaxLiabilitiesPolicy contextRef="FY16d_Commercial_Separate">Latente belastingverplichtingen worden opgenomen voor tijdelijke verschillen tussen de waarde van de activa en passiva volgens fiscale voorschriften enerzijds en de boekwaarden die in deze jaarrekening gevolgd worden anderzijds.</venj-bw2-i:ProvisionTaxLiabilitiesPolicy>
+
+<venj-bw2-i:ProvisionsOtherPolicy contextRef="FY16d_Commercial_Separate">Reorganisatievoorziening: Deze voorziening heeft betrekking op kosten in verband met de reorganisatie van activiteiten en wordt gevormd indien voor de rechtspersoon een feitelijke of juridische verplichting is ontstaan. Garantievoorziening: Deze voorziening heeft betrekking op te vergoeden kosten voor producten die zijn verkocht of diensten die zijn verricht, indien voor de rechtspersoon een verplichting is ontstaan wegens het niet voldoen aan de overeengekomen kwaliteiten.Voor uitgaven voor groot onderhoud van gebouwen wordt een voorziening gevormd om deze lasten gelijkmatig te verdelen over een aantal boekjaren.</venj-bw2-i:ProvisionsOtherPolicy>
+
+<venj-bw2-i:LiabilitiesNoncurrentPolicy contextRef="FY16d_Commercial_Separate">Langlopende schulden worden bij de eerste verwerking gewaardeerd tegen reële waarde. Transactiekosten die direct zijn toe te rekenen aan de verwerving van de langlopende schulden worden in de waardering bij eerste verwerking opgenomen. </venj-bw2-i:LiabilitiesNoncurrentPolicy>
+
+<venj-bw2-i:LiabilitiesCurrentPolicy contextRef="FY16d_Commercial_Separate">Kortlopende schulden worden bij de eerste verwerking gewaardeerd tegen reële waarde. Kortlopende schulden worden na eerste verwerking gewaardeerd tegen geamortiseerde kostprijs, zijnde het ontvangen bedrag rekening houdend met agio of disagio en onder aftrek van transactiekosten. Dit is meestal de nominale waarde.</venj-bw2-i:LiabilitiesCurrentPolicy>
+
+<venj-bw2-i:AccountingPrinciplesForDeterminingTheResult contextRef="FY16d_Commercial_Separate">Het resultaat wordt bepaald als het verschil tussen de opbrengstwaarde van de geleverde prestaties en de kosten en andere lasten over het jaar. De opbrengsten op transacties worden verantwoord in het jaar waarin zij zijn gerealiseerd.
+Het resultaat wordt tevens bepaald met inachtneming van de verwerking van ongerealiseerde waardeveranderingen van op reële waarde gewaardeerde:
+Vastgoedbeleggingen en onder vlottende activa opgenomen effecten.</venj-bw2-i:AccountingPrinciplesForDeterminingTheResult>
+
+<venj-bw2-i:GrossMarginPolicy contextRef="FY16d_Commercial_Separate">De brutomarge bestaat uit de netto-omzet, de wijzigingen in voorraden gereed product en onderhanden werk, de geactiveerde productie voor het eigen bedrijf, de overige bedrijfsopbrengsten, de kosten van grond- en hulpstoffen en de kosten van uitbesteed werk en andere externe kosten.</venj-bw2-i:GrossMarginPolicy>
+
+<rj-i:RevenueRecognitionPolicy contextRef="FY16d_Commercial_Separate">Verkoop van goederen: Opbrengsten uit de verkoop van goederen worden verwerkt zodra alle belangrijke rechten en risico's met betrekking tot de eigendom van de goederen zijn overgedragen aan de koper. Verlenen van diensten: Verantwoording van opbrengsten uit de levering van diensten geschiedt naar rato van de geleverde prestaties, gebaseerd op de verrichte diensten tot aan de balansdatum in verhouding tot de in totaal te verrichten diensten. Projectopbrengsten en projectkosten: Voor onderhanden projecten, waarvan het resultaat op betrouwbare wijze kan worden bepaald, worden de projectopbrengsten en de projectkosten verwerkt als netto-omzet en kosten in de winst-en-verliesrekening naar rato van de verrichte prestaties per balansdatum (de 'Percentage of Completion'-methode, ofwel de PoC-methode).
+</rj-i:RevenueRecognitionPolicy>
+
+<venj-bw2-i:WagesSalariesPolicy contextRef="FY16d_Commercial_Separate">De aan het personeel verschuldigde beloningen worden op grond van de arbeidsvoorwaarden verwerkt in de winst-en-verliesrekening.</venj-bw2-i:WagesSalariesPolicy>
+
+<venj-bw2-i:PensionCostsPolicy contextRef="FY16d_Commercial_Separate">De Kleine B.V. heeft alle pensioenregelingen verwerkt volgens de verplichtingenbenadering. De over het verslagjaar verschuldigde premie wordt als last verantwoord.</venj-bw2-i:PensionCostsPolicy>
+
+<venj-bw2-i:DepreciationPropertyPlantEquipmentAmortisationIntangibleAssetsPolicy contextRef="FY16d_Commercial_Separate">Immateriële vaste activa inclusief goodwill en materiële vaste activa worden vanaf het moment dat het actief beschikbaar is voor het beoogde gebruik afgeschreven over de geschatte economische levensduur / verwachte toekomstige gebruiksduur van het actief. Over terreinen en vastgoedbeleggingen wordt niet afgeschreven.</venj-bw2-i:DepreciationPropertyPlantEquipmentAmortisationIntangibleAssetsPolicy>
+
+<venj-bw2-i:InterestIncomeRelatedIncomePolicy contextRef="FY16d_Commercial_Separate">Rentebaten en rentelasten worden tijdsevenredig verwerkt, rekening houdend met de effectieve rentevoet van de desbetreffende activa en passiva. Bij de verwerking van de rentelasten wordt rekening gehouden met de verantwoorde transactiekosten op de ontvangen leningen.</venj-bw2-i:InterestIncomeRelatedIncomePolicy>
+
+<venj-bw2-i:InterestExpensesRelatedExpensesPolicy contextRef="FY16d_Commercial_Separate">Rentelasten worden geactiveerd gedurende de periode van vervaardiging van een actief, indien het een aanmerkelijke hoeveelheid tijd vergt om het actief gebruiks- of verkoopklaar te maken.</venj-bw2-i:InterestExpensesRelatedExpensesPolicy>
+
+<venj-bw2-i:IncomeTaxExpensePolicy contextRef="FY16d_Commercial_Separate">De belasting over het resultaat wordt berekend over het resultaat voor belastingen in de winst-en-verliesrekening, rekening houdend met beschikbare, fiscaal compensabele verliezen uit voorgaande boekjaren (voor zover niet opgenomen in de latente belastingvorderingen) en vrijgestelde winstbestanddelen en na bijtelling van niet-aftrekbare kosten. </venj-bw2-i:IncomeTaxExpensePolicy>
+
+<venj-bw2-i:ShareInResultsParticipatingInterestsPolicy contextRef="FY16d_Commercial_Separate">Het resultaat is het bedrag waarmee de boekwaarde van de deelneming sinds de voorafgaande jaarrekening is gewijzigd als gevolg van het door de deelneming behaalde resultaat voor zover dit aan de Kleine B.V. wordt toegerekend.</venj-bw2-i:ShareInResultsParticipatingInterestsPolicy>
+
+<venj-bw2-i:IntangibleAssetsDisclosure contextRef="FY16d_Commercial_Separate">De Kleine B.V. hanteert de volgende jaarlijkse afschrijvingspercentages voor immateriële vaste activa:
+Kosten van ontwikkeling: 20% en voor goodwill: 20%</venj-bw2-i:IntangibleAssetsDisclosure>
+
+<venj-bw2-i:PropertyPlantEquipmentDisclosure contextRef="FY16d_Commercial_Separate">De Kleine B.V. hanteert de volgende jaarlijkse afschrijvingspercentages voor materiële vaste activa:
+Bedrijfsgebouwen: 4% Machines en installaties: 15% Andere vaste bedrijfsmiddelen: 20 %</venj-bw2-i:PropertyPlantEquipmentDisclosure>
+
+<rj-i:InvestmentPropertiesDisclosure contextRef="FY16d_Commercial_Separate">Alle vastgoedbeleggingen zijn in eigendom van de vennootschap en worden aangehouden om huuropbrengsten of waardestijgingen te realiseren. De onroerende zaken worden niet gebruikt in de productie of levering van goederen en diensten of op andere wijze voor eigen gebruik aangewend. De reële waarde van de vastgoedbeleggingen is bepaald door onafhankelijke, ter zake kundige externe taxateurs. De waarde is per einde van het boekjaar bepaald aan de hand van de actuele marktsituatie en de omstandigheden op balansdatum, rekening houdend met omvang, aard en gebruik van het vastgoed.</rj-i:InvestmentPropertiesDisclosure>
+
+<venj-bw2-i:InventoriesDisclosure contextRef="FY16d_Commercial_Separate">De grond- en hulpstoffen die tegen lagere opbrengstwaarde zijn gewaardeerd, hebben op balansdatum een boekwaarde van € 210000.</venj-bw2-i:InventoriesDisclosure>
+
+<rj-i:InventoriesPledgedAsCollateralDescription contextRef="FY16d_Commercial_Separate">Voorraden met een boekwaarde van € 115000 zijn met stil pandrecht bezwaard als zekerheid voor de kredietverlening door de bankier.</rj-i:InventoriesPledgedAsCollateralDescription>
+
+<venj-bw2-i:ReceivablesDisclosure contextRef="FY16d_Commercial_Separate">Er zijn leningen aan bestuurders van € 250000 (2015: € 300000) verstrekt tegen 6% en € 40000 (2015: € 50000) renteloos.
+De resterende looptijden bedragen respectievelijk 3 en 4 jaar. Deze leningen moeten uiterlijk door de desbetreffende bestuurder worden afgelost in het jaar waarin hij zijn functie neerlegt. In het boekjaar werd door de bestuurders € 400000 op hun leningen afgelost. Er zijn leningen aan de commissarissen van € 150000 (2015: € 125000) verstrekt. Alle leningen zijn tegen 5% rente verstrekt. De resterende looptijd varieert van 5 tot 6 jaar. In het boekjaar werd niets afgelost.</venj-bw2-i:ReceivablesDisclosure>
+
+<rj-i:ReceivablesMaturityExceedingOneYearDisclosure contextRef="FY16d_Commercial_Separate">Er zijn vorderingen opgenomen tot een bedrag van € 50000 met een (verwachte) resterende looptijd langer dan een jaar.</rj-i:ReceivablesMaturityExceedingOneYearDisclosure>
+
+<venj-bw2-i:SecuritiesCurrentDisclosure contextRef="FY16d_Commercial_Separate">Beursgenoteerde effecten: 50000 Beursgenoteerde: effecten 50000 totaal effecten: 100000</venj-bw2-i:SecuritiesCurrentDisclosure>
+
+<venj-bw2-i:LiabilitiesNoncurrentDisclosure contextRef="FY16d_Commercial_Separate">Aflossingsverplichtingen binnen 12 maanden na afloop van het boekjaar ter hoogte van € 0 zijn niet begrepen in de langlopende schulden maar opgenomen onder de kortlopende schulden. In de langlopende schulden zijn begrepen financiële leaseverplichtingen ten bedrage van € 0 met een looptijd langer dan één jaar. Van het totaalbedrag aan langlopende schulden heeft een bedrag van € 250000 een resterende looptijd van langer dan 5 jaren.</venj-bw2-i:LiabilitiesNoncurrentDisclosure>
+
+<venj-bw2-i:LiabilitiesSecuredDisclosure contextRef="FY16d_Commercial_Separate">De bedrijfsgebouwen en -terreinen voor een bedrag van € 500000 dienen als zekerheid voor de langlopende schulden.</venj-bw2-i:LiabilitiesSecuredDisclosure>
+
+<venj-bw2-i:LiabilitiesCurrentDisclosure contextRef="FY16d_Commercial_Separate">Als zekerheid voor de schulden aan banken is een (stil) pandrecht gevestigd op voorraden en handelsdebiteuren. Het over het boekjaar aan de houders van gewone aandelen uit te keren dividend is verantwoord als kortlopende verplichting in de balans.</venj-bw2-i:LiabilitiesCurrentDisclosure>
+
+<rj-i:OperatingLeasesDisclosure contextRef="FY16d_Commercial_Separate">De verplichtingen uit hoofde van operationele leasing bedragen per 31 december 2016 € 23000 (2015: € 21000) en hebben een gemiddelde resterende looptijd van 5 jaren (2015: 3).</rj-i:OperatingLeasesDisclosure>
+
+<venj-bw2-i:AverageNumberEmployeesDisclosure contextRef="FY16d_Commercial_Separate">Gedurende het jaar 2015 waren 150,0 werknemers in dienst op basis van een volledig dienstverband (2015: 150,0).</venj-bw2-i:AverageNumberEmployeesDisclosure>
+
+<venj-bw2-i:SubsequentEventsDisclosure contextRef="FY16d_Commercial_Separate">In 2018 loopt een contract met een belangrijke afnemer af. In de jaarrekening over 2016 werd ongeveer 40% van de netto-omzet gerealiseerd met dit contract. Het wegvallen van het contract zal een belangrijke invloed hebben op het bedrijfsresultaat. In februari 2016 zijn voor € 100000 eigen aandelen uitgegeven.</venj-bw2-i:SubsequentEventsDisclosure>
+
+<venj-bw2-i:DirectorReasonNoSignature contextRef="FY16d_ManagingOrSupervisoryDirector_Typed_1">De jaarrekening is nog niet vastgesteld</venj-bw2-i:DirectorReasonNoSignature>
+<venj-bw2-i:DirectorType contextRef="FY16d_ManagingOrSupervisoryDirector_Typed_1">Bestuurder (huidig)</venj-bw2-i:DirectorType>
+<venj-bw2-i:DirectorSignedStatus contextRef="FY16d_ManagingOrSupervisoryDirector_Typed_1">Nee</venj-bw2-i:DirectorSignedStatus>
+
+<venj-bw2-i:DirectorReasonNoSignature contextRef="FY16d_ManagingOrSupervisoryDirector_Typed_2">De jaarrekening is nog niet vastgesteld</venj-bw2-i:DirectorReasonNoSignature>
+<venj-bw2-i:DirectorType contextRef="FY16d_ManagingOrSupervisoryDirector_Typed_2">Bestuurder (voormalig)</venj-bw2-i:DirectorType>
+<venj-bw2-i:DirectorSignedStatus contextRef="FY16d_ManagingOrSupervisoryDirector_Typed_2">Nee</venj-bw2-i:DirectorSignedStatus>
+
+<venj-bw2-i:ShareCapitalNumberSharesWithdrawal contextRef="FY16d_OrdinarySharesMember_Separate" unitRef="shares" decimals="INF">1500</venj-bw2-i:ShareCapitalNumberSharesWithdrawal>
+<venj-bw2-i:ShareCapitalNumberSharesWithdrawal contextRef="FY16d_TreasurySharesMember_Separate" unitRef="shares" decimals="INF">1500</venj-bw2-i:ShareCapitalNumberSharesWithdrawal>
+<venj-bw2-i:ShareCapitalNumberSharesWithdrawal contextRef="FY16d_ShareCapitalMemberTotal_Separate" unitRef="shares" decimals="INF">3000</venj-bw2-i:ShareCapitalNumberSharesWithdrawal>
+
+<venj-bw2-i:ShareCapitalNumberSharesDistributionAsDividend contextRef="FY16d_OrdinarySharesMember_Separate" unitRef="shares" decimals="INF">1000</venj-bw2-i:ShareCapitalNumberSharesDistributionAsDividend>
+<venj-bw2-i:ShareCapitalNumberSharesDistributionAsDividend contextRef="FY16d_TreasurySharesMember_Separate" unitRef="shares" decimals="INF">1000</venj-bw2-i:ShareCapitalNumberSharesDistributionAsDividend>
+<venj-bw2-i:ShareCapitalNumberSharesDistributionAsDividend contextRef="FY16d_ShareCapitalMemberTotal_Separate" unitRef="shares" decimals="INF">2000</venj-bw2-i:ShareCapitalNumberSharesDistributionAsDividend>
+
+<venj-bw2-i:ShareCapitalNumberSharesMovement contextRef="FY16d_OrdinarySharesMember_Separate" unitRef="shares" decimals="INF">2500</venj-bw2-i:ShareCapitalNumberSharesMovement>
+<venj-bw2-i:ShareCapitalNumberSharesMovement contextRef="FY16d_TreasurySharesMember_Separate" unitRef="shares" decimals="INF">2500</venj-bw2-i:ShareCapitalNumberSharesMovement>
+<venj-bw2-i:ShareCapitalNumberSharesMovement contextRef="FY16d_ShareCapitalMemberTotal_Separate" unitRef="shares" decimals="INF">5000</venj-bw2-i:ShareCapitalNumberSharesMovement>
+
+
+<venj-bw2-i:ShareCapitalNumberShares contextRef="FY15i_OrdinarySharesMember_Separate_Begin" unitRef="shares" decimals="INF">5000</venj-bw2-i:ShareCapitalNumberShares>
+<venj-bw2-i:ShareCapitalNumberShares contextRef="FY15i_TreasurySharesMember_Separate_Begin" unitRef="shares" decimals="INF">5000</venj-bw2-i:ShareCapitalNumberShares>
+<venj-bw2-i:ShareCapitalNumberShares contextRef="FY15i_ShareCapitalMemberTotal_Separate_Begin" unitRef="shares" decimals="INF">10000</venj-bw2-i:ShareCapitalNumberShares>
+
+<venj-bw2-i:ShareCapitalNumberShares contextRef="FY16i_OrdinarySharesMember_Separate_Eind" unitRef="shares" decimals="INF">7500</venj-bw2-i:ShareCapitalNumberShares>
+<venj-bw2-i:ShareCapitalNumberShares contextRef="FY16i_TreasurySharesMember_Separate_Eind" unitRef="shares" decimals="INF">7500</venj-bw2-i:ShareCapitalNumberShares>
+<venj-bw2-i:ShareCapitalNumberShares contextRef="FY16i_ShareCapitalMemberTotal_Separate_Eind" unitRef="shares" decimals="INF">15000</venj-bw2-i:ShareCapitalNumberShares>
+
+
+
+<venj-bw2-i:LegalReserveNegativeTranslationShareCapitalIntoEuros contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:LegalReserveNegativeTranslationShareCapitalIntoEuros>
+<venj-bw2-i:LegalReserveTranslationShareCapitalIntoEuros contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">5000</venj-bw2-i:LegalReserveTranslationShareCapitalIntoEuros>
+<venj-bw2-i:LegalReserveContributionInKind contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">5000</venj-bw2-i:LegalReserveContributionInKind>
+<venj-bw2-i:LegalReserveLoansProvidedObtainTreasuryShares contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:LegalReserveLoansProvidedObtainTreasuryShares>
+<venj-bw2-i:LegalReserveCostsIncorporationShareIssue contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:LegalReserveCostsIncorporationShareIssue>
+<venj-bw2-i:LegalReserveDevelopment contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:LegalReserveDevelopment>
+
+
+
+<venj-bw2-i:LegalReserveNegativeTranslationShareCapitalIntoEuros contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:LegalReserveNegativeTranslationShareCapitalIntoEuros>
+<venj-bw2-i:LegalReserveTranslationShareCapitalIntoEuros contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:LegalReserveTranslationShareCapitalIntoEuros>
+<venj-bw2-i:LegalReserveContributionInKind contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:LegalReserveContributionInKind>
+<venj-bw2-i:LegalReserveLoansProvidedObtainTreasuryShares contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:LegalReserveLoansProvidedObtainTreasuryShares>
+<venj-bw2-i:LegalReserveCostsIncorporationShareIssue contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:LegalReserveCostsIncorporationShareIssue>
+<venj-bw2-i:LegalReserveDevelopment contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:LegalReserveDevelopment>
+
+
+<venj-bw2-i:IntangibleAssetsAccumulatedRevaluations contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:IntangibleAssetsAccumulatedRevaluations>
+<venj-bw2-i:PropertyPlantEquipmentAccumulatedRevaluations contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:PropertyPlantEquipmentAccumulatedRevaluations>
+<venj-bw2-i:FinancialAssetsAccumulatedRevaluations contextRef="FY16i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:FinancialAssetsAccumulatedRevaluations>
+
+<venj-bw2-i:IntangibleAssetsAccumulatedRevaluations contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:IntangibleAssetsAccumulatedRevaluations>
+<venj-bw2-i:PropertyPlantEquipmentAccumulatedRevaluations contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:PropertyPlantEquipmentAccumulatedRevaluations>
+<venj-bw2-i:FinancialAssetsAccumulatedRevaluations contextRef="FY15i_Commercial_Separate" unitRef="EUR" decimals="INF">10000</venj-bw2-i:FinancialAssetsAccumulatedRevaluations>
+
+</xbrli:xbrl>
