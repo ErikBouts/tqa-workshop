@@ -31,7 +31,7 @@ Also download the API documentation of the TQA and yaidom libraries from `Maven 
 bookmark the `yaidom API documentation`_ and `TQA API documentation`_ at `javadoc.io`_.
 
 During the workshop, the **yaidom and TQA API documentation** will be needed extensively, so it is advisable to
-have this documentation at your disposal in 2 browser windows or tabs.
+have this documentation at your disposal in a browser.
 
 .. _`TQA Workshop`: https://github.com/dvreeze/tqa-workshop
 .. _`SBT`: http://www.scala-sbt.org/download.html
