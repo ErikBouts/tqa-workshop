@@ -73,7 +73,7 @@ class QuerySpec extends FlatSpec {
 
   private val XbrldiExplicitMemberEName = EName(XbrldiNamespace, "explicitMember")
 
-  // Note that we could also have written EName(Some(XbrldiNamespace, "explicitMember")) or
+  // Note that we could also have written EName(Some(XbrldiNamespace), "explicitMember") or
   // EName("{http://xbrl.org/2006/xbrldi}explicitMember"). They would all create the same EName.
 
   // In the tests below, use ENames and not (lexical) QNames in queries and element predicates.
