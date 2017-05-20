@@ -13,9 +13,9 @@ The following knowledge is assumed before starting with this workshop:
 TQA is gently introduced through the use of code examples and exercises. The exercises have the form of unit tests that
 must be made to succeed.
 
-XBRL taxonomies (from a TQA perspective) are treated from the bottom-up, starting with plain XML and ending
-with taxonomy schemas and linkbases. For each of these XML and XBRL topics, the relevant parts of TQA and
-the underlying `yaidom`_ API are treated.
+XBRL taxonomies (from a TQA perspective) are treated from the bottom-up, starting with plain XML, proceeding
+with taxonomy schemas and linkbases, and ending with topics like dimensions and performance considerations.
+For each of these XML and XBRL topics, the relevant parts of TQA and the underlying `yaidom`_ API are treated.
 
 .. _`TQA`: https://github.com/dvreeze/tqa
 .. _`yaidom`: https://github.com/dvreeze/yaidom
@@ -27,12 +27,19 @@ Preparation
 Fork this (Scala SBT) project from Github, at `TQA Workshop`_. Make sure to either have an installation of `SBT`_ or
 `Maven`_ available. Also make sure to have a Java JDK 8 installed.
 
-Also download the API documentation of the TQA and yaidom libraries from `Maven central`_.
+Also download the API documentation of the TQA and yaidom libraries from `Maven central`_. Alternatively,
+bookmark the `yaidom API documentation`_ and `TQA API documentation`_ at `javadoc.io`_.
+
+During the workshop, the **yaidom and TQA API documentation** will be needed extensively, so it is advisable to
+have this documentation at your disposal in 2 browser windows or tabs.
 
 .. _`TQA Workshop`: https://github.com/dvreeze/tqa-workshop
 .. _`SBT`: http://www.scala-sbt.org/download.html
 .. _`Maven`: https://maven.apache.org/download.cgi
 .. _`Maven central`: https://search.maven.org/
+.. _`yaidom API documentation`: https://www.javadoc.io/doc/eu.cdevreeze.yaidom/yaidom_2.12/1.6.2
+.. _`TQA API documentation`: https://www.javadoc.io/doc/eu.cdevreeze.tqa/tqa_2.12/0.4.4
+.. _`javadoc.io`: http://javadoc.io/
 
 
 Chapter 1
