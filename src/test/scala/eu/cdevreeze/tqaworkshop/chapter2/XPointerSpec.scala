@@ -77,6 +77,10 @@ class XPointerSpec extends FlatSpec {
     TaxonomyBase.build(Vector(schema, linkbase))
   }
 
+  //
+  // Exercise 1
+  //
+
   "An ID XPointer" should "resolve to an XML element" in {
     val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
 
@@ -93,11 +97,9 @@ class XPointerSpec extends FlatSpec {
 
     val absoluteLocatorHref = locator.baseUri.resolve(locator.rawHref)
 
-    assertResult(
-      URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#element(rj-i_ConstructionContractsAssets)")) {
-
-        absoluteLocatorHref
-      }
+    assertResult(URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd#element(rj-i_ConstructionContractsAssets)")) {
+      absoluteLocatorHref
+    }
 
     val xpointer = XPointer.parse(absoluteLocatorHref.getFragment).asInstanceOf[IdPointer]
 
@@ -113,14 +115,24 @@ class XPointerSpec extends FlatSpec {
       taxonomyBase.findElemByUri(absoluteLocatorHref).flatMap(_.attributeOption(IdEName))
     }
 
-    // Implement function findElem yourself, using functions withoutFragment and XPointer.findElem.
+    // Implement function findElem yourself, using function XPointer.findElem in the XPointer companion object.
+    // All hard work is done by method XPointer.findElem (in the XPointer companion object), so there is no effort
+    // needed to implement navigating the element tree according to the XPointer.
 
-    def findElem(docUri: URI, idPointer: IdPointer): Option[TaxonomyElem] = ???
+    def findElem(docUri: URI, idPointer: IdPointer): Option[TaxonomyElem] = {
+      require(docUri.getFragment == null, s"Expected no fragment in (document) URI $docUri")
+
+      ???
+    }
 
     assertResult(taxonomyBase.findElemByUri(absoluteLocatorHref)) {
       findElem(withoutFragment(absoluteLocatorHref), xpointer)
     }
   }
+
+  //
+  // Exercise 2
+  //
 
   "A child sequence XPointer" should "resolve to an XML element" in {
     val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
@@ -158,14 +170,25 @@ class XPointerSpec extends FlatSpec {
       taxonomyBase.findElemByUri(absoluteLocatorHref).flatMap(_.attributeOption(IdEName))
     }
 
-    // Implement function findElem yourself, using functions withoutFragment and XPointer.findElem.
+    // Implement function findElem yourself, using function XPointer.findElem in the XPointer companion object.
+    // All hard work is done by method XPointer.findElem (in the XPointer companion object), so there is no effort
+    // needed to implement navigating the element tree according to the XPointer.
+    // If the findElem method of the preceding exercise is applicable here, feel free to use the same code again.
 
-    def findElem(docUri: URI, idPointer: ChildSequencePointer): Option[TaxonomyElem] = ???
+    def findElem(docUri: URI, idPointer: ChildSequencePointer): Option[TaxonomyElem] = {
+      require(docUri.getFragment == null, s"Expected no fragment in (document) URI $docUri")
+
+      ???
+    }
 
     assertResult(taxonomyBase.findElemByUri(absoluteLocatorHref)) {
       findElem(withoutFragment(absoluteLocatorHref), xpointer)
     }
   }
+
+  //
+  // Exercise 3
+  //
 
   "An ID child sequence XPointer" should "resolve to an XML element" in {
     val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
@@ -203,9 +226,16 @@ class XPointerSpec extends FlatSpec {
       taxonomyBase.findElemByUri(absoluteLocatorHref).flatMap(_.attributeOption(IdEName))
     }
 
-    // Implement function findElem yourself, using functions withoutFragment and XPointer.findElem.
+    // Implement function findElem yourself, using function XPointer.findElem in the XPointer companion object.
+    // All hard work is done by method XPointer.findElem (in the XPointer companion object), so there is no effort
+    // needed to implement navigating the element tree according to the XPointer.
+    // If the findElem method of the preceding exercise is applicable here, feel free to use the same code again.
 
-    def findElem(docUri: URI, idPointer: IdChildSequencePointer): Option[TaxonomyElem] = ???
+    def findElem(docUri: URI, idPointer: IdChildSequencePointer): Option[TaxonomyElem] = {
+      require(docUri.getFragment == null, s"Expected no fragment in (document) URI $docUri")
+
+      ???
+    }
 
     assertResult(taxonomyBase.findElemByUri(absoluteLocatorHref)) {
       findElem(withoutFragment(absoluteLocatorHref), xpointer)

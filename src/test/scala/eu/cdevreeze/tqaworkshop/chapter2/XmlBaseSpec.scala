@@ -76,6 +76,10 @@ class XmlBaseSpec extends FlatSpec {
     TaxonomyBase.build(Vector(schema, linkbase))
   }
 
+  //
+  // Exercise 1
+  //
+
   "The base URI of an XML root element" should "default to the document URI but be affected by an xml:base attribute, if any" in {
     val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
 
@@ -101,15 +105,23 @@ class XmlBaseSpec extends FlatSpec {
       linkbase.backingElem.baseUri
     }
 
-    // Now, using yaidom's XmlBaseSupport object, obtain the base URI from the document URI.
+    // Now, using yaidom's XmlBaseSupport object, obtain the base URI from the parent base URI and the element itself.
     // Try to write this function in such a way that it works for any element and not just the root element.
+    // Use function XmlBaseSupport.findBaseUriByParentBaseUri, and be careful in passing it the correct arguments.
+    // Once function XmlBaseSupport.findBaseUriByParentBaseUri is understood, this is a relatively easy exercise.
 
-    def getBaseUriFromDocUri(elem: BackingElemApi): URI = ???
+    def getBaseUriFromParentBaseUriAndElem(elem: BackingElemApi): URI = {
+      ???
+    }
 
-    assertResult(getBaseUriFromDocUri(linkbase.backingElem)) {
+    assertResult(getBaseUriFromParentBaseUriAndElem(linkbase.backingElem)) {
       linkbase.backingElem.baseUri
     }
   }
+
+  //
+  // Exercise 2
+  //
 
   "The base URI of any XML element" should "default to the document URI but be affected by ancestor-or-self xml:base attributes, if any" in {
     val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
@@ -129,26 +141,36 @@ class XmlBaseSpec extends FlatSpec {
 
     // The relation between the root element base URI and document URI (in this case) is as follows:
 
-    assertResult(linkbase.docUri.resolve(URI.create(linkbase.attribute(XmlBaseEName))).resolve(URI.create(firstExtendedLink.attribute(XmlBaseEName)))) {
+    assertResult(linkbase.docUri.resolve(URI.create(linkbase.attribute(XmlBaseEName))).
+      resolve(URI.create(firstExtendedLink.attribute(XmlBaseEName)))) {
+
       firstExtendedLink.backingElem.baseUri
     }
 
     // Now, using yaidom's XmlBaseSupport object, obtain the base URI from the document URI.
     // Try to write this function in such a way that it works for any element and not just the root element.
+    // This time, use function XmlBaseSupport.findBaseUriByDocUriAndPath, and be careful in passing it the correct arguments.
+    // Once function XmlBaseSupport.findBaseUriByDocUriAndPath is understood, this is a relatively easy exercise.
 
-    def getBaseUriFromDocUri(elem: BackingElemApi): URI = ???
+    def getBaseUriFromDocUriAndRootElemAndPath(elem: BackingElemApi): URI = {
+      ???
+    }
 
-    assertResult(getBaseUriFromDocUri(firstExtendedLink.backingElem)) {
+    assertResult(getBaseUriFromDocUriAndRootElemAndPath(firstExtendedLink.backingElem)) {
       firstExtendedLink.backingElem.baseUri
     }
   }
+
+  //
+  // Exercise 3
+  //
 
   "An extended link" should "respect XML Base attributes when resolving locator href URIs" in {
     val linkbase = taxonomyBase.rootElemUriMap(linkbaseUri)
 
     val locators = linkbase.findAllElemsOfType(classTag[XLinkLocator])
 
-    // Get the locator href made absolute, using its base URI
+    // Get the locator href made absolute, using its base URI. Very easy.
 
     def getAbsoluteHref(locator: XLinkLocator): URI = ???
 
