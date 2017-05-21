@@ -146,33 +146,33 @@ Chapter 4
 =========
 
 Chapter 4 introduces **XBRL taxonomy schemas**, from the perspective of TQA. XBRL taxonomies are made up of
-schemas and linkbases; schemas are the topic of chapter 4, whereas linkbases are the topic of chapter 5.
-TQA offers a **yaidom dialect** for XBRL schema data (within a DOM tree), and it offers a **TQA query API**
-for XBRL schema data (across schema documents). Note that most interesting queries on schema data are not
-local to individual schema documents. For example, global element declarations may have types defined elsewhere,
-and they may use substitution groups declared elsewhere.
+schemas and linkbases. Schemas are the topic of chapter 4, whereas linkbases are the topic of chapter 5.
+TQA offers a **yaidom dialect** for XBRL schema data within one document, and it offers a **TQA query API**
+for XBRL schema data across schema documents. Note that most interesting queries on schema data are not
+local to individual schema documents. For example, global element declarations may have types or substitution
+groups defined in other schema documents.
 
 Before doing the exercises of chapter 4, make sure to have a decent understanding of XML Schema (outside
 the context of XBRL). There are many tutorials on XML Schema, but only few of them are clear on XML Schema
-and namespaces, or on the type system, or on substitution groups. For those new to XML Schema, the article
+and namespaces, on the type system, and on substitution groups. For those new to XML Schema, the article
 `XML Schema: An Overview`_ could be a nice start. The author of the article, Priscilla Walmsley, is also
 the author of `Definitive XML Schema`_, which in my perception is the best book on XML Schema I have ever
 come across. If reading a book like this takes too much time, the articles `Understanding XML Schema`_ and
 `W3C XML Schema Design Patterns: Avoiding Complexity`_ (opinionated, but instructive) could be nice follow-up
 reads after the above-mentioned article. This should give enough understanding of XML Schema in order to
-understand XML Schema in an XBRL taxonomy context.
+start understanding XML Schema in an XBRL taxonomy context.
 
 Next, turn to the exercises of chapter 4. Using the TQA "type-safe DOM" and the TQA query API, it is shown
 how to relate facts in XBRL instances to (TQA) taxonomy schema content, and how to navigate through
 taxonomy schema content. Substitution groups play a very important role, since all facts in an XBRL instance
-correspond to global element declarations in a taxonomy schema, where the substitution group is xbrli:item
-or xbrli:tuple, or derived of those substitution groups.
+are declared by global element declarations having substitution group **xbrli:item** or **xbrli:tuple**, or a
+derived substitution group.
 
 After doing the exercises of chapter 4, the following should be clear:
 
 * TQA as a "yaidom dialect" and query API for taxonomy schema content is far easier and safer to use than "raw yaidom"
 * XML Schema content is to a large extent modeled in TQA
-* Yet the focus is on XML Schema content in an XBRL context, and XBRL substitution groups in particular
+* Yet the focus is on XML Schema content in an XBRL context, and on XBRL substitution groups in particular
 
 .. _`XML Schema: An Overview`: http://www.informit.com/articles/article.aspx?p=25002
 .. _`Definitive XML Schema`: http://www.datypic.com/books/defxmlschema/
