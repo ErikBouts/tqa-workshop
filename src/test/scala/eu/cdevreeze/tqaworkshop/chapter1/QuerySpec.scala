@@ -40,6 +40,8 @@ import net.sf.saxon.s9api.Processor
  * To do this exercise, make sure to have the API documentation of the yaidom library available.
  * Also see [[http://dvreeze.github.io/yaidom-queries.html]] and [[http://dvreeze.github.io/yaidom-and-namespaces.html]].
  *
+ * Study the input file (sample-Instance-Proof.xml) as well, because the test methods use this input.
+ *
  * Make sure to use a Java 8 JDK.
  *
  * @author Chris de Vreeze

@@ -55,6 +55,8 @@ import net.sf.saxon.s9api.Processor
  * Specifically for this exercise, have a look at the "type-safe DOM" package of TQA, concentrating on XLink,
  * so on types like `SimpleLink`, `ExtendedLink`, `XLinkArc`, `XLinkLocator` and `XLinkResource`.
  *
+ * Study the input taxonomy files as well, because the test methods use this input.
+ *
  * Make sure to use a Java 8 JDK.
  *
  * @author Chris de Vreeze

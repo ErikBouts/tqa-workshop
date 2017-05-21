@@ -44,6 +44,9 @@ import net.sf.saxon.s9api.Processor
  *
  * To do this exercise, make sure to have the API documentation of the TQA and yaidom libraries available.
  *
+ * Study the input taxonomy files as well, because the test methods use this input. Note that they
+ * occur in the taxonomy-edited tree!
+ *
  * Make sure to use a Java 8 JDK.
  *
  * @author Chris de Vreeze
@@ -118,6 +121,7 @@ class XPointerSpec extends FlatSpec {
     // Implement function findElem yourself, using function XPointer.findElem in the XPointer companion object.
     // All hard work is done by method XPointer.findElem (in the XPointer companion object), so there is no effort
     // needed to implement navigating the element tree according to the XPointer.
+    // Hint: study the TaxonomyBase API in order to get the root element given a document URI.
 
     def findElem(docUri: URI, idPointer: IdPointer): Option[TaxonomyElem] = {
       require(docUri.getFragment == null, s"Expected no fragment in (document) URI $docUri")

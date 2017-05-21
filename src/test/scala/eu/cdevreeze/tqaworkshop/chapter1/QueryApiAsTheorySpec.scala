@@ -36,6 +36,9 @@ import net.sf.saxon.s9api.Processor
  * To do this exercise, make sure to have the API documentation of the yaidom library available.
  * Also see [[http://dvreeze.github.io/yaidom-queries.html]] and [[http://dvreeze.github.io/yaidom-and-namespaces.html]].
  *
+ * Study the input file (sample-Instance-Proof.xml) as well, because the test methods use this input,
+ * although the properties tested here are general in nature.
+ *
  * Make sure to use a Java 8 JDK.
  *
  * @author Chris de Vreeze
@@ -230,7 +233,7 @@ class QueryApiAsTheorySpec extends FlatSpec {
   it should "support getting each element scope in terms of the declarations and parent scope" in {
     // Implement (recursive!) function getScope in terms of its namespace declarations and the scope of its parent element.
     // Mind the possibility that there is no parent element (for the root itself, of course).
-    // Use functions like "namespaces", "parentOption" and "scope". This is a challenging exercise.
+    // Use functions like "namespaces" and "parentOption". This is a challenging exercise.
 
     def getScope(e: BackingElemApi): Scope = {
       ???
