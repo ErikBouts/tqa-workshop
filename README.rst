@@ -129,10 +129,10 @@ Study that class too, concentrating on its usage of "XBRL yaidom dialect" query 
 and becomes more type-safe. Apparently the investment in the development of a "yaidom dialect" for instances pays back
 when using it. The same holds for TQA and taxonomy content.
 
-Next, turn to the exercise. In the test source tree for chapter 3, fill in the missing parts in test ``QuerySpec``,
+Next, turn to the exercises. In the test source tree for chapter 3, fill in the missing parts in test ``QuerySpec``,
 making the test run successfully. This gives enough basic understanding of custom "yaidom dialects" for the following chapters.
 
-After doing the exercise of chapter 3, the following should be clear:
+After doing the exercises of chapter 3, the following should be clear:
 
 * Custom "yaidom dialects" (for XBRL instances or taxonomies, or in other domains) improve the development experience compared to "raw yaidom"
 * They typically contain many classes and easy to use methods for specific types of content in the domain modeled
@@ -140,3 +140,42 @@ After doing the exercise of chapter 3, the following should be clear:
 * If needed, it is easy to fall back on regular yaidom query API methods
 
 This is true for both the "dialect" for XBRL instances (used in many exercises) and TQA.
+
+
+Chapter 4
+=========
+
+Chapter 4 introduces **XBRL taxonomy schemas**, from the perspective of TQA. XBRL taxonomies are made up of
+schemas and linkbases; schemas are the topic of chapter 4, whereas linkbases are the topic of chapter 5.
+TQA offers a **yaidom dialect** for XBRL schema data (within a DOM tree), and it offers a **TQA query API**
+for XBRL schema data (across schema documents). Note that most interesting queries on schema data are not
+local to individual schema documents. For example, global element declarations may have types defined elsewhere,
+and they may use substitution groups declared elsewhere.
+
+Before doing the exercises of chapter 4, make sure to have a decent understanding of XML Schema (outside
+the context of XBRL). There are many tutorials on XML Schema, but only few of them are clear on XML Schema
+and namespaces, or on the type system, or on substitution groups. For those new to XML Schema, the article
+`XML Schema: An Overview`_ could be a nice start. The author of the article, Priscilla Walmsley, is also
+the author of `Definitive XML Schema`_, which in my perception is the best book on XML Schema I have ever
+come across. If reading a book like this takes too much time, the articles `Understanding XML Schema`_ and
+`W3C XML Schema Design Patterns: Avoiding Complexity`_ (opinionated, but instructive) could be nice follow-up
+reads after the above-mentioned article. This should give enough understanding of XML Schema in order to
+understand XML Schema in an XBRL taxonomy context.
+
+Next, turn to the exercises of chapter 4. Using the TQA "type-safe DOM" and the TQA query API, it is shown
+how to relate facts in XBRL instances to (TQA) taxonomy schema content, and how to navigate through
+taxonomy schema content. Substitution groups play a very important role, since all facts in an XBRL instance
+correspond to global element declarations in a taxonomy schema, where the substitution group is xbrli:item
+or xbrli:tuple, or derived of those substitution groups.
+
+After doing the exercises of chapter 4, the following should be clear:
+
+* TQA as a "yaidom dialect" and query API for taxonomy schema content is far easier and safer to use than "raw yaidom"
+* XML Schema content is to a large extent modeled in TQA
+* Yet the focus is on XML Schema content in an XBRL context, and XBRL substitution groups in particular
+
+.. _`XML Schema: An Overview`: http://www.informit.com/articles/article.aspx?p=25002
+.. _`Definitive XML Schema`: http://www.datypic.com/books/defxmlschema/
+.. _`Understanding XML Schema`: https://msdn.microsoft.com/en-us/library/aa468557.aspx
+.. _`W3C XML Schema Design Patterns: Avoiding Complexity`: https://msdn.microsoft.com/en-us/library/aa468564.aspx
+
