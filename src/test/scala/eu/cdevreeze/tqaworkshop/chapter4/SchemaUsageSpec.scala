@@ -68,6 +68,9 @@ class SchemaUsageSpec extends FlatSpec {
     XbrlInstance(elem)
   }
 
+  private val SbrDomainMemberItemEName = EName("{http://www.nltaxonomie.nl/2011/xbrl/xbrl-syntax-extension}domainMemberItem")
+  private val SbrPresentationTupleEName = EName("{http://www.nltaxonomie.nl/2011/xbrl/xbrl-syntax-extension}presentationTuple")
+
   private val taxo: BasicTaxonomy = {
     val docUris = Vector(
       "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-codes.xsd",
@@ -94,19 +97,21 @@ class SchemaUsageSpec extends FlatSpec {
 
     BasicTaxonomy.build(
       taxoBase,
-      SubstitutionGroupMap.from(Map(
-        EName("{http://www.nltaxonomie.nl/2011/xbrl/xbrl-syntax-extension}domainMemberItem") -> ENames.XbrliItemEName)),
+      SubstitutionGroupMap.from(
+        Map(SbrDomainMemberItemEName -> ENames.XbrliItemEName, SbrPresentationTupleEName -> ENames.XbrliTupleEName)),
       DefaultRelationshipFactory.LenientInstance)
   } ensuring (_.relationships.nonEmpty)
 
   private val RjiNamespace = "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data"
+  private val RjtNamespace = "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-tuples"
+  private val RjdmNamespace = "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-domains"
 
   //
   // Exercise 1
   //
 
   "The TQA DOM" should "support finding a specific global element declaration" in {
-    // Finding rj-i:InvestmentProperties facts in instance, and finding the corresponding global element declaration in taxonomy schema
+    // Finding rj-i:InvestmentProperties facts in instance, and finding the corresponding global element declaration in a taxonomy schema
     // We look up the global element declaration the hard way in this exercise, via the schema root element.
 
     // Let's first find all rj-i:InvestmentProperties facts in the instance
@@ -134,7 +139,7 @@ class SchemaUsageSpec extends FlatSpec {
     val xsdRootElem = taxo.findAllXsdSchemas.filter(_.targetNamespaceOption.contains(RjiNamespace)).head
 
     assertResult(URI.create("http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data.xsd")) {
-      // The original http URI, not the local file URI, is stored with the schema document root element
+      // The original HTTP URI, not the local file URI, is stored with the schema document root element
       xsdRootElem.docUri
     }
 
@@ -168,7 +173,7 @@ class SchemaUsageSpec extends FlatSpec {
 
   "The TQA query API" should "support finding a specific global element declaration" in {
     // Finding the rj-i:InvestmentProperties global element declaration in the taxonomy.
-    // We look up the global element declaration the easy way in this exercise, directly from the taxonomy using its query API,
+    // We look up the global element declaration the easy way in this exercise, directly from the taxonomy, using its query API,
     // and without first looking up a specific schema document root element.
 
     val RjiInvestmentPropertiesEName = EName(RjiNamespace, "InvestmentProperties")
@@ -222,7 +227,7 @@ class SchemaUsageSpec extends FlatSpec {
     // Implement getting the type definition for the above-mentioned type nl-types:monetaryNoDecimalsItemType.
 
     val typeDef: NamedTypeDefinition = {
-      taxo.getNamedTypeDefinition(typeOption.get)
+      // Use the entire taxonomy called "taxo" for obtaining the correct type definition for the type as EName found above.
 
       ???
     }
@@ -239,17 +244,200 @@ class SchemaUsageSpec extends FlatSpec {
       val name = typeDef.nameAttributeValue
       EName(tns, name)
     }
+
+    assertResult(Some(EName("{http://www.nltaxonomie.nl/nt11/sbr/20160610/dictionary/nl-types}monetary20ItemType"))) {
+      typeDef.baseTypeOption
+    }
   }
 
-  // Find the definition of the schema type of the global element declaration (item type is complex type with simple content)
+  //
+  // Exercise 4
+  //
 
-  // Determine the substitution group, and whether it is an XBRL item declaration
+  it should "support finding out if a substitution group is (directly) for an XBRL concept (item or tuple concept)" in {
+    // Finding the optional substitution group of the rj-i:InvestmentProperties global element declaration in the taxonomy.
 
-  // Find some "domain member" declaration in rj-domains.xsd, and determine if this is an item declaration or not
+    val RjiInvestmentPropertiesEName = EName(RjiNamespace, "InvestmentProperties")
 
-  // Query for concrete RJ item declarations, and check if RJ item facts in the instance are indeed RJ items
+    val substitutionGroupOption: Option[EName] = {
+      // Use the taxonomy called "taxo" for obtaining the correct global element declaration, and its optional substitution group.
 
-  // Query for concrete RJ tuple declarations, and check if RJ tuple facts in the instance are indeed RJ tuples
+      ???
+    }
+
+    assertResult(Some(ENames.XbrliItemEName)) {
+      substitutionGroupOption
+    }
+
+    // So, in this case it is trivial to find out that the InvestmentProperties concept is an item concept, since the substitution group is xbrli:item.
+    // No taxonomy context with substitution group knowledge is needed in this case.
+
+    // If we use the taxonomy's knowledge about substitution groups, we get the same result that we have an item concept here, of course.
+
+    assertResult(true) {
+      taxo.getGlobalElementDeclaration(RjiInvestmentPropertiesEName).hasSubstitutionGroup(ENames.XbrliItemEName, taxo.substitutionGroupMap)
+    }
+
+    // An item concept is not a tuple concept
+
+    assertResult(false) {
+      taxo.getGlobalElementDeclaration(RjiInvestmentPropertiesEName).hasSubstitutionGroup(ENames.XbrliTupleEName, taxo.substitutionGroupMap)
+    }
+
+    // Using the taxonomy's substitution group knowledge, we can "lift" the global element declaration to an ItemDeclaration
+
+    assertResult(taxo.getGlobalElementDeclaration(RjiInvestmentPropertiesEName)) {
+      taxo.getItemDeclaration(RjiInvestmentPropertiesEName).globalElementDeclaration
+    }
+
+    assertResult(false) {
+      taxo.findTupleDeclaration(RjiInvestmentPropertiesEName).isDefined
+    }
+  }
+
+  //
+  // Exercise 5
+  //
+
+  it should "support finding out if a substitution group is indirectly for an XBRL concept (item or tuple concept)" in {
+    // Finding the optional substitution group of the rj-dm:BuildingsMember global element declaration in the taxonomy.
+
+    val RjdmBuildingsMemberEName = EName(RjdmNamespace, "BuildingsMember")
+
+    val substitutionGroupOption: Option[EName] = {
+      // Use the taxonomy called "taxo" for obtaining the correct global element declaration, and its optional substitution group.
+
+      ???
+    }
+
+    assertResult(Some(SbrDomainMemberItemEName)) {
+      substitutionGroupOption
+    }
+
+    // Is sbr:domainMemberItem derived from the xbrli:item substitution group? The name suggests so, but that is not enough to know for sure.
+    // So we need to know if somewhere in the taxonomy there is a global element declaration for sbr:domainMemberItem which in turn has substitution group
+    // xbrli:item (directly or indirectly). Had our taxonomy been a "closed DTS", then we would have found it in document
+    // http://www.nltaxonomie.nl/2011/xbrl/xbrl-syntax-extension.xsd, and the taxonomy would therefore have known it is an "item substitution group".
+
+    // Yet in our case we do not have this important schema document in the "taxonomy". Note, however, that the BasicTaxonomy object has been created
+    // in such a way that we have provided this substitution group knowledge as extra information. Alas, substitution groups defy local reasoning,
+    // since their derivation may span multiple documents that are very far apart.
+
+    // Fortunately we made the taxonomy aware of the sbr:domainMemberItem substitution group being an item substitution group.
+
+    assertResult(true) {
+      taxo.getGlobalElementDeclaration(RjdmBuildingsMemberEName).hasSubstitutionGroup(ENames.XbrliItemEName, taxo.substitutionGroupMap)
+    }
+
+    // Using the taxonomy's substitution group knowledge, we can "lift" the global element declaration to an ItemDeclaration
+
+    assertResult(taxo.getGlobalElementDeclaration(RjdmBuildingsMemberEName)) {
+      taxo.getItemDeclaration(RjdmBuildingsMemberEName).globalElementDeclaration
+    }
+  }
+
+  //
+  // Exercise 6
+  //
+
+  it should "support querying for item declarations" in {
+    // Finding rj-i item facts in the instance (not idiomatically), and checking that their item concepts in the taxonomy indeed exist
+
+    val itemsInInstance = xbrlInstance.findAllItems.filter(_.resolvedName.namespaceUriOption.contains(RjiNamespace))
+
+    assertResult(true)(itemsInInstance.nonEmpty)
+
+    // Finding the item concepts for these item facts in the taxonomy
+
+    val itemConceptDecls = itemsInInstance.map(_.resolvedName) flatMap { conceptName =>
+      // Fast search for optional item declaration given a concept name, using method findItemDeclaration.
+      // Returns a non-empty result only for item declarations, not for tuple declarations or non-concepts.
+      // Method getItemDeclaration is similar, but does not return an Option, and throws an exception for non-items.
+
+      taxo.findItemDeclaration(conceptName)
+    }
+
+    // Check that the item facts are indeed item facts according to the taxonomy
+
+    assertResult(Set()) {
+      itemsInInstance.map(_.resolvedName).toSet.diff(itemConceptDecls.map(_.targetEName).toSet)
+    }
+
+    // The underlying global element declaration is retained
+
+    assertResult(itemConceptDecls.map(_.targetEName)) {
+      itemConceptDecls.map(_.globalElementDeclaration.targetEName)
+    }
+
+    // Items are not tuples
+
+    assertResult(true) {
+      itemsInInstance.map(_.resolvedName).forall(itemName => taxo.findTupleDeclaration(itemName).isEmpty)
+    }
+
+    // Now find these same item declarations using a "filter" method
+
+    assertResult(itemConceptDecls) {
+      // Find the same item concept declarations using a "filter" method on the taxonomy
+
+      ???
+    }
+
+    // The "filter" and "findAll" methods are "bulk" operations, and are too slow for one specific concept EName.
+    // Methods like findItemDeclaration and getItemDeclaration are fast, because the taxonomy uses an index with EName keys.
+  }
+
+  //
+  // Exercise 7
+  //
+
+  it should "support querying for tuple declarations" in {
+    // Finding rj-t tuple facts in the instance (not idiomatically), and checking that their tuple concepts in the taxonomy indeed exist
+
+    val tuplesInInstance = xbrlInstance.findAllTuples.filter(_.resolvedName.namespaceUriOption.contains(RjtNamespace))
+
+    assertResult(true)(tuplesInInstance.nonEmpty)
+
+    // Finding the tuple concepts for these tuple facts in the taxonomy
+    // Note that we told the taxonomy about sbr:presentationTuple, or else no tuple concepts would be found
+
+    val tupleConceptDecls = tuplesInInstance.map(_.resolvedName) flatMap { conceptName =>
+      // Fast search for optional tuple declaration given a concept name, using method findTupleDeclaration.
+      // Returns a non-empty result only for tuple declarations, not for item declarations or non-concepts.
+      // Method getTupleDeclaration is similar, but does not return an Option, and throws an exception for non-tuples.
+
+      taxo.findTupleDeclaration(conceptName)
+    }
+
+    // Check that the tuple facts are indeed tuple facts according to the taxonomy
+
+    assertResult(Set()) {
+      tuplesInInstance.map(_.resolvedName).toSet.diff(tupleConceptDecls.map(_.targetEName).toSet)
+    }
+
+    // The underlying global element declaration is retained
+
+    assertResult(tupleConceptDecls.map(_.targetEName)) {
+      tupleConceptDecls.map(_.globalElementDeclaration.targetEName)
+    }
+
+    // Tuples are not items
+
+    assertResult(true) {
+      tuplesInInstance.map(_.resolvedName).forall(tupleName => taxo.findItemDeclaration(tupleName).isEmpty)
+    }
+
+    // Now find these same tuple declarations using a "filter" method
+
+    assertResult(tupleConceptDecls) {
+      // Find the same tuple concept declarations using a "filter" method on the taxonomy
+
+      ???
+    }
+
+    // The "filter" and "findAll" methods are "bulk" operations, and are too slow for one specific concept EName.
+    // Methods like findTupleDeclaration and getTupleDeclaration are fast, because the taxonomy uses an index with EName keys.
+  }
 
   private def uriToLocalUri(uri: URI, rootDir: File): URI = {
     // Not robust
