@@ -300,7 +300,7 @@ class XLinkSpec extends FlatSpec {
     // The XLink locators and resources in the first extended link are stored in a Map.
     // The Map key is the xlink:label. This Map can be used below.
 
-    // Note that multiple XLink locators and resource may share the same xlink:label.
+    // Note that multiple XLink locators and resources may share the same xlink:label.
     // This is not a common situation, but nevertheless allowed. In this exercise, it
     // can be assumed that each xlink:label corresponds to precisely one XLink locator or resource.
     // It can also be assumed here that the 'from' can be cast to an XLinkLocator and
@@ -506,7 +506,7 @@ class XLinkSpec extends FlatSpec {
     // The XLink locators and resources in the first extended link are stored in a Map.
     // The Map key is the xlink:label. This Map can be used below.
 
-    // Note that multiple XLink locators and resource may share the same xlink:label.
+    // Note that multiple XLink locators and resources may share the same xlink:label.
     // This is not a common situation, but nevertheless allowed. In this exercise, it
     // can be assumed that each xlink:label corresponds to precisely one XLink locator or resource.
     // It can also be assumed here that the 'from' can be cast to an XLinkLocator and
