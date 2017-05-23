@@ -339,7 +339,7 @@ class QuerySpec extends FlatSpec {
   //
 
   it should "support querying ancestor elements such as surrounding contexts from periods" in {
-    // Semantic query: Find all XBRL contexts for (instant) period 2016-12-31.
+    // Semantic query: Find all XBRL contexts for (instant) period 2006-12-31.
 
     // Implement the following variable. Somewhat challenging, but less so after the preceding exercises.
     // The elements returned must be Period elements, containing an Instant element for 2006-12-31.
