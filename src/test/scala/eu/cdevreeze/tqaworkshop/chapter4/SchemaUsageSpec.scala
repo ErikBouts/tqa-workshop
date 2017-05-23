@@ -19,6 +19,8 @@ package eu.cdevreeze.tqaworkshop.chapter4
 import java.io.File
 import java.net.URI
 
+import scala.reflect.classTag
+
 import org.scalatest.FlatSpec
 
 import eu.cdevreeze.tqa.ENames
@@ -377,10 +379,11 @@ class SchemaUsageSpec extends FlatSpec {
 
     // Now find these same item declarations using a "filter" method
 
-    assertResult(itemConceptDecls) {
+    assertResult(itemConceptDecls.map(_.targetEName).toSet) {
       // Find the same item concept declarations using a "filter" method on the taxonomy
 
-      ???
+      val itemDecls: immutable.IndexedSeq[ItemDeclaration] = ???
+      itemDecls.map(_.targetEName).toSet
     }
 
     // The "filter" and "findAll" methods are "bulk" operations, and are too slow for one specific concept EName.
@@ -429,10 +432,11 @@ class SchemaUsageSpec extends FlatSpec {
 
     // Now find these same tuple declarations using a "filter" method
 
-    assertResult(tupleConceptDecls) {
+    assertResult(tupleConceptDecls.map(_.targetEName).toSet) {
       // Find the same tuple concept declarations using a "filter" method on the taxonomy
 
-      ???
+      val tupleDecls: immutable.IndexedSeq[TupleDeclaration] = ???
+      tupleDecls.map(_.targetEName).toSet
     }
 
     // The "filter" and "findAll" methods are "bulk" operations, and are too slow for one specific concept EName.
