@@ -19,6 +19,7 @@ package eu.cdevreeze.tqaworkshop.chapter4
 import java.io.File
 import java.net.URI
 
+import scala.collection.immutable
 import scala.reflect.classTag
 
 import org.scalatest.FlatSpec
@@ -27,9 +28,11 @@ import eu.cdevreeze.tqa.ENames
 import eu.cdevreeze.tqa.SubstitutionGroupMap
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.GlobalElementDeclaration
+import eu.cdevreeze.tqa.dom.ItemDeclaration
 import eu.cdevreeze.tqa.dom.NamedTypeDefinition
 import eu.cdevreeze.tqa.dom.TaxonomyBase
 import eu.cdevreeze.tqa.dom.TaxonomyElem
+import eu.cdevreeze.tqa.dom.TupleDeclaration
 import eu.cdevreeze.tqa.relationship.DefaultRelationshipFactory
 import eu.cdevreeze.tqa.taxonomy.BasicTaxonomy
 import eu.cdevreeze.tqaworkshop.xbrlinstance.XbrlInstance
