@@ -183,7 +183,7 @@ After doing the exercises of chapter 4, the following should be clear:
 Chapter 5
 =========
 
-Chapter 5 introduces ***relationships***, from the perspective of TQA. Relationships are at a higher level of abstraction
+Chapter 5 introduces **relationships**, from the perspective of TQA. Relationships are at a higher level of abstraction
 than XLink arcs; they are like the arcs where the source and target of the arc have been resolved.
 
 In chapter 2 XLink arcs in the TQA DOM were treated, with awareness of XML Base and XPointer (as used in XBRL).
