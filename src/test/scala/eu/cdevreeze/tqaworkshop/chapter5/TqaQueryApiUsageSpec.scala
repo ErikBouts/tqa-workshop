@@ -44,7 +44,7 @@ import net.sf.saxon.s9api.Processor
  *
  * Before doing this exercise, make sure to have done all exercises of the preceding chapters. This exercise is about
  * 2 things: the notion of relationships (as opposed to lower level XLink arcs), and the use of the TQA query API
- * for finding taxonomy content (relationships or taxonomy DOM elements). This exercise explores the use of TQA
+ * for finding taxonomy content (relationships and taxonomy DOM elements). This exercise explores the use of TQA
  * in practice, and may therefore be the most important exercise of the TQA workshop.
  *
  * Exercise: fill in the needed implementations (replacing the "???"), and make this test spec run successfully.
@@ -116,7 +116,105 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   // Exercise 1
   //
 
-  "The TQA query API" should "support XXX" in {
+  "The TQA query API" should "support retrieval of concept labels" in {
+  }
+
+  //
+  // Exercise 2
+  //
+
+  it should "support retrieval of concept references" in {
+  }
+
+  //
+  // Exercise 3
+  //
+
+  it should "support retrieval of parent-child relationships" in {
+  }
+
+  //
+  // Exercise 4
+  //
+
+  it should "support retrieval of parent-child relationship paths" in {
+  }
+
+  //
+  // Exercise 5
+  //
+
+  it should "support retrieval of parent-child relationships and affected concept declarations" in {
+  }
+
+  //
+  // Exercise 6
+  //
+
+  it should "support retrieval of definition relationships" in {
+  }
+
+  //
+  // Exercise 7
+  //
+
+  it should "support retrieval of generic element-label relationships" in {
+  }
+
+  //
+  // Exercise 8
+  //
+
+  it should "support retrieval of custom generic relationships" in {
+  }
+
+  //
+  // Exercise 9
+  //
+
+  it should "support queries for properties of concepts (like substitution groups) in parent-child trees" in {
+  }
+
+  //
+  // Exercise 10
+  //
+
+  it should "support queries for kinds of relationships of concrete item concepts" in {
+  }
+
+  //
+  // Exercise 11
+  //
+
+  it should "support rewriting specific relationship queries in terms of more general query API methods" in {
+  }
+
+  //
+  // Exercise 12
+  //
+
+  it should "support interesting queries about label resource uniqueness" in {
+  }
+
+  //
+  // Exercise 13
+  //
+
+  it should "support interesting queries about ELRs having generic labels" in {
+  }
+
+  //
+  // Exercise 14
+  //
+
+  it should "support interesting queries about all locators being used in relationships" in {
+  }
+
+  //
+  // Exercise 15
+  //
+
+  it should "support interesting queries about networks of relationships" in {
   }
 
   private def uriToLocalUri(uri: URI, rootDir: File): URI = {
