@@ -189,10 +189,10 @@ than XLink arcs; they are like the arcs where the source and target of the arc h
 In chapter 2 XLink arcs in the TQA DOM were treated, with awareness of XML Base and XPointer (as used in XBRL).
 In the exercises of chapter 2 (partial) "resolution" of XLink arc sources and targets was done by hand. In chapter 5
 it is shown that TQA can do this resolution itself, lifting the abstraction level from XLink arcs to relationships.
-For example, and XLink arc with arcrole "http://www.xbrl.org/2003/arcrole/parent-child" and element name
-"{http://www.xbrl.org/2003/linkbase}presentationArc" represents a ParentChildRelationship from one concept (as EName)
+For example, and XLink arc with arcrole ``http://www.xbrl.org/2003/arcrole/parent-child`` and element (expanded) name
+``{http://www.xbrl.org/2003/linkbase}presentationArc`` represents a ParentChildRelationship from one concept (as EName)
 to another concept (as EName). One XLink arc may even represent more than one relationship (if the source or target
-XLink label is used multiple times), but typically that is not the case.
+XLink label is used multiple times within the same extended link), but typically that is not the case.
 
 In typical usage of TQA, querying for relationships is far more common than querying for low-level XLink arcs.
 If needed, we can always descend from the relationship to the underlying XLink arc and locators/resources at the TQA
@@ -200,9 +200,9 @@ DOM level, but this is rarely needed.
 
 Querying XBRL taxonomies using TQA involves the following "layers":
 
-* The TQA query language, in the "queryapi" package. The queries mostly return relationships or taxonomy DOM elements such as concept declarations (see chapter 4).
-* The relationship type hierarchy in the "relationship" package. This is the most commonly used data in typical TQA usage.
-* The type-safe XBRL taxonomy DOM type hierarchy in the "dom" package. See chapter 4.
+* The *TQA query API*, in the "queryapi" package. The queries mostly return relationships or taxonomy DOM elements such as concept declarations (see chapter 4).
+* The *relationship* type hierarchy in the "relationship" package. This is the most commonly used data in typical TQA usage.
+* The type-safe XBRL *taxonomy DOM* type hierarchy in the "dom" package. See chapter 4.
 
 When querying for linkbase content (at a higher level of abstraction) we typically query for relationships, and when
 querying for schema content we typically query for TQA DOM elements.
