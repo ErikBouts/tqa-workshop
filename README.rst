@@ -189,8 +189,8 @@ than XLink arcs; they are like the arcs where the source and target of the arc h
 In chapter 2 XLink arcs in the TQA DOM were treated, with awareness of XML Base and XPointer (as used in XBRL).
 In the exercises of chapter 2 (partial) "resolution" of XLink arc sources and targets was done by hand. In chapter 5
 it is shown that TQA can do this resolution itself, lifting the abstraction level from XLink arcs to relationships.
-For example, and XLink arc with arcrole ``http://www.xbrl.org/2003/arcrole/parent-child`` and element (expanded) name
-``{http://www.xbrl.org/2003/linkbase}presentationArc`` represents a ParentChildRelationship from one concept (as EName)
+For example, an XLink arc with arcrole ``http://www.xbrl.org/2003/arcrole/parent-child`` and element (expanded) name
+``{http://www.xbrl.org/2003/linkbase}presentationArc`` represents a ``ParentChildRelationship`` from one concept (as EName)
 to another concept (as EName). One XLink arc may even represent more than one relationship (if the source or target
 XLink label is used multiple times within the same extended link), but typically that is not the case.
 
@@ -207,11 +207,11 @@ Querying XBRL taxonomies using TQA involves the following "layers":
 When querying for linkbase content (at a higher level of abstraction) we typically query for relationships, and when
 querying for schema content we typically query for TQA DOM elements.
 
-After reading this introduction to chapter 5, turn to the exercises of chapter 5. In these exercises, querying for
+After reading this introduction to chapter 5, turn to the exercises of chapter 5. In these exercises querying for
 relationships is practiced, but querying for taxonomy schema content is practiced as well. Indeed, in the chapter 5
 exercises the material of the preceding chapters (especially chapter 4) comes back. Chapter 5 is the most important
-chapter of the TQA workshop (but it cannot be seen in isolation from the preceding chapters), because chapter 5 shows
-how to use TQA in practice.
+chapter of the TQA workshop (but it cannot be seen in isolation from the preceding chapters), because *chapter 5 shows
+how to use TQA in practice*.
 
 After doing the exercises of chapter 5, the following should be clear:
 
@@ -219,5 +219,5 @@ After doing the exercises of chapter 5, the following should be clear:
 * How the material of chapters 1, 2, 4 and 5 "hangs together", and how TQA is "layered" and uses XLink and yaidom to provide a higher level of abstraction.
 * How TQA and the XBRL instance model of chapter 3 use yaidom for supporting "XML dialects" (and for abstracting over "XML backends").
 
-So, in chapter 5 it is learned how to use TQA in practice. This applies to XBRL taxonomies as specified by the Core
+As mentioned above, in chapter 5 it is learned how to use TQA in practice. This applies to XBRL taxonomies as specified by the Core
 XBRL specification. XBRL dimensions are not treated in chapter 5. That is the topic of chapter 6.
