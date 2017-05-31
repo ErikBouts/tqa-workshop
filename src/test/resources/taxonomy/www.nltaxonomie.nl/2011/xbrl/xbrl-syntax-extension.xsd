@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  This file is part of the Nederlandse taxonomy (NT, Dutch Taxonomy) 
+  Intellectual Property State of the Netherlands 
+  Released by the Dutch SBR Programme 
+  Release date Tue October 4 7:30:00 2011
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:sbr="http://www.nltaxonomie.nl/2011/xbrl/xbrl-syntax-extension" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xl="http://www.xbrl.org/2003/XLink" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.nltaxonomie.nl/2011/xbrl/xbrl-syntax-extension">
+  <xs:annotation>
+    <xs:appinfo>
+      <link:roleType id="linkrole-info" roleURI="http://www.nltaxonomie.nl/2011/role/linkrole-info">
+        <link:usedOn>sbr:linkroleOrder</link:usedOn>
+      </link:roleType>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:import namespace="http://www.xbrl.org/2003/XLink" schemaLocation="http://www.xbrl.org/2003/xl-2003-12-31.xsd"/>
+  <xs:import namespace="http://www.xbrl.org/2003/instance" schemaLocation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
+  <xs:import namespace="http://www.xbrl.org/2003/linkbase" schemaLocation="http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd"/>
+  <xs:element name="linkroleOrder" substitutionGroup="xl:resource">
+    <xs:complexType mixed="true">
+      <xs:complexContent mixed="true">
+        <xs:extension base="xl:resourceType">
+          <xs:sequence>
+            <xs:any maxOccurs="unbounded" minOccurs="0" namespace="http://www.w3.org/1999/xhtml" processContents="skip"/>
+          </xs:sequence>
+          <xs:anyAttribute namespace="http://www.w3.org/XML/1998/namespace" processContents="lax"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element abstract="true" id="sbr_domainItem" name="domainItem" nillable="false" substitutionGroup="xbrli:item" type="xbrli:stringItemType" xbrli:periodType="duration"/>
+  <xs:element abstract="true" id="sbr_domainMemberItem" name="domainMemberItem" nillable="false" substitutionGroup="xbrli:item" type="xbrli:stringItemType" xbrli:periodType="duration"/>
+  <xs:element abstract="true" id="sbr_primaryDomainItem" name="primaryDomainItem" nillable="false" substitutionGroup="xbrli:item" type="xbrli:stringItemType" xbrli:periodType="duration"/>
+  <xs:element abstract="true" id="sbr_presentationItem" name="presentationItem" nillable="false" substitutionGroup="xbrli:item" type="xbrli:stringItemType" xbrli:periodType="duration"/>
+  <xs:element abstract="true" id="sbr_presentationTuple" name="presentationTuple" substitutionGroup="xbrli:tuple" type="sbr:placeholder"/>
+  <xs:element abstract="true" id="sbr_specificationTuple" name="specificationTuple" substitutionGroup="xbrli:tuple" type="sbr:placeholder"/>
+  <xs:complexType name="placeholder"/>
+</xs:schema>
