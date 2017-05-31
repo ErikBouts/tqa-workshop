@@ -20,26 +20,21 @@ import java.io.File
 import java.net.URI
 
 import scala.collection.immutable
-import scala.reflect.classTag
 
 import org.scalatest.FlatSpec
 
-import eu.cdevreeze.tqa.ENames
-import eu.cdevreeze.tqa.SubstitutionGroupMap
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
-import eu.cdevreeze.tqa.dom.GlobalElementDeclaration
-import eu.cdevreeze.tqa.dom.ItemDeclaration
-import eu.cdevreeze.tqa.dom.NamedTypeDefinition
-import eu.cdevreeze.tqa.dom.TaxonomyBase
-import eu.cdevreeze.tqa.dom.TaxonomyElem
-import eu.cdevreeze.tqa.dom.TupleDeclaration
+import eu.cdevreeze.tqa.dom.ConceptLabelResource
+import eu.cdevreeze.tqa.dom.ConceptReferenceResource
+import eu.cdevreeze.tqa.relationship.ConceptLabelRelationship
+import eu.cdevreeze.tqa.relationship.ConceptReferenceRelationship
 import eu.cdevreeze.tqa.relationship.DefaultRelationshipFactory
 import eu.cdevreeze.tqa.taxonomy.BasicTaxonomy
+import eu.cdevreeze.tqa.taxonomybuilder.DefaultDtsCollector
+import eu.cdevreeze.tqa.taxonomybuilder.TaxonomyBuilder
 import eu.cdevreeze.tqaworkshop.xbrlinstance.XbrlInstance
 import eu.cdevreeze.yaidom.core.EName
 import net.sf.saxon.s9api.Processor
-import eu.cdevreeze.tqa.taxonomybuilder.DefaultDtsCollector
-import eu.cdevreeze.tqa.taxonomybuilder.TaxonomyBuilder
 
 /**
  * Test specification for using the TQA query API, querying for relationships and taxonomy DOM elements.
@@ -86,12 +81,15 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     val entrypointUri =
       URI.create("http://www.nltaxonomie.nl/nt11/kvk/20161214/entrypoints/kvk-rpt-jaarverantwoording-2016-nlgaap-klein-publicatiestukken.xsd")
 
+    // The DocumentCollector knows which taxonomy documents belong to the resulting BasicTaxonomy.
+    // Here the DocumentCollector is a DefaultDtsCollector, which collects the documents belonging to the DTS.
+
     val documentCollector = DefaultDtsCollector(Set(entrypointUri))
 
-    val relationshipFactory = DefaultRelationshipFactory.StrictInstance
-
-    // Below, the "relationship factory" argument is used for turning XLink arcs into (higher level) relationships.
+    // The "relationship factory" is used for turning XLink arcs into (higher level) relationships.
     // Without it, we would not be able to query the taxonomy for relationships.
+
+    val relationshipFactory = DefaultRelationshipFactory.StrictInstance
 
     val taxoBuilder =
       TaxonomyBuilder.
@@ -103,17 +101,75 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     // whose functions mainly return taxonomy content and relationships.
 
     taxoBuilder.build()
-  } ensuring (_.relationships.nonEmpty)
+  } ensuring (taxo => taxo.relationships.nonEmpty)
 
   private val RjiNamespace = "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data"
   private val RjtNamespace = "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-tuples"
   private val RjdmNamespace = "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-domains"
+  private val VenjBw2iNamespace = "http://www.nltaxonomie.nl/nt11/venj/20161214/dictionary/venj-bw2-data"
+  private val VenjBw2AbstrNamespace = "http://www.nltaxonomie.nl/nt11/venj/20161214/presentation/venj-bw2-abstracts"
+  private val KvkAbstrNamespace = "http://www.nltaxonomie.nl/nt11/kvk/20161214/presentation/kvk-abstracts"
 
   //
   // Exercise 1
   //
 
   "The TQA query API" should "support retrieval of concept labels" in {
+    // For all facts in the sample XBRL instance, find their (item and tuple) concepts in the taxonomy, and their
+    // verbose Dutch labels (falling back to standard labels if the verbose label does not exist).
+
+    // Note that in XBRL there are 2 entirely different "label" terms. One "label" term refers to XLink labels, and
+    // the "label" term used here refers to label texts associated with concepts in so-called label links.
+
+    // First find the (item and tuple) concepts for all facts in the instance.
+    // The EName of a fact identifies its concept in the taxonomy.
+
+    val concepts: Set[EName] = xbrlInstance.findAllFacts.map(_.resolvedName).toSet
+
+    val verboseLabelRole = "http://www.xbrl.org/2003/role/verboseLabel"
+    val standardLabelRole = "http://www.xbrl.org/2003/role/label"
+
+    // Implement getting the verbose and otherwise standard Dutch label of the given concept. Not trivial, but
+    // many hints are given.
+
+    // To find a concept label, we have to find a ConceptLabelRelationship, and return its ConceptLabelResource.
+    // There is no need to descend to the level of XLink arcs, locators and resources. Just query for concept-label
+    // relationships and their label resources.
+
+    def findConceptLabelResource(concept: EName): Option[ConceptLabelResource] = {
+      // Use the taxo to find the (first) correct ConceptLabelResource, if any
+
+      // Filter all concept-label relationships outgoing from the concept having language "nl".
+      // Use query API method filterOutgoingConceptLabelRelationships to that end.
+
+      val conceptLabelRelationships: immutable.IndexedSeq[ConceptLabelRelationship] =
+        ???
+
+      // In this collection of concept-label relationships, find the first one having
+      // the resource role "http://www.xbrl.org/2003/role/verboseLabel", falling back
+      // to "http://www.xbrl.org/2003/role/label" if there is no verbose Dutch label.
+
+      val conceptLabelRelationshipOption: Option[ConceptLabelRelationship] =
+        ???
+
+      // Return the optional label resource of the optional concept-label relationship
+
+      conceptLabelRelationshipOption.map(rel => ???)
+    }
+
+    val conceptLabelTexts: Map[EName, String] =
+      concepts.toSeq.map(concept => (concept -> findConceptLabelResource(concept))).
+        filter(_._2.nonEmpty).toMap.mapValues(_.head.trimmedText)
+
+    assertResult(Some("Som van de herwaarderingen van materiële vaste activa op de balansdatum")) {
+      // Verbose label
+      conceptLabelTexts.get(EName(VenjBw2iNamespace, "PropertyPlantEquipmentAccumulatedRevaluations"))
+    }
+
+    assertResult(Some("Type grondslag")) {
+      // Standard label, because verbose Dutch label is missing
+      conceptLabelTexts.get(EName(VenjBw2iNamespace, "BasisOfPreparation"))
+    }
   }
 
   //
@@ -121,6 +177,47 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support retrieval of concept references" in {
+    // For all facts in the sample XBRL instance, find their (item and tuple) concepts in the taxonomy, and their
+    // standard references.
+
+    // First find the (item and tuple) concepts for all facts in the instance.
+    // The EName of a fact identifies its concept in the taxonomy.
+
+    val concepts: Set[EName] = xbrlInstance.findAllFacts.map(_.resolvedName).toSet
+
+    val standardReferenceRole = "http://www.xbrl.org/2003/role/reference"
+
+    // Implement getting the standard reference of the given concept. Not trivial, but after exercise 1 not too hard either.
+    // The implementation approach is very similar to that of exercise 1.
+
+    // To find a concept reference, we have to find a ConceptReferenceRelationship, and return its ConceptReferenceResource.
+    // There is no need to descend to the level of XLink arcs, locators and resources. Just query for concept-reference
+    // relationships and their reference resources.
+
+    def findConceptReferenceResource(concept: EName): Option[ConceptReferenceResource] = {
+      // Use the taxo to find the (first) standard ConceptReferenceResource for the given concept, if any
+
+      val conceptReferenceRelationshipOption: Option[ConceptReferenceRelationship] =
+        ???
+
+      conceptReferenceRelationshipOption.map(rel => ???)
+    }
+
+    val conceptReferences: Map[EName, ConceptReferenceResource] =
+      concepts.toSeq.map(concept => (concept -> findConceptReferenceResource(concept))).
+        filter(_._2.nonEmpty).toMap.mapValues(_.head)
+
+    assertResult(true) {
+      val expectedDocUris =
+        Set(
+          URI.create("http://www.nltaxonomie.nl/nt11/venj/20161214/dictionary/venj-bw2-data-ref.xml"),
+          URI.create("http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-venj-bw2-data-ref.xml"))
+
+      val foundDocUris =
+        conceptReferences.filterKeys(_.namespaceUriOption.contains(VenjBw2iNamespace)).values.map(_.docUri).toSet
+
+      foundDocUris.subsetOf(expectedDocUris)
+    }
   }
 
   //
@@ -128,6 +225,28 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support retrieval of parent-child relationships" in {
+    // Find all abstract top level sources of parent-child relationships in a given ELR.
+
+    // Implement the following function. Somewhat challenging.
+
+    // Hint: first find the parent-child relationships of the given ELR, then determine their top-level source
+    // concepts (that is, sources that are not targets in any of the found relationships), and finally filter
+    // those concepts that are abstract (which follows from their global element declarations).
+
+    def findAllAbstractTopLevelSourceConceptsInParentChildTree(parentChildElr: String): Set[EName] = {
+      // Use the taxo variable to query for parent-child relationships and concept declarations
+
+      ???
+    }
+
+    val elr = "urn:kvk:linkrole:notes-income-tax-expense"
+
+    val expectedAbstractTopLevelSources =
+      Set(EName(KvkAbstrNamespace, "IncomeTaxExpenseDisclosureTitle"))
+
+    assertResult(expectedAbstractTopLevelSources) {
+      findAllAbstractTopLevelSourceConceptsInParentChildTree(elr)
+    }
   }
 
   //
@@ -135,6 +254,60 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support retrieval of parent-child relationship paths" in {
+    // Find all longest parent-child relationship paths in a given ELR, outgoing from a given concept.
+
+    // Implement the following function. The challenge is in finding the most appropriate TQA query method
+    // for this task.
+
+    def findLongestParentChildRelationshipPaths(
+      startConcept: EName,
+      elr: String): immutable.IndexedSeq[taxo.ParentChildRelationshipPath] = {
+
+      // Return all longest parent-child relationship paths starting with the given concept,
+      // where each relationship in the path has the given ELR.
+
+      ???
+    }
+
+    val elr = "urn:kvk:linkrole:balance-sheet"
+    val startConcept = EName(KvkAbstrNamespace, "BalanceSheetCompleteTitle")
+
+    val relationshipPaths = findLongestParentChildRelationshipPaths(startConcept, elr)
+
+    assertResult(Set(startConcept)) {
+      relationshipPaths.map(_.sourceConcept).toSet
+    }
+
+    val someExpectedLeafConcepts =
+      Set(
+        EName(VenjBw2iNamespace, "BalanceSheetBeforeAfterAppropriationResults"),
+        EName(VenjBw2iNamespace, "IntangibleAssets"),
+        EName(VenjBw2iNamespace, "PropertyPlantEquipment"),
+        EName(RjiNamespace, "InvestmentProperties"),
+        EName(VenjBw2iNamespace, "FinancialAssets"),
+        EName(VenjBw2iNamespace, "Inventories"),
+        EName(RjiNamespace, "ConstructionContractsAssets"),
+        EName(VenjBw2iNamespace, "Receivables"),
+        EName(VenjBw2iNamespace, "SecuritiesCurrent"),
+        EName(VenjBw2iNamespace, "Provisions"),
+        EName(VenjBw2iNamespace, "LiabilitiesNoncurrent"),
+        EName(VenjBw2iNamespace, "ShareCapital"),
+        EName(VenjBw2iNamespace, "SharePremium"),
+        EName(VenjBw2iNamespace, "RevaluationReserve"),
+        EName(VenjBw2iNamespace, "StatutoryReserves"),
+        EName(VenjBw2iNamespace, "ReservesOther"),
+        EName(VenjBw2iNamespace, "RetainedEarnings"),
+        EName(VenjBw2iNamespace, "ResultForTheYear"))
+
+    assertResult(true) {
+      someExpectedLeafConcepts.subsetOf(relationshipPaths.map(_.targetConcept).toSet)
+    }
+
+    // All found relationships have the same ELR
+
+    assertResult(Set(elr)) {
+      relationshipPaths.flatMap(_.relationships).map(_.elr).toSet
+    }
   }
 
   //
