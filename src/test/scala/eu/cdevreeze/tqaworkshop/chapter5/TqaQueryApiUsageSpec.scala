@@ -315,17 +315,36 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support retrieval of parent-child relationships and affected concept declarations" in {
-    // Most parent-child tree root concepts are abstract. Here we are going to find all parent-child tree root concepts that are concrete item concepts.
+    // Most parent-child tree root concepts are abstract. Here we are going to find all parent-child tree root concepts that are concrete item concepts,
+    // hoping to find none. The root concepts of a parent-child tree are the top-level concepts, that is the source concepts that are not
+    // target concepts in the same tree (ELR).
 
-    // Implement the following function. Somewhat challenging. The challenge is in using the appropriate TQA query API (and DOM level) methods.
+    // Implement the following functions. Somewhat challenging. The challenge is mainly in using the appropriate TQA query API (and DOM level) methods.
 
-    def findAllParentChildTreeRootConceptsThatAreConcreteItemConcepts: Set[EName] = {
+    def findAllParentChildTreeRootConcepts(elr: String): Set[EName] = {
+      // Find all source concepts that are not target concepts in the parent-child trees with the given ELR.
+
       ???
     }
 
+    def findAllParentChildTreeRootConceptsAcrossElrs: Set[EName] = {
+      // Use function findAllParentChildTreeRootConcepts per ELR, and combine the results
+
+      ???
+    }
+
+    def findAllParentChildTreeRootConceptsThatAreConcreteItemConcepts: Set[EName] = {
+      // Use function findAllParentChildTreeRootConceptsAcrossElrs
+
+      ???
+    }
+
+    assertResult(Set()) {
+      findAllParentChildTreeRootConceptsThatAreConcreteItemConcepts
+    }
+
     assertResult(true) {
-      Set(EName(VenjBw2iNamespace, "AssetsCurrent"), EName(VenjBw2iNamespace, "Assets")).
-        subsetOf(findAllParentChildTreeRootConceptsThatAreConcreteItemConcepts)
+      findAllParentChildTreeRootConceptsAcrossElrs.contains(EName(KvkAbstrNamespace, "BalanceSheetCompleteTitle"))
     }
   }
 
