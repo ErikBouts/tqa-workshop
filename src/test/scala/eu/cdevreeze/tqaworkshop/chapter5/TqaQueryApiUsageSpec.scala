@@ -20,15 +20,21 @@ import java.io.File
 import java.net.URI
 
 import scala.collection.immutable
+import scala.reflect.classTag
 
 import org.scalatest.FlatSpec
 
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.ConceptLabelResource
 import eu.cdevreeze.tqa.dom.ConceptReferenceResource
+import eu.cdevreeze.tqa.dom.RoleType
+import eu.cdevreeze.tqa.dom.XLinkResource
 import eu.cdevreeze.tqa.relationship.ConceptLabelRelationship
 import eu.cdevreeze.tqa.relationship.ConceptReferenceRelationship
 import eu.cdevreeze.tqa.relationship.DefaultRelationshipFactory
+import eu.cdevreeze.tqa.relationship.DefinitionRelationship
+import eu.cdevreeze.tqa.relationship.ElementLabelRelationship
+import eu.cdevreeze.tqa.relationship.OtherNonStandardRelationship
 import eu.cdevreeze.tqa.taxonomy.BasicTaxonomy
 import eu.cdevreeze.tqa.taxonomybuilder.DefaultDtsCollector
 import eu.cdevreeze.tqa.taxonomybuilder.TaxonomyBuilder
@@ -353,6 +359,26 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support retrieval of definition relationships" in {
+    // Finds all different arcroles of definition relationships in the DTS.
+
+    // Implement the following variable initialization. The challenge is using the appropriate query API method.
+    // After all, there is no specific method for querying definition relationships in general. Hint, definition
+    // relationships, like presentation and calculation relationships, are inter-concept relationships.
+
+    val arcrolesOfDefinitionRelationships: Set[String] = {
+      // Find all definition relationships and return their arcroles in a Set
+
+      ???
+    }
+
+    assertResult(Set(
+      "http://xbrl.org/int/dim/arcrole/domain-member",
+      "http://xbrl.org/int/dim/arcrole/hypercube-dimension",
+      "http://xbrl.org/int/dim/arcrole/all",
+      "http://xbrl.org/int/dim/arcrole/dimension-domain")) {
+
+      arcrolesOfDefinitionRelationships
+    }
   }
 
   //
@@ -360,6 +386,23 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support retrieval of generic element-label relationships" in {
+    // Finds all resource roles of element-label relationships of roleType definitions.
+
+    // Implement the following variable initialization. The challenge is using the appropriate query API methods,
+    // given that there are no specific methods for retrieving roleType definitions and element-label relationships.
+    // Hint: find the roleTypes via the root elements in the taxonomy, and treat element-label relationships as
+    // specific kinds of non-standard relationships.
+
+    val resourceRolesOfRoleTypeLabelRelationships: Set[String] = {
+      // Find all roleType definitions, and their outgoing element-label relationships. Return their resource roles.
+      // It may be needed to cast the resolvedTo of an element-label relationship to type XLinkResource.
+
+      ???
+    }
+
+    assertResult(Set("http://www.xbrl.org/2008/role/label")) {
+      resourceRolesOfRoleTypeLabelRelationships
+    }
   }
 
   //
@@ -367,6 +410,33 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support retrieval of custom generic relationships" in {
+    // Find all custom SBR linkrole order (generic) relationships.
+
+    val customArcrole = "http://www.nltaxonomie.nl/2011/arcrole/linkrole-order"
+
+    // Implement the following variable initialization. Easy after the preceding exercises,
+    // although TQA knows nothing about custom SBR generic relationships.
+
+    val sbrLinkroleOrderRelationships: immutable.IndexedSeq[OtherNonStandardRelationship] = {
+      // Recognize these linkrole order relationships by the custom arcrole above.
+
+      ???
+    }
+
+    assertResult(Set(customArcrole)) {
+      sbrLinkroleOrderRelationships.map(_.arcrole).toSet
+    }
+
+    assertResult(true) {
+      sbrLinkroleOrderRelationships.forall(_.resolvedFrom.resolvedElem.isInstanceOf[RoleType])
+    }
+    assertResult(true) {
+      sbrLinkroleOrderRelationships.forall(_.resolvedTo.resolvedElem.isInstanceOf[XLinkResource])
+    }
+
+    assertResult(Set(EName("{http://www.nltaxonomie.nl/2011/xbrl/xbrl-syntax-extension}linkroleOrder"))) {
+      sbrLinkroleOrderRelationships.map(_.resolvedTo.xlinkLocatorOrResource.backingElem.resolvedName).toSet
+    }
   }
 
   //
