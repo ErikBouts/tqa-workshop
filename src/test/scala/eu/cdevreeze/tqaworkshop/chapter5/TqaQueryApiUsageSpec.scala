@@ -315,6 +315,18 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support retrieval of parent-child relationships and affected concept declarations" in {
+    // Most parent-child tree root concepts are abstract. Here we are going to find all parent-child tree root concepts that are concrete item concepts.
+
+    // Implement the following function. Somewhat challenging. The challenge is in using the appropriate TQA query API (and DOM level) methods.
+
+    def findAllParentChildTreeRootConceptsThatAreConcreteItemConcepts: Set[EName] = {
+      ???
+    }
+
+    assertResult(true) {
+      Set(EName(VenjBw2iNamespace, "AssetsCurrent"), EName(VenjBw2iNamespace, "Assets")).
+        subsetOf(findAllParentChildTreeRootConceptsThatAreConcreteItemConcepts)
+    }
   }
 
   //
