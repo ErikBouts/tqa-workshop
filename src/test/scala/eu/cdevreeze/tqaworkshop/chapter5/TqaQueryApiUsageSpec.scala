@@ -38,6 +38,8 @@ import eu.cdevreeze.tqa.taxonomy.BasicTaxonomy
 import eu.cdevreeze.tqaworkshop.xbrlinstance.XbrlInstance
 import eu.cdevreeze.yaidom.core.EName
 import net.sf.saxon.s9api.Processor
+import eu.cdevreeze.tqa.taxonomybuilder.DefaultDtsCollector
+import eu.cdevreeze.tqa.taxonomybuilder.TaxonomyBuilder
 
 /**
  * Test specification for using the TQA query API, querying for relationships and taxonomy DOM elements.
@@ -64,48 +66,43 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   private val instanceDocBuilder =
     new SaxonDocumentBuilder(processor.newDocumentBuilder(), (uri => uri))
 
-  private val rootDir = new File(classOf[TqaQueryApiUsageSpec].getResource("/taxonomy").toURI)
-
-  private val taxoDocBuilder =
-    new SaxonDocumentBuilder(processor.newDocumentBuilder(), (uri => uriToLocalUri(uri, rootDir)))
-
   private val xbrlInstance: XbrlInstance = {
     val elem = instanceDocBuilder.build(classOf[TqaQueryApiUsageSpec].getResource("/kvk-rpt-jaarverantwoording-2016-nlgaap-klein-publicatiestukken.xbrl").toURI)
     XbrlInstance(elem)
   }
 
-  private val SbrDomainMemberItemEName = EName("{http://www.nltaxonomie.nl/2011/xbrl/xbrl-syntax-extension}domainMemberItem")
-  private val SbrPresentationTupleEName = EName("{http://www.nltaxonomie.nl/2011/xbrl/xbrl-syntax-extension}presentationTuple")
-
   private val taxo: BasicTaxonomy = {
-    val docUris = Vector(
-      "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-codes.xsd",
-      "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-domains.xsd",
-      "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data.xsd",
-      "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-tuples.xsd",
-      "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data-verbose-lab-en.xml",
-      "http://www.nltaxonomie.nl/nt11/sbr/20160610/dictionary/nl-types.xsd").map(s => URI.create(s))
+    // Like in the chapter 4 SchemaUsageSpec exercise, we create a BasicTaxonomy.
+    // Unlike that exercise, here we use a TaxonomyBuilder, and we build a "closed DTS" for one entrypoint schema.
+    // See the Core XBRL specification for the notion of a DTS (discoverable taxonomy set) and
+    // the rules to gather an entire DTS. Due to the creation of a DTS, we do not need to provide any external knowledge
+    // about substitution groups.
 
-    // Building the taxonomy DOM, one root element per parsed taxonomy document.
+    val rootDir = new File(classOf[TqaQueryApiUsageSpec].getResource("/taxonomy").toURI)
 
-    val rootElems = docUris.map(uri => TaxonomyElem.build(taxoDocBuilder.build(uri)))
+    val taxoDocBuilder =
+      new SaxonDocumentBuilder(processor.newDocumentBuilder(), (uri => uriToLocalUri(uri, rootDir)))
 
-    val taxoBase = TaxonomyBase.build(rootElems)
+    val entrypointUri =
+      URI.create("http://www.nltaxonomie.nl/nt11/kvk/20161214/entrypoints/kvk-rpt-jaarverantwoording-2016-nlgaap-klein-publicatiestukken.xsd")
 
-    // Building a taxonomy that offers the TQA taxonomy query API.
-    // It wraps the "DOM-level taxonomy".
+    val documentCollector = DefaultDtsCollector(Set(entrypointUri))
 
-    // Note that it only contains a few taxonomy documents, and is by no means closed under URI resolution,
-    // so XLink simple links and locators and xs:import elements may be "dead links".
-    // This also means that we may have to explicitly add some substitution group knowledge, which is indeed the case here.
-    // More about that later in this exercise.
-    // The "relationship factory" argument is used for turning XLink arcs into higher level relationships.
+    val relationshipFactory = DefaultRelationshipFactory.StrictInstance
 
-    BasicTaxonomy.build(
-      taxoBase,
-      SubstitutionGroupMap.from(
-        Map(SbrDomainMemberItemEName -> ENames.XbrliItemEName, SbrPresentationTupleEName -> ENames.XbrliTupleEName)),
-      DefaultRelationshipFactory.LenientInstance)
+    // Below, the "relationship factory" argument is used for turning XLink arcs into (higher level) relationships.
+    // Without it, we would not be able to query the taxonomy for relationships.
+
+    val taxoBuilder =
+      TaxonomyBuilder.
+        withDocumentBuilder(taxoDocBuilder).
+        withDocumentCollector(documentCollector).
+        withRelationshipFactory(relationshipFactory)
+
+    // Use the TaxonomyBuilder to create the BasicTaxonomy. It offers the TQA taxonomy query API,
+    // whose functions mainly return taxonomy content and relationships.
+
+    taxoBuilder.build()
   } ensuring (_.relationships.nonEmpty)
 
   private val RjiNamespace = "http://www.nltaxonomie.nl/nt11/rj/20161214/dictionary/rj-data"
