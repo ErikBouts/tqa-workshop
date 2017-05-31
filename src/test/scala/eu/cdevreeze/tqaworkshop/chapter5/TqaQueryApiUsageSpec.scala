@@ -24,6 +24,7 @@ import scala.reflect.classTag
 
 import org.scalatest.FlatSpec
 
+import eu.cdevreeze.tqa.Namespaces
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.ConceptLabelResource
 import eu.cdevreeze.tqa.dom.ConceptReferenceResource
@@ -35,6 +36,8 @@ import eu.cdevreeze.tqa.relationship.DefaultRelationshipFactory
 import eu.cdevreeze.tqa.relationship.DefinitionRelationship
 import eu.cdevreeze.tqa.relationship.ElementLabelRelationship
 import eu.cdevreeze.tqa.relationship.OtherNonStandardRelationship
+import eu.cdevreeze.tqa.relationship.ParentChildRelationship
+import eu.cdevreeze.tqa.relationship.StandardRelationship
 import eu.cdevreeze.tqa.taxonomy.BasicTaxonomy
 import eu.cdevreeze.tqa.taxonomybuilder.DefaultDtsCollector
 import eu.cdevreeze.tqa.taxonomybuilder.TaxonomyBuilder
@@ -444,6 +447,60 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support queries for properties of concepts (like substitution groups) in parent-child trees" in {
+    // Find all substitution groups of parent-child network root concepts and leaf concepts.
+
+    def findAllParentChildRoots(elr: String): Set[EName] = {
+      val parentChildRels = taxo.filterParentChildRelationships(_.elr == elr)
+
+      val sources = parentChildRels.map(_.sourceConceptEName).toSet
+      val targets = parentChildRels.map(_.targetConceptEName).toSet
+      sources.diff(targets)
+    }
+
+    def findAllParentChildLeaves(elr: String): Set[EName] = {
+      val parentChildRels = taxo.filterParentChildRelationships(_.elr == elr)
+
+      val sources = parentChildRels.map(_.sourceConceptEName).toSet
+      val targets = parentChildRels.map(_.targetConceptEName).toSet
+      targets.diff(sources)
+    }
+
+    // Implement the following variable initializations, using the functions above. This exercise is not too hard
+    // after the preceding exercises.
+
+    val allParentChildRoots: Set[EName] = {
+      // Find the parent-child roots per ELR, and combine them.
+
+      ???
+    }
+
+    val allParentChildLeaves: Set[EName] = {
+      // Find the parent-child leaves per ELR, and combine them.
+
+      ???
+    }
+
+    // It would indeed be quite unlikely that a root for one ELR is a leaf for another one.
+
+    assertResult(Set()) {
+      allParentChildRoots.intersect(allParentChildLeaves)
+    }
+
+    // The roots are all SBR presentation items
+
+    assertResult(Set(EName("{http://www.nltaxonomie.nl/2011/xbrl/xbrl-syntax-extension}presentationItem"))) {
+      val conceptDecls = allParentChildRoots.flatMap(c => taxo.findConceptDeclaration(c))
+      val substGroups = conceptDecls.flatMap(_.globalElementDeclaration.substitutionGroupOption).toSet
+      substGroups
+    }
+
+    // The leaves are all "plain items"
+
+    assertResult(Set(EName(Namespaces.XbrliNamespace, "item"))) {
+      val conceptDecls = allParentChildLeaves.flatMap(c => taxo.findConceptDeclaration(c))
+      val substGroups = conceptDecls.flatMap(_.globalElementDeclaration.substitutionGroupOption).toSet
+      substGroups
+    }
   }
 
   //
@@ -451,6 +508,22 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support queries for kinds of relationships of concrete item concepts" in {
+    // Finds all relationship arcroles of standard relationships outgoing from concrete item concepts.
+
+    // Implement the following variable initialization. Not too hard after the preceding exercises.
+    // The name of the variable makes clear what value is expected.
+
+    val arcrolesOfStandardRelationshipsOutgoingFromConcreteItemConcepts: Set[String] = {
+      ???
+    }
+
+    assertResult(Set(
+      "http://www.xbrl.org/2003/arcrole/concept-label",
+      "http://www.xbrl.org/2003/arcrole/concept-reference",
+      "http://www.xbrl.org/2003/arcrole/parent-child")) {
+
+      arcrolesOfStandardRelationshipsOutgoingFromConcreteItemConcepts
+    }
   }
 
   //
@@ -458,6 +531,28 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support rewriting specific relationship queries in terms of more general query API methods" in {
+    // Specific TQA query API method calls can almost always be replaced by equivalent calls to more general query API methods.
+    // For example, querying for parent-child relationships is querying for specific kinds of inter-concept relationships.
+    // This is important for 2 reasons: we can always fall back to specific calls of general query API methods, if needed,
+    // and we can understand specific query API methods in terms of more general ones.
+
+    // In this exercise, we explore this idea for parent-child relationships.
+
+    val elr = "urn:kvk:linkrole:notes-income-tax-expense"
+    val startConcept = EName(KvkAbstrNamespace, "IncomeTaxExpenseDisclosureTitle")
+
+    val parentChildRels = taxo.filterOutgoingParentChildRelationships(startConcept)(_.elr == elr)
+
+    // Implement the following variable initialization. It must return the same as parentChildRels, but using a more
+    // general method than filterOutgoingParentChildRelationships.
+
+    val parentChildRels2 = {
+      ???
+    }
+
+    assertResult(parentChildRels) {
+      parentChildRels2
+    }
   }
 
   //
