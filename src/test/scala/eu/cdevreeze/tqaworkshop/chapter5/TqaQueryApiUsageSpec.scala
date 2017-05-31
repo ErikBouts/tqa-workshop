@@ -41,7 +41,7 @@ import net.sf.saxon.s9api.Processor
  *
  * Before doing this exercise, make sure to have done all exercises of the preceding chapters. This exercise is about
  * 2 things: the notion of relationships (as opposed to lower level XLink arcs), and the use of the TQA query API
- * for finding taxonomy content (relationships and taxonomy DOM elements). This exercise explores the use of TQA
+ * for finding taxonomy content (relationships and taxonomy DOM elements) in general. This exercise explores the use of TQA
  * in practice, and may therefore be the most important exercise of the TQA workshop.
  *
  * Exercise: fill in the needed implementations (replacing the "???"), and make this test spec run successfully.
@@ -137,7 +137,7 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     // relationships and their label resources.
 
     def findConceptLabelResource(concept: EName): Option[ConceptLabelResource] = {
-      // Use the taxo to find the (first) correct ConceptLabelResource, if any
+      // Use the taxo to find the (first) desired ConceptLabelResource, if any
 
       // Filter all concept-label relationships outgoing from the concept having language "nl".
       // Use query API method filterOutgoingConceptLabelRelationships to that end.
@@ -159,7 +159,7 @@ class TqaQueryApiUsageSpec extends FlatSpec {
 
     val conceptLabelTexts: Map[EName, String] =
       concepts.toSeq.map(concept => (concept -> findConceptLabelResource(concept))).
-        filter(_._2.nonEmpty).toMap.mapValues(_.head.trimmedText)
+        filter(_._2.nonEmpty).toMap.mapValues(_.get.trimmedText)
 
     assertResult(Some("Som van de herwaarderingen van materiële vaste activa op de balansdatum")) {
       // Verbose label
@@ -205,7 +205,7 @@ class TqaQueryApiUsageSpec extends FlatSpec {
 
     val conceptReferences: Map[EName, ConceptReferenceResource] =
       concepts.toSeq.map(concept => (concept -> findConceptReferenceResource(concept))).
-        filter(_._2.nonEmpty).toMap.mapValues(_.head)
+        filter(_._2.nonEmpty).toMap.mapValues(_.get)
 
     assertResult(true) {
       val expectedDocUris =
@@ -225,15 +225,15 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support retrieval of parent-child relationships" in {
-    // Find all abstract top level sources of parent-child relationships in a given ELR.
+    // Find all abstract root sources of parent-child relationships in a given ELR.
 
     // Implement the following function. Somewhat challenging.
 
-    // Hint: first find the parent-child relationships of the given ELR, then determine their top-level source
+    // Hint: first find the parent-child relationships of the given ELR, then determine their root source
     // concepts (that is, sources that are not targets in any of the found relationships), and finally filter
     // those concepts that are abstract (which follows from their global element declarations).
 
-    def findAllAbstractTopLevelSourceConceptsInParentChildTree(parentChildElr: String): Set[EName] = {
+    def findAllAbstractRootSourceConceptsInParentChildNetwork(parentChildElr: String): Set[EName] = {
       // Use the taxo variable to query for parent-child relationships and concept declarations
 
       ???
@@ -245,7 +245,7 @@ class TqaQueryApiUsageSpec extends FlatSpec {
       Set(EName(KvkAbstrNamespace, "IncomeTaxExpenseDisclosureTitle"))
 
     assertResult(expectedAbstractTopLevelSources) {
-      findAllAbstractTopLevelSourceConceptsInParentChildTree(elr)
+      findAllAbstractRootSourceConceptsInParentChildNetwork(elr)
     }
   }
 
@@ -315,9 +315,9 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support retrieval of parent-child relationships and affected concept declarations" in {
-    // Most parent-child tree root concepts are abstract. Here we are going to find all parent-child tree root concepts that are concrete item concepts,
-    // hoping to find none. The root concepts of a parent-child tree are the top-level concepts, that is the source concepts that are not
-    // target concepts in the same tree (ELR).
+    // Most parent-child tree root concepts are abstract. Here we are going to find all parent-child network root concepts that are concrete item concepts,
+    // hoping to find none. The root concepts of a parent-child network are the top-level concepts, that is the source concepts that are not
+    // target concepts in the same network (ELR).
 
     // Implement the following functions. Somewhat challenging. The challenge is mainly in using the appropriate TQA query API (and DOM level) methods.
 
@@ -327,14 +327,14 @@ class TqaQueryApiUsageSpec extends FlatSpec {
       ???
     }
 
-    def findAllParentChildTreeRootConceptsAcrossElrs: Set[EName] = {
+    def findAllParentChildTreeRootConceptsForAllElrs: Set[EName] = {
       // Use function findAllParentChildTreeRootConcepts per ELR, and combine the results
 
       ???
     }
 
     def findAllParentChildTreeRootConceptsThatAreConcreteItemConcepts: Set[EName] = {
-      // Use function findAllParentChildTreeRootConceptsAcrossElrs
+      // Use function findAllParentChildTreeRootConceptsForAllElrs
 
       ???
     }
@@ -344,7 +344,7 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     }
 
     assertResult(true) {
-      findAllParentChildTreeRootConceptsAcrossElrs.contains(EName(KvkAbstrNamespace, "BalanceSheetCompleteTitle"))
+      findAllParentChildTreeRootConceptsForAllElrs.contains(EName(KvkAbstrNamespace, "BalanceSheetCompleteTitle"))
     }
   }
 
