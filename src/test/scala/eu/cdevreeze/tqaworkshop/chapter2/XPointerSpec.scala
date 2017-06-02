@@ -24,6 +24,7 @@ import scala.reflect.classTag
 import org.scalatest.FlatSpec
 
 import eu.cdevreeze.tqa.ENames.IdEName
+import eu.cdevreeze.tqa.backingelem.UriConverters
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.ChildSequencePointer
 import eu.cdevreeze.tqa.dom.IdChildSequencePointer
@@ -59,7 +60,7 @@ class XPointerSpec extends FlatSpec {
 
   private val processor = new Processor(false)
   private val docBuilder =
-    new SaxonDocumentBuilder(processor.newDocumentBuilder(), uriToLocalUri(_, taxoRootDir))
+    new SaxonDocumentBuilder(processor.newDocumentBuilder(), UriConverters.uriToLocalUri(_, taxoRootDir))
 
   private val schemaUri =
     URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd")
@@ -244,18 +245,6 @@ class XPointerSpec extends FlatSpec {
     assertResult(taxonomyBase.findElemByUri(absoluteLocatorHref)) {
       findElem(withoutFragment(absoluteLocatorHref), xpointer)
     }
-  }
-
-  private def uriToLocalUri(uri: URI, rootDir: File): URI = {
-    // Not robust
-    val relativePath = uri.getScheme match {
-      case "http"  => uri.toString.drop("http://".size)
-      case "https" => uri.toString.drop("https://".size)
-      case _       => sys.error(s"Unexpected URI $uri")
-    }
-
-    val f = new File(rootDir, relativePath.dropWhile(_ == '/'))
-    f.toURI
   }
 
   private def withoutFragment(uri: URI): URI = {

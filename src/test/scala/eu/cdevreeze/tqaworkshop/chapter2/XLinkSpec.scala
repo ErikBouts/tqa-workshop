@@ -31,6 +31,7 @@ import eu.cdevreeze.tqa.ENames.XLinkRoleEName
 import eu.cdevreeze.tqa.ENames.XLinkToEName
 import eu.cdevreeze.tqa.ENames.XLinkTypeEName
 import eu.cdevreeze.tqa.Namespaces.LinkNamespace
+import eu.cdevreeze.tqa.backingelem.UriConverters
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.ExtendedLink
 import eu.cdevreeze.tqa.dom.LabeledXLink
@@ -69,7 +70,7 @@ class XLinkSpec extends FlatSpec {
 
   private val processor = new Processor(false)
   private val docBuilder =
-    new SaxonDocumentBuilder(processor.newDocumentBuilder(), uriToLocalUri(_, taxoRootDir))
+    new SaxonDocumentBuilder(processor.newDocumentBuilder(), UriConverters.uriToLocalUri(_, taxoRootDir))
 
   private val schemaUri =
     URI.create("http://www.nltaxonomie.nl/nt11/rj/20170419/dictionary/rj-data.xsd")
@@ -557,18 +558,6 @@ class XLinkSpec extends FlatSpec {
 
       someLogicalArcs.subsetOf(logicalArcsInFirstExtendedLink)
     }
-  }
-
-  private def uriToLocalUri(uri: URI, rootDir: File): URI = {
-    // Not robust
-    val relativePath = uri.getScheme match {
-      case "http"  => uri.toString.drop("http://".size)
-      case "https" => uri.toString.drop("https://".size)
-      case _       => sys.error(s"Unexpected URI $uri")
-    }
-
-    val f = new File(rootDir, relativePath.dropWhile(_ == '/'))
-    f.toURI
   }
 }
 

@@ -25,6 +25,7 @@ import scala.reflect.classTag
 import org.scalatest.FlatSpec
 
 import eu.cdevreeze.tqa.Namespaces
+import eu.cdevreeze.tqa.backingelem.UriConverters
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.ConceptLabelResource
 import eu.cdevreeze.tqa.dom.ConceptReferenceResource
@@ -85,7 +86,7 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     val rootDir = new File(classOf[TqaQueryApiUsageSpec].getResource("/taxonomy").toURI)
 
     val taxoDocBuilder =
-      new SaxonDocumentBuilder(processor.newDocumentBuilder(), (uri => uriToLocalUri(uri, rootDir)))
+      new SaxonDocumentBuilder(processor.newDocumentBuilder(), (uri => UriConverters.uriToLocalUri(uri, rootDir)))
 
     val entrypointUri =
       URI.create("http://www.nltaxonomie.nl/nt11/kvk/20161214/entrypoints/kvk-rpt-jaarverantwoording-2016-nlgaap-klein-publicatiestukken.xsd")
@@ -581,17 +582,5 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   //
 
   it should "support interesting queries about networks of relationships" in {
-  }
-
-  private def uriToLocalUri(uri: URI, rootDir: File): URI = {
-    // Not robust
-    val relativePath = uri.getScheme match {
-      case "http"  => uri.toString.drop("http://".size)
-      case "https" => uri.toString.drop("https://".size)
-      case _       => sys.error(s"Unexpected URI $uri")
-    }
-
-    val f = new File(rootDir, relativePath.dropWhile(_ == '/'))
-    f.toURI
   }
 }

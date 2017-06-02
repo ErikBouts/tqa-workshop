@@ -26,6 +26,7 @@ import org.scalatest.FlatSpec
 
 import eu.cdevreeze.tqa.ENames
 import eu.cdevreeze.tqa.SubstitutionGroupMap
+import eu.cdevreeze.tqa.backingelem.UriConverters
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.GlobalElementDeclaration
 import eu.cdevreeze.tqa.dom.ItemDeclaration
@@ -66,7 +67,7 @@ class SchemaUsageSpec extends FlatSpec {
   private val rootDir = new File(classOf[SchemaUsageSpec].getResource("/taxonomy").toURI)
 
   private val taxoDocBuilder =
-    new SaxonDocumentBuilder(processor.newDocumentBuilder(), (uri => uriToLocalUri(uri, rootDir)))
+    new SaxonDocumentBuilder(processor.newDocumentBuilder(), (uri => UriConverters.uriToLocalUri(uri, rootDir)))
 
   private val xbrlInstance: XbrlInstance = {
     val elem = instanceDocBuilder.build(classOf[SchemaUsageSpec].getResource("/kvk-rpt-jaarverantwoording-2016-nlgaap-klein-publicatiestukken.xbrl").toURI)
@@ -444,17 +445,5 @@ class SchemaUsageSpec extends FlatSpec {
 
     // The "filter" and "findAll" methods are "bulk" operations, and are too slow for one specific concept EName.
     // Methods like findTupleDeclaration and getTupleDeclaration are fast, because the taxonomy uses an index with EName keys.
-  }
-
-  private def uriToLocalUri(uri: URI, rootDir: File): URI = {
-    // Not robust
-    val relativePath = uri.getScheme match {
-      case "http"  => uri.toString.drop("http://".size)
-      case "https" => uri.toString.drop("https://".size)
-      case _       => sys.error(s"Unexpected URI $uri")
-    }
-
-    val f = new File(rootDir, relativePath.dropWhile(_ == '/'))
-    f.toURI
   }
 }

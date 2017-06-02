@@ -22,6 +22,7 @@ import java.util.logging.Logger
 
 import scala.collection.immutable
 
+import eu.cdevreeze.tqa.backingelem.UriConverters
 import eu.cdevreeze.tqa.backingelem.nodeinfo.SaxonDocumentBuilder
 import eu.cdevreeze.tqa.dom.ConceptDeclaration
 import eu.cdevreeze.tqa.relationship.DefaultRelationshipFactory
@@ -81,7 +82,7 @@ object ShowConceptSubstitutionGroups {
     val processor = new Processor(false)
 
     val documentBuilder =
-      new SaxonDocumentBuilder(processor.newDocumentBuilder(), uriToLocalUri(_, rootDir))
+      new SaxonDocumentBuilder(processor.newDocumentBuilder(), UriConverters.uriToLocalUri(_, rootDir))
 
     val documentCollector = DefaultDtsCollector(entrypointUris)
 
@@ -174,18 +175,6 @@ object ShowConceptSubstitutionGroups {
     for (tupleDecl <- concreteTupleDecls.groupBy(_.targetEName).mapValues(_.head).values.toSeq.sortBy(_.targetEName.toString)) {
       logger.info(s"Concrete tuple declaration. Name: ${tupleDecl.targetEName}. Substitution group: ${tupleDecl.globalElementDeclaration.substitutionGroupOption.get}.")
     }
-  }
-
-  private def uriToLocalUri(uri: URI, rootDir: File): URI = {
-    // Not robust
-    val relativePath = uri.getScheme match {
-      case "http"  => uri.toString.drop("http://".size)
-      case "https" => uri.toString.drop("https://".size)
-      case _       => sys.error(s"Unexpected URI $uri")
-    }
-
-    val f = new File(rootDir, relativePath.dropWhile(_ == '/'))
-    f.toURI
   }
 
   private def getSubstitutionGroups(conceptDecls: immutable.IndexedSeq[ConceptDeclaration]): Set[EName] = {
