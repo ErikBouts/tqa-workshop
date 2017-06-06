@@ -131,11 +131,6 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     // Note that in XBRL there are 2 entirely different "label" terms. One "label" term refers to XLink labels, and
     // the "label" term used here refers to label texts associated with concepts in so-called label links.
 
-    // First find the (item and tuple) concepts for all facts in the instance.
-    // The EName of a fact identifies its concept in the taxonomy.
-
-    val concepts: Set[EName] = xbrlInstance.findAllFacts.map(_.resolvedName).toSet
-
     val verboseLabelRole = "http://www.xbrl.org/2003/role/verboseLabel"
     val standardLabelRole = "http://www.xbrl.org/2003/role/label"
 
@@ -167,6 +162,11 @@ class TqaQueryApiUsageSpec extends FlatSpec {
       conceptLabelRelationshipOption.map(rel => ???)
     }
 
+    // First find the (item and tuple) concepts for all facts in the instance.
+    // The EName of a fact identifies its concept in the taxonomy.
+
+    val concepts: Set[EName] = xbrlInstance.findAllFacts.map(_.resolvedName).toSet
+
     val conceptLabelTexts: Map[EName, String] =
       concepts.toSeq.map(concept => (concept -> findConceptLabelResource(concept))).
         filter(_._2.nonEmpty).toMap.mapValues(_.get.trimmedText)
@@ -190,11 +190,6 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     // For all facts in the sample XBRL instance, find their (item and tuple) concepts in the taxonomy, and their
     // standard references.
 
-    // First find the (item and tuple) concepts for all facts in the instance.
-    // The EName of a fact identifies its concept in the taxonomy.
-
-    val concepts: Set[EName] = xbrlInstance.findAllFacts.map(_.resolvedName).toSet
-
     val standardReferenceRole = "http://www.xbrl.org/2003/role/reference"
 
     // Implement getting the standard reference of the given concept. Not trivial, but after exercise 1 not too hard either.
@@ -212,6 +207,11 @@ class TqaQueryApiUsageSpec extends FlatSpec {
 
       conceptReferenceRelationshipOption.map(rel => ???)
     }
+
+    // First find the (item and tuple) concepts for all facts in the instance.
+    // The EName of a fact identifies its concept in the taxonomy.
+
+    val concepts: Set[EName] = xbrlInstance.findAllFacts.map(_.resolvedName).toSet
 
     val conceptReferences: Map[EName, ConceptReferenceResource] =
       concepts.toSeq.map(concept => (concept -> findConceptReferenceResource(concept))).
