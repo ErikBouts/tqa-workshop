@@ -168,8 +168,8 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     val concepts: Set[EName] = xbrlInstance.findAllFacts.map(_.resolvedName).toSet
 
     val conceptLabelTexts: Map[EName, String] =
-      concepts.toSeq.map(concept => (concept -> findConceptLabelResource(concept))).
-        filter(_._2.nonEmpty).toMap.mapValues(_.get.trimmedText)
+      concepts.toSeq.flatMap(concept => findConceptLabelResource(concept).map(res => (concept -> res))).
+        toMap.mapValues(_.trimmedText)
 
     assertResult(Some("Som van de herwaarderingen van materiële vaste activa op de balansdatum")) {
       // Verbose label
@@ -214,8 +214,7 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     val concepts: Set[EName] = xbrlInstance.findAllFacts.map(_.resolvedName).toSet
 
     val conceptReferences: Map[EName, ConceptReferenceResource] =
-      concepts.toSeq.map(concept => (concept -> findConceptReferenceResource(concept))).
-        filter(_._2.nonEmpty).toMap.mapValues(_.get)
+      concepts.toSeq.flatMap(concept => findConceptReferenceResource(concept).map(res => (concept -> res))).toMap
 
     assertResult(true) {
       val expectedDocUris =
