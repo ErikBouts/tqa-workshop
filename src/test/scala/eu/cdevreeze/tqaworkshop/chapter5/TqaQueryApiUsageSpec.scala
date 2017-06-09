@@ -148,18 +148,19 @@ class TqaQueryApiUsageSpec extends FlatSpec {
       // Use query API method filterOutgoingConceptLabelRelationships to that end.
 
       val conceptLabelRelationships: immutable.IndexedSeq[ConceptLabelRelationship] =
-        ???
+        taxo.filterOutgoingConceptLabelRelationships(concept)(e => e.language == "nl")
 
       // In this collection of concept-label relationships, find the first one having
       // the resource role "http://www.xbrl.org/2003/role/verboseLabel", falling back
       // to "http://www.xbrl.org/2003/role/label" if there is no verbose Dutch label.
 
       val conceptLabelRelationshipOption: Option[ConceptLabelRelationship] =
-        ???
+        conceptLabelRelationships.find(e => e.resourceRole == "http://www.xbrl.org/2003/role/verboseLabel").
+          orElse(conceptLabelRelationships.find(e => e.resourceRole == "http://www.xbrl.org/2003/role/label"))
 
       // Return the optional label resource of the optional concept-label relationship
 
-      conceptLabelRelationshipOption.map(rel => ???)
+      conceptLabelRelationshipOption.map(rel => rel.resource)
     }
 
     // First find the (item and tuple) concepts for all facts in the instance.
@@ -203,9 +204,9 @@ class TqaQueryApiUsageSpec extends FlatSpec {
       // Use the taxo to find the (first) standard ConceptReferenceResource for the given concept, if any
 
       val conceptReferenceRelationshipOption: Option[ConceptReferenceRelationship] =
-        ???
+        taxo.filterOutgoingConceptReferenceRelationships(concept)(e => e.resourceRole == standardReferenceRole).headOption
 
-      conceptReferenceRelationshipOption.map(rel => ???)
+      conceptReferenceRelationshipOption.map(rel => rel.resource)
     }
 
     // First find the (item and tuple) concepts for all facts in the instance.
@@ -244,8 +245,14 @@ class TqaQueryApiUsageSpec extends FlatSpec {
 
     def findAllAbstractRootSourceConceptsInParentChildNetwork(parentChildElr: String): Set[EName] = {
       // Use the taxo variable to query for parent-child relationships and concept declarations
+      val parentChildRelationships = taxo.filterParentChildRelationships(_.elr == parentChildElr)
 
-      ???
+      val sourceConcepts = parentChildRelationships.map(rel => rel.sourceConceptEName).toSet
+      val targetConcepts = parentChildRelationships.map(rel => rel.targetConceptEName).toSet
+
+      val rootConcepts = sourceConcepts.diff(targetConcepts)
+
+      rootConcepts.filter(concept => taxo.getConceptDeclaration(concept).isAbstract)
     }
 
     val elr = "urn:kvk:linkrole:notes-income-tax-expense"
@@ -275,7 +282,8 @@ class TqaQueryApiUsageSpec extends FlatSpec {
       // Return all longest parent-child relationship paths starting with the given concept,
       // where each relationship in the path has the given ELR.
 
-      ???
+      taxo.filterLongestOutgoingConsecutiveParentChildRelationshipPaths(startConcept)(_.firstRelationship.elr == elr)
+      //     taxo.filterLongestOutgoingInterConceptRelationshipPaths(startConcept, classTag[ParentChildRelationship])(path => path.firstRelationship.elr == elr && path.isElrValid)
     }
 
     val elr = "urn:kvk:linkrole:balance-sheet"
@@ -333,19 +341,26 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     def findAllParentChildTreeRootConcepts(elr: String): Set[EName] = {
       // Find all source concepts that are not target concepts in the parent-child trees with the given ELR.
 
-      ???
+      val parentChildRelationships = taxo.filterParentChildRelationships(_.elr == elr)
+
+      val sourceConcepts = parentChildRelationships.map(rel => rel.sourceConceptEName).toSet
+      val targetConcepts = parentChildRelationships.map(rel => rel.targetConceptEName).toSet
+
+      sourceConcepts.diff(targetConcepts)
     }
 
     def findAllParentChildTreeRootConceptsForAllElrs: Set[EName] = {
       // Use function findAllParentChildTreeRootConcepts per ELR, and combine the results
 
-      ???
+      val allElrs = taxo.findAllParentChildRelationships.map(rel => rel.elr).toSet
+
+      allElrs.flatMap(elr => findAllParentChildTreeRootConcepts(elr))
     }
 
     def findAllParentChildTreeRootConceptsThatAreConcreteItemConcepts: Set[EName] = {
       // Use function findAllParentChildTreeRootConceptsForAllElrs
 
-      ???
+      findAllParentChildTreeRootConceptsForAllElrs.filter(concept => taxo.findItemDeclaration(concept).exists(_.isConcrete))
     }
 
     assertResult(Set()) {
@@ -371,7 +386,7 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     val arcrolesOfDefinitionRelationships: Set[String] = {
       // Find all definition relationships and return their arcroles in a Set
 
-      ???
+      taxo.findAllInterConceptRelationshipsOfType(classTag[DefinitionRelationship]).map(e => e.arcrole).toSet
     }
 
     assertResult(Set(
@@ -400,7 +415,11 @@ class TqaQueryApiUsageSpec extends FlatSpec {
       // Find all roleType definitions, and their outgoing element-label relationships. Return their resource roles.
       // It may be needed to cast the resolvedTo of an element-label relationship to type XLinkResource.
 
-      ???
+      val roleTypes = taxo.rootElems.flatMap(elem => elem.findAllElemsOfType(classTag[RoleType]))
+
+      val roleTypeLabelRelationships = roleTypes.flatMap(role => taxo.findAllOutgoingNonStandardRelationshipsOfType(role.key, classTag[ElementLabelRelationship]))
+
+      roleTypeLabelRelationships.flatMap(rel => rel.targetElem.asInstanceOf[XLinkResource].roleOption).toSet
     }
 
     assertResult(Set("http://www.xbrl.org/2008/role/label")) {
@@ -412,7 +431,7 @@ class TqaQueryApiUsageSpec extends FlatSpec {
   // Exercise 8
   //
 
-  it should "support retrieval of custom generic relationships" in {
+   it should "support retrieval of custom generic relationships" in {
     // Find all custom SBR linkrole order (generic) relationships.
 
     val customArcrole = "http://www.nltaxonomie.nl/2011/arcrole/linkrole-order"
@@ -423,7 +442,7 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     val sbrLinkroleOrderRelationships: immutable.IndexedSeq[OtherNonStandardRelationship] = {
       // Recognize these linkrole order relationships by the custom arcrole above.
 
-      ???
+      taxo.findAllNonStandardRelationshipsOfType(classTag[OtherNonStandardRelationship]).filter(rel => rel.arcrole == customArcrole)
     }
 
     assertResult(Set(customArcrole)) {
@@ -467,17 +486,19 @@ class TqaQueryApiUsageSpec extends FlatSpec {
 
     // Implement the following variable initializations, using the functions above. This exercise is not too hard
     // after the preceding exercises.
+    
+    val allELRS = taxo.findAllParentChildRelationships.map(rel => rel.elr).toSet
 
     val allParentChildRoots: Set[EName] = {
       // Find the parent-child roots per ELR, and combine them.
-
-      ???
+      
+      allELRS.flatMap(elr => findAllParentChildRoots(elr))
     }
 
     val allParentChildLeaves: Set[EName] = {
       // Find the parent-child leaves per ELR, and combine them.
 
-      ???
+      allELRS.flatMap(elr => findAllParentChildLeaves(elr))
     }
 
     // It would indeed be quite unlikely that a root for one ELR is a leaf for another one.
@@ -514,7 +535,12 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     // The name of the variable makes clear what value is expected.
 
     val arcrolesOfStandardRelationshipsOutgoingFromConcreteItemConcepts: Set[String] = {
-      ???
+      
+      val concreteItemConcepts = taxo.filterItemDeclarations(item => item.isConcrete).map(item => item.targetEName).toSet
+      
+      val relationships = concreteItemConcepts.flatMap(item => taxo.findAllOutgoingStandardRelationshipsOfType(item, classTag[StandardRelationship]))
+      
+      relationships.map(rel => rel.arcrole).toSet
     }
 
     assertResult(Set(
@@ -547,39 +573,11 @@ class TqaQueryApiUsageSpec extends FlatSpec {
     // general method than filterOutgoingParentChildRelationships.
 
     val parentChildRels2 = {
-      ???
+      taxo.filterOutgoingInterConceptRelationshipsOfType(startConcept, classTag[ParentChildRelationship])(_.elr == elr)
     }
 
     assertResult(parentChildRels) {
       parentChildRels2
     }
-  }
-
-  //
-  // Exercise 12
-  //
-
-  it should "support interesting queries about label resource uniqueness" in {
-  }
-
-  //
-  // Exercise 13
-  //
-
-  it should "support interesting queries about ELRs having generic labels" in {
-  }
-
-  //
-  // Exercise 14
-  //
-
-  it should "support interesting queries about all locators being used in relationships" in {
-  }
-
-  //
-  // Exercise 15
-  //
-
-  it should "support interesting queries about networks of relationships" in {
   }
 }

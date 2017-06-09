@@ -1,9 +1,0 @@
-.cache*
-.classpath
-.project
-.settings/
-project/
-target/
-temp/
-.history
-scalastyle-config.xml
